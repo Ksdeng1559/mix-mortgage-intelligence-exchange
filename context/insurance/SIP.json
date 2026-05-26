@@ -1,0 +1,116 @@
+{
+  "profile_name": "Insurance Advisor — Protection First",
+  "vertical": "insurance",
+  "tone": "advisory, risk-aware, compliance-safe, empathetic",
+  "authority_position": "Risk mitigation and protection planning specialist",
+  "primary_offer": "Insurability Optimization Engine",
+  "pain_bias": [
+    "future uninsurability due to health changes",
+    "family protection gaps going unaddressed",
+    "estate planning vacuum in HNW households",
+    "business continuity risk without key-person coverage"
+  ],
+  "language_rules": {
+    "avoid": [
+      "guarantee",
+      "high returns",
+      "investment growth",
+      "will perform",
+      "earn",
+      "best coverage",
+      "lowest premium",
+      "coverage guaranteed"
+    ],
+    "prefer": [
+      "protect",
+      "secure",
+      "lock in",
+      "qualify while",
+      "preserve",
+      "hedge",
+      "cover",
+      "shield",
+      "insure",
+      "mitigate"
+    ]
+  },
+  "cta_style": "low-pressure, education-first, risk-framed, no urgency manipulation",
+  "compliance_mode": "strict",
+  "jurisdiction": {
+    "country": "Canada",
+    "province": "all",
+    "rules": ["CASL", "OSFI", "FSRA", "IIROC"]
+  },
+  "conversation_state_map": "/context/insurance/conversation_states.json",
+  "signal_patterns": {
+    "hot": [
+      "aging demographics in target postal codes",
+      "new advisor hiring (capacity expansion signal)",
+      "business sale / ownership transition signals",
+      "health-related life event (marriage, child, diagnosis)",
+      "estate planning content engagement"
+    ],
+    "warm": [
+      "policy lapse / competitor exit signals",
+      "key-person coverage expiration approaching",
+      "multi-policy review request",
+      "group benefits inquiry from employer client"
+    ],
+    "cold": [
+      "industry event attendance",
+      "professional licensing update",
+      "association membership renewal",
+      "continuing education completion"
+    ]
+  },
+  "offers": [
+    {
+      "offer_name": "Insurability Optimization Engine",
+      "signal_triggers": ["hiring_advisor", "capacity_expansion"],
+      "pain_match": "Pipeline filling faster than insurability windows stay open",
+      "hook_template": "before new clients fill the book, check whose window is closing",
+      "cta_template": "Run the Insurability Window Audit",
+      "compliance_notes": "STRICT: No 'guaranteed coverage.' Frame as assessment process."
+    },
+    {
+      "offer_name": "Insurability Window Audit",
+      "signal_triggers": ["health_signal", "life_event"],
+      "pain_match": "Client health changes may close future coverage options",
+      "hook_template": "the window for optimal coverage terms doesn't stay open forever",
+      "cta_template": "Get the Insurability Window briefing",
+      "compliance_notes": "No coverage promises. Frame as educational awareness."
+    },
+    {
+      "offer_name": "Family Protection Gap Analysis",
+      "signal_triggers": ["estate_planning", "family_event"],
+      "pain_match": "Family protection structures have gaps most families don't see",
+      "hook_template": "most families we review have coverage gaps they didn't know existed",
+      "cta_template": "Request a Gap Analysis",
+      "compliance_notes": "No 'best protection' claims. Frame as review process."
+    },
+    {
+      "offer_name": "Estate Planning Accelerator",
+      "signal_triggers": ["estate_filing", "business_sale"],
+      "pain_match": "Business exit creates estate planning urgency most owners miss",
+      "hook_template": "the coverage structure at business sale is the gap no one mentions at closing",
+      "cta_template": "Get the Estate Planning Accelerator briefing",
+      "compliance_notes": "No 'guaranteed estate protection.' Frame as planning tool."
+    },
+    {
+      "offer_name": "Business Owner Protection Package",
+      "signal_triggers": ["business_sale", "key_person_coverage"],
+      "pain_match": "Key-person coverage gaps threaten business continuity",
+      "hook_template": "most business owners don't discover their key-person coverage gaps until it's too late",
+      "cta_template": "Request the Business Owner Protection Package",
+      "compliance_notes": "No coverage guarantees. Frame as planning framework."
+    },
+    {
+      "offer_name": "Living Benefits Awareness Campaign",
+      "signal_triggers": ["health_content_engagement", "critical_illness"],
+      "pain_match": "Clients engaging with health content may not know about living benefit options",
+      "hook_template": "there's a class of protection most people don't discover until they need it",
+      "cta_template": "Get the Living Benefits briefing for your clients",
+      "compliance_notes": "No 'claim guaranteed' language. Frame as awareness/education."
+    }
+  ]
+}

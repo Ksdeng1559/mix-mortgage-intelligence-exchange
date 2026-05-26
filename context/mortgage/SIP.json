@@ -1,0 +1,103 @@
+{
+  "profile_name": "Mortgage Strategist — Wealth Optimizer",
+  "vertical": "mortgage",
+  "tone": "financial optimization, opportunity-urgency, advisor-peer",
+  "authority_position": "Mortgage strategy and equity optimization specialist",
+  "primary_offer": "Refinance Optimization Audit",
+  "pain_bias": [
+    "leaving equity locked in property",
+    "missing the rate window",
+    "database going cold between renewals",
+    "losing clients to digital lenders"
+  ],
+  "language_rules": {
+    "avoid": [
+      "guaranteed approval",
+      "best rate available",
+      "will save you",
+      "lowest rate",
+      "pre-approved"
+    ],
+    "prefer": [
+      "optimize",
+      "unlock",
+      "leverage",
+      "position",
+      "accelerate",
+      "map",
+      "extract",
+      "access",
+      "structure"
+    ]
+  },
+  "cta_style": "value-first, map-the-opportunity, 12-minute conversation",
+  "compliance_mode": "moderate",
+  "jurisdiction": {
+    "country": "Canada",
+    "province": "all",
+    "rules": ["CASL", "FSRA", "CMHC guidelines"]
+  },
+  "conversation_state_map": "/context/mortgage/conversation_states.json",
+  "signal_patterns": {
+    "hot": [
+      "rate drop announcement (BoC decision)",
+      "client approaching renewal date (12-month window)",
+      "MLS listings spike in target market",
+      "refi application volume increase"
+    ],
+    "warm": [
+      "mortgage broker posting about equity extraction",
+      "competitor broker office closure nearby",
+      "client asking about porting/matching",
+      "high-ratio client approaching trigger rate"
+    ],
+    "cold": [
+      "general real estate market post",
+      "industry event attendance",
+      "professional association membership",
+      "new licensing/credential earned"
+    ]
+  },
+  "offers": [
+    {
+      "offer_name": "Refinance Optimization Audit",
+      "signal_triggers": ["rate_drop", "renewal_window"],
+      "pain_match": "Clients locked above market rates",
+      "hook_template": "map the savings window before the window closes",
+      "cta_template": "Book a 12-minute audit call",
+      "compliance_notes": "No rate guarantees. Frame as 'analysis' not 'approval prediction.'"
+    },
+    {
+      "offer_name": "Cash Damming Implementation Guide",
+      "signal_triggers": ["equity_extraction", "property_upgrade"],
+      "pain_match": "Clients with locked equity not working for them",
+      "hook_template": "turn your property into a wealth engine",
+      "cta_template": "Get the playbook — no commitment required",
+      "compliance_notes": "Avoid 'guaranteed cash flow.' Frame as strategy framework."
+    },
+    {
+      "offer_name": "Equity Extraction Roadmap",
+      "signal_triggers": ["hiring_advisor", "portfolio_expansion"],
+      "pain_match": "Pipeline expanding but equity sitting idle",
+      "hook_template": "your book has dormant capital that could be working harder",
+      "cta_template": "Get the extraction roadmap",
+      "compliance_notes": "No promises of specific amounts. Frame as planning tool."
+    },
+    {
+      "offer_name": "Database Reactivation — Pre-Renewal Campaign",
+      "signal_triggers": ["competitor_exit", "renewal_window"],
+      "pain_match": "Orphaned clients in the market, cold database",
+      "hook_template": "advisors in your area just went dark — here's how to capture those clients",
+      "cta_template": "Get the reactivation campaign template",
+      "compliance_notes": "No rate promises. Frame as outreach strategy."
+    },
+    {
+      "offer_name": "Smith Manoeuvre Awareness Campaign",
+      "signal_triggers": ["wealth_signal", "investment_advisor_referral"],
+      "pain_match": "Clients working with wealth advisors but missing the mortgage optimization layer",
+      "hook_template": "your investment clients may be leaving wealth on the table in their mortgage structure",
+      "cta_template": "Get the Smith Manoeuvre briefing for your clients",
+      "compliance_notes": "No financial advice claims. Frame as educational awareness."
+    }
+  ]
+}
