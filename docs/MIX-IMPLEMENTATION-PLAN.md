@@ -1,10 +1,11 @@
 # MIX — Mortgage Intelligence Exchange
 ## Implementation Plan
 
-**Document status:** Build-ready v1.0  
+**Document status:** Build-ready v1.1  
 **Operating system:** RIOS — Relationship Intelligence Operating System  
 **Underwriting engine:** ClearClose  
-**Market-facing platform:** MIX — Mortgage Intelligence Exchange
+**Market-facing platform:** MIX — Mortgage Intelligence Exchange  
+**Context and relationship foundation:** [Interpretable Context and Relationship Graph](INTERPRETABLE-CONTEXT-GRAPH.md)
 
 ---
 
@@ -13,10 +14,18 @@
 Build MIX as a relationship-driven mortgage and real-estate capital intelligence platform that converts:
 
 ```text
-Relationship → Signal → Opportunity → Underwriting → Capital Match → Outcome → Knowledge Asset
+Source Evidence
+→ Interpretable Context
+→ Relationship Graph
+→ Signal
+→ Opportunity
+→ ClearClose Underwriting
+→ Lender / Capital Match
+→ Outcome
+→ Updated Graph Knowledge
 ```
 
-MIX is not intended to be another contact-centric mortgage CRM. It should identify financing events, preserve relationship context, structure opportunities through ClearClose, route them to suitable lenders or capital providers, and compound the resulting knowledge.
+MIX is not intended to be another contact-centric mortgage CRM. It must preserve the meaning, origin, evidence, timing, confidence, and privacy scope of relationships. It should identify financing events, structure opportunities through ClearClose, route them to suitable lenders or capital providers, and compound the resulting knowledge.
 
 The initial implementation will focus on four vertical packs:
 
@@ -29,12 +38,37 @@ The first production release should prioritize the first two packs because they 
 
 ---
 
-## 2. Platform Boundaries
+## 2. Mandatory Architectural Foundation
+
+The Interpretable Context and Relationship Graph methodology is a core build requirement, not an optional future enhancement.
+
+MIX must use:
+
+- atomic, readable context assertions
+- source-linked relationship evidence
+- graph nodes and edges for people, organizations, properties, opportunities, lenders, decisions, and outcomes
+- confidence and human-verification states
+- temporal validity and version history
+- role-based graph visibility
+- explainable graph paths for agent recommendations
+- vector retrieval only as a discovery mechanism, never as proof of a relationship
+
+The canonical implementation standard is defined in:
+
+- [`docs/INTERPRETABLE-CONTEXT-GRAPH.md`](INTERPRETABLE-CONTEXT-GRAPH.md)
+
+No relationship-scoring, matching, referral-intelligence, or opportunity-intelligence feature is complete unless its graph path and supporting context can be inspected.
+
+---
+
+## 3. Platform Boundaries
 
 ### RIOS
 
 RIOS is the internal operating system responsible for:
 
+- interpretable context assembly
+- relationship graph construction and traversal
 - relationship memory
 - opportunity intelligence
 - workflow orchestration
@@ -62,6 +96,7 @@ MIX is the market-facing exchange responsible for:
 
 - professional referral intake
 - financing opportunity submission
+- relationship-path visibility
 - lender and capital-source matching
 - opportunity collaboration
 - case-status visibility
@@ -71,31 +106,38 @@ MIX is the market-facing exchange responsible for:
 
 ---
 
-## 3. Implementation Principles
+## 4. Implementation Principles
 
-1. **Glass-box workflows** — every major workflow must be documented, numbered, versioned, and inspectable.
-2. **Human approval for regulated decisions** — agents may recommend, summarize, and route; licensed professionals approve advice, submissions, underwriting conclusions, and client communications.
-3. **Relationship before transaction** — every opportunity must retain its origin relationship, context, consent basis, and attribution.
-4. **Signals create opportunities** — the system should distinguish a raw signal from a qualified financing opportunity.
-5. **Outcomes create intelligence** — funded, declined, withdrawn, referred, and restructured outcomes must update lender and workflow knowledge.
-6. **Vertical packs are configuration** — vertical logic should be swappable without duplicating the core platform.
-7. **Explainable matching** — lender and capital matches must include reasons, missing conditions, policy source, confidence, and review status.
-8. **Minimum necessary data** — collect and expose only the client information necessary for the workflow and user role.
+1. **Interpretable context first** — every material fact, inference, and recommendation must be readable, source-linked, scoped, versioned, and reviewable.
+2. **Graph-native relationships** — relationships are represented as nodes and edges, not merely foreign keys or free-text notes.
+3. **Glass-box workflows** — every major workflow must be documented, numbered, versioned, and inspectable.
+4. **Human approval for regulated decisions** — agents may recommend, summarize, and route; licensed professionals approve advice, submissions, underwriting conclusions, and client communications.
+5. **Relationship before transaction** — every opportunity must retain its origin relationship, context, consent basis, and attribution.
+6. **Signals create opportunities** — the system must distinguish a raw signal from a qualified financing opportunity.
+7. **Outcomes create intelligence** — funded, declined, withdrawn, referred, and restructured outcomes update lender, relationship, and workflow knowledge.
+8. **Vertical packs are configuration** — vertical logic is swappable without duplicating the core platform.
+9. **Explainable matching** — lender and capital matches include reasons, graph paths, missing conditions, policy source, confidence, and review status.
+10. **Minimum necessary data** — collect and expose only the client information necessary for the workflow and user role.
 
 ---
 
-## 4. Target System Architecture
+## 5. Target System Architecture
 
 ```text
 ┌───────────────────────────────────────────────────────────────┐
 │ MIX EXPERIENCE LAYER                                          │
-│ Partner Portal │ Advisor Workspace │ Operations Dashboard      │
+│ Partner Portal │ Advisor Workspace │ Graph Explorer │ Ops      │
+└──────────────────────────────┬────────────────────────────────┘
+                               │
+┌──────────────────────────────▼────────────────────────────────┐
+│ RIOS CONTEXT AND GRAPH SERVICES                               │
+│ Context Assertions │ Entity Resolution │ Nodes │ Edges         │
+│ Evidence │ Confidence │ Verification │ Graph Paths            │
 └──────────────────────────────┬────────────────────────────────┘
                                │
 ┌──────────────────────────────▼────────────────────────────────┐
 │ RIOS APPLICATION SERVICES                                     │
-│ Relationships │ Signals │ Opportunities │ Tasks │ Outcomes     │
-│ Conversations │ Knowledge │ Consent │ Audit │ Notifications    │
+│ Signals │ Opportunities │ Tasks │ Outcomes │ Consent │ Audit    │
 └──────────────────────────────┬────────────────────────────────┘
                                │
 ┌──────────────────────────────▼────────────────────────────────┐
@@ -107,23 +149,23 @@ MIX is the market-facing exchange responsible for:
 ┌──────────────────────────────▼────────────────────────────────┐
 │ HERMES AGENT WORKFORCE                                        │
 │ Relationship │ Signal │ Qualification │ Underwriting          │
-│ Lender Match │ Capital Match │ Renewal │ Reactivation          │
+│ Lender Match │ Capital Match │ Renewal │ Outcome Learning      │
 └──────────────────────────────┬────────────────────────────────┘
                                │
 ┌──────────────────────────────▼────────────────────────────────┐
 │ DATA AND KNOWLEDGE LAYER                                      │
-│ Supabase/Postgres │ pgvector/Qdrant │ Markdown Knowledge Vault │
-│ Lender Registry │ Capital Registry │ Workflow Definitions      │
+│ Supabase/Postgres │ Graph Projection │ Qdrant/pgvector         │
+│ Markdown Context Vault │ Lender Registry │ Capital Registry     │
 └───────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 5. Core Domain Model
+## 6. Core Domain and Graph Model
 
-The production schema should support the following first-class objects.
+The production schema should support relational system-of-record entities plus graph projections.
 
-### 5.1 Organization and Workspace
+### 6.1 Organization and Workspace
 
 - `organizations`
 - `workspaces`
@@ -132,7 +174,43 @@ The production schema should support the following first-class objects.
 - `workspace_memberships`
 - `permissions`
 
-### 5.2 Relationship Asset Registry
+### 6.2 Interpretable Context
+
+- `context_assertions`
+- `context_assertion_versions`
+- `context_sources`
+- `context_reviews`
+- `context_conflicts`
+- `context_scopes`
+
+Every assertion must retain:
+
+- subject
+- predicate
+- object or literal value
+- human-readable summary
+- evidence references
+- confidence
+- verification status
+- valid dates
+- sensitivity
+- workspace scope
+- creator and reviewer
+
+### 6.3 Relationship Graph
+
+- `graph_nodes`
+- `graph_edges`
+- `graph_edge_evidence`
+- `graph_path_cache`
+- `entity_resolution_candidates`
+- `entity_merge_history`
+
+Every active edge must have evidence or an explicit human assertion.
+
+### 6.4 Relationship Asset Registry
+
+Canonical entities remain available for transactional workflows:
 
 - `relationships`
 - `people`
@@ -142,6 +220,8 @@ The production schema should support the following first-class objects.
 - `referral_agreements`
 - `referral_attributions`
 - `relationship_interactions`
+
+These records are projected into graph nodes and edges.
 
 Typical roles:
 
@@ -157,7 +237,7 @@ Typical roles:
 - private investor
 - executor
 
-### 5.3 Conversation and Evidence
+### 6.5 Conversation and Evidence
 
 - `conversations`
 - `voice_notes`
@@ -168,9 +248,9 @@ Typical roles:
 - `source_citations`
 - `consent_records`
 
-Every extracted fact should retain its source and review state.
+Every extracted fact must retain its source and review state.
 
-### 5.4 Signal Registry
+### 6.6 Signal Registry
 
 - `signals`
 - `signal_types`
@@ -189,7 +269,9 @@ Examples:
 - rental acquisition planned
 - care funding required
 
-### 5.5 Opportunity Registry
+Signals must connect through graph edges to their source evidence, affected parties, properties, and resulting opportunities.
+
+### 6.7 Opportunity Registry
 
 - `opportunities`
 - `opportunity_parties`
@@ -217,7 +299,9 @@ Signal Detected
 → Funded / Declined / Withdrawn / Referred
 ```
 
-### 5.6 Property and Borrower Records
+Every opportunity must display its origin graph path.
+
+### 6.8 Property and Borrower Records
 
 - `borrower_profiles`
 - `income_sources`
@@ -231,7 +315,7 @@ Signal Detected
 - `property_expenses`
 - `valuations`
 
-### 5.7 ClearClose Underwriting
+### 6.9 ClearClose Underwriting
 
 - `underwriting_cases`
 - `underwriting_versions`
@@ -242,7 +326,9 @@ Signal Detected
 - `underwriting_memos`
 - `human_approvals`
 
-### 5.8 Lender and Capital Intelligence
+ClearClose facts, assumptions, risks, decisions, and outcomes must be graph-addressable and source-linked.
+
+### 6.10 Lender and Capital Intelligence
 
 - `capital_sources`
 - `lender_programs`
@@ -267,7 +353,7 @@ Capital-source types:
 - JV equity partner
 - preferred equity provider
 
-### 5.9 Outcome and Knowledge Assets
+### 6.11 Outcome and Knowledge Assets
 
 - `outcomes`
 - `commissions`
@@ -278,15 +364,21 @@ Capital-source types:
 - `agent_evaluations`
 - `knowledge_assets`
 
+Outcomes must update graph relationships without silently rewriting verified knowledge.
+
 ---
 
-## 6. Vertical Pack Contract
+## 7. Vertical Pack Contract
 
 Each vertical pack should be stored as a versioned configuration package rather than embedded directly into application code.
 
 ```text
 vertical-packs/<pack-slug>/
 ├── manifest.yaml
+├── ontology/
+│   ├── nodes.yaml
+│   ├── edges.yaml
+│   └── context-assertions.yaml
 ├── relationship-types.yaml
 ├── signal-types.yaml
 ├── qualification-rules.yaml
@@ -303,6 +395,9 @@ Each manifest should define:
 
 - pack name and version
 - target relationships
+- graph node extensions
+- graph edge extensions
+- permitted context assertion types
 - recognized signals
 - opportunity types
 - required intake fields
@@ -316,9 +411,9 @@ Each manifest should define:
 
 ---
 
-## 7. Initial Vertical Packs
+## 8. Initial Vertical Packs
 
-## 7.1 Strata Financial Resolution
+## 8.1 Strata Financial Resolution
 
 ### Target relationships
 
@@ -328,6 +423,24 @@ Each manifest should define:
 - condo realtors
 - insurance adjusters
 - restoration firms
+
+### Graph extensions
+
+Nodes:
+
+- `StrataCorporation`
+- `StrataLot`
+- `SpecialAssessment`
+- `StrataLien`
+- `RepairProject`
+
+Edges:
+
+- `MEMBER_OF_STRATA`
+- `ASSESSED_FOR`
+- `ENCUMBERED_BY`
+- `MANAGED_BY`
+- `REPRESENTED_BY`
 
 ### Signals
 
@@ -365,8 +478,11 @@ Each manifest should define:
 
 ```text
 Referral Received
+→ Relationship Path Captured
 → Consent and Conflict Check
 → Assessment Notice Uploaded
+→ Context Assertions Proposed
+→ Graph Relationships Verified
 → Property and Mortgage Data Captured
 → ClearClose Equity Review
 → Product Path Comparison
@@ -374,9 +490,10 @@ Referral Received
 → Client Options Report
 → Lender Submission
 → Outcome Recorded
+→ Graph and Knowledge Updated
 ```
 
-## 7.2 Estate & Elder Law Financing
+## 8.2 Estate & Elder Law Financing
 
 ### Target relationships
 
@@ -386,6 +503,24 @@ Referral Received
 - accountants
 - financial planners
 - family representatives
+
+### Graph extensions
+
+Nodes:
+
+- `Estate`
+- `Will`
+- `ExecutorRole`
+- `RepresentationAgreement`
+- `BeneficiaryInterest`
+
+Edges:
+
+- `EXECUTOR_OF`
+- `BENEFICIARY_OF`
+- `AUTHORIZED_BY`
+- `REPRESENTED_BY`
+- `HAS_BENEFICIAL_INTEREST`
 
 ### Signals
 
@@ -414,8 +549,9 @@ Referral Received
 - representation limitations documented
 - licensed and legal review gates
 - no automated legal conclusion
+- sensitive legal relationships hidden from unauthorized graph traversal
 
-## 7.3 Portfolio Investor Lending
+## 8.3 Portfolio Investor Lending
 
 ### Target relationships
 
@@ -425,6 +561,23 @@ Referral Received
 - real-estate lawyers
 - realtors
 - investors
+
+### Graph extensions
+
+Nodes:
+
+- `Portfolio`
+- `HoldingCompany`
+- `RentalProperty`
+- `MortgageMaturity`
+
+Edges:
+
+- `HELD_BY`
+- `GUARANTEED_BY`
+- `PART_OF_PORTFOLIO`
+- `MATURES_ON`
+- `CROSS_COLLATERALIZED_WITH`
 
 ### Signals
 
@@ -453,7 +606,7 @@ Referral Received
 - equity extraction capacity
 - lender diversification recommendations
 
-## 7.4 Construction & Development Capital
+## 8.4 Construction & Development Capital
 
 ### Target relationships
 
@@ -463,6 +616,26 @@ Referral Received
 - builders
 - developers
 - development consultants
+
+### Graph extensions
+
+Nodes:
+
+- `DevelopmentProject`
+- `Permit`
+- `Budget`
+- `DrawRequest`
+- `BuilderLien`
+- `CapitalStack`
+
+Edges:
+
+- `DEVELOPED_BY`
+- `FINANCED_BY`
+- `HAS_PERMIT`
+- `HAS_COST_OVERRUN`
+- `SECURED_BY`
+- `FUNDED_THROUGH`
 
 ### Signals
 
@@ -496,16 +669,18 @@ Referral Received
 
 ---
 
-## 8. Agent Workforce
+## 9. Agent Workforce
 
-The existing agent specifications should remain, but agent responsibilities should be mapped to the RIOS/MIX domain model.
+The existing agent specifications remain, but every agent must operate through bounded interpretable context and permitted graph traversal.
 
-### 8.1 Relationship Agent
+### 9.1 Relationship Agent
 
 Responsibilities:
 
+- extract candidate relationships from conversations and documents
+- create proposed graph nodes, edges, and context assertions
 - update partner histories
-- calculate relationship health
+- calculate transparent relationship health
 - identify neglected high-value partners
 - recommend non-promotional follow-up
 - attribute opportunities and outcomes
@@ -515,17 +690,19 @@ Prohibited without approval:
 - sending regulated advice
 - changing referral compensation
 - disclosing borrower information
+- activating sensitive inferred relationships
 
-### 8.2 Signal Agent
+### 9.2 Signal Agent
 
 Responsibilities:
 
 - classify incoming conversations and documents
 - create candidate signals
+- connect signals to evidence and affected graph nodes
 - score urgency, relevance, and confidence
 - request human validation when confidence is low
 
-### 8.3 Qualification Agent
+### 9.3 Qualification Agent
 
 Responsibilities:
 
@@ -533,8 +710,9 @@ Responsibilities:
 - identify product pathways
 - list missing documents
 - flag policy conflicts
+- show the graph relationships used in qualification
 
-### 8.4 ClearClose Underwriting Agent
+### 9.4 ClearClose Underwriting Agent
 
 Responsibilities:
 
@@ -542,27 +720,30 @@ Responsibilities:
 - prepare draft underwriting memos
 - identify assumptions and missing evidence
 - create risk flags and conditions
+- connect every conclusion to its inputs and sources
 
 All calculations must be reproducible independently of an LLM.
 
-### 8.5 Lender Match Agent
+### 9.5 Lender Match Agent
 
 Responsibilities:
 
 - compare approved underwriting facts with versioned lender policies
+- traverse permitted lender, program, BDM, submission, and outcome relationships
 - rank eligible programs
-- state reasons for each match
+- state reasons and graph paths for each match
 - identify exceptions requiring discussion
 
-### 8.6 Capital Match Agent
+### 9.6 Capital Match Agent
 
 Responsibilities:
 
 - route commercial, construction, bridge, and equity requirements
 - respect investor mandates and consent boundaries
+- identify trusted introduction paths
 - prepare anonymized opportunity summaries before disclosure approval
 
-### 8.7 Renewal Agent
+### 9.7 Renewal Agent
 
 Responsibilities:
 
@@ -570,21 +751,23 @@ Responsibilities:
 - trigger 180/120/90/60/30-day workflows
 - request updated borrower data
 - identify retention and refinance opportunities
+- connect renewals to the relationship graph
 
-### 8.8 Outcome Learning Agent
+### 9.8 Outcome Learning Agent
 
 Responsibilities:
 
 - compare recommendation with actual outcome
-- update lender-performance metrics
+- update lender-performance and relationship metrics
 - propose policy and workflow changes
+- create new knowledge assets
 - never overwrite approved policy knowledge automatically
 
 ---
 
-## 9. ClearClose Module Requirements
+## 10. ClearClose Module Requirements
 
-## 9.1 Residential Module
+## 10.1 Residential Module
 
 Minimum calculations:
 
@@ -596,7 +779,7 @@ Minimum calculations:
 - available equity
 - refinance proceeds
 
-## 9.2 Portfolio Module
+## 10.2 Portfolio Module
 
 Minimum calculations:
 
@@ -608,7 +791,7 @@ Minimum calculations:
 - liquidity ratio
 - renewal concentration
 
-## 9.3 Commercial Module
+## 10.3 Commercial Module
 
 Minimum calculations:
 
@@ -619,7 +802,7 @@ Minimum calculations:
 - break-even occupancy
 - maximum proceeds by LTV, DSCR, and debt yield
 
-## 9.4 Construction Module
+## 10.4 Construction Module
 
 Minimum calculations:
 
@@ -632,43 +815,47 @@ Minimum calculations:
 - cost to complete
 - exit sensitivity
 
-## 9.5 Underwriting Memo Standard
+## 10.5 Underwriting Memo Standard
 
 Every generated memo should include:
 
 1. executive summary
 2. transaction request
 3. borrower and sponsor profile
-4. property/project summary
-5. sources and uses
-6. calculations
-7. strengths
-8. risks
-9. mitigants
-10. assumptions
-11. missing information
-12. proposed lender/capital path
-13. human review and approval record
+4. relationship and referral path
+5. property/project summary
+6. sources and uses
+7. calculations
+8. strengths
+9. risks
+10. mitigants
+11. assumptions
+12. missing information
+13. proposed lender/capital path
+14. evidence and context references
+15. human review and approval record
 
 ---
 
-## 10. Product Experiences
+## 11. Product Experiences
 
-## 10.1 Internal Advisor Workspace
+## 11.1 Internal Advisor Workspace
 
 First-release views:
 
 - relationship dashboard
+- relationship graph explorer
+- context assertion review queue
 - signal inbox
 - opportunity pipeline
 - ClearClose case workspace
-- lender match results
+- lender match results with graph paths
 - document checklist
 - task queue
 - referral attribution
 - outcome reporting
 
-## 10.2 Referral Partner Portal
+## 11.2 Referral Partner Portal
 
 First-release capabilities:
 
@@ -677,17 +864,20 @@ First-release capabilities:
 - document upload
 - status milestones
 - request-for-information responses
+- non-sensitive relationship-path confirmation
 - non-sensitive outcome summary
 - partner impact dashboard
 
-The portal must not expose lender deliberations, protected borrower information, or internal compliance notes to unauthorized partners.
+The portal must not expose lender deliberations, protected borrower information, legal privilege, or internal compliance notes to unauthorized partners.
 
-## 10.3 Operations Dashboard
+## 11.3 Operations Dashboard
 
 - pipeline by vertical pack
 - opportunities by stage
 - aging and stalled files
 - partner-sourced revenue
+- referral-path performance
+- graph coverage and unresolved entities
 - lender turnaround
 - approval and decline reasons
 - agent exception queue
@@ -695,7 +885,7 @@ The portal must not expose lender deliberations, protected borrower information,
 
 ---
 
-## 11. Phased Delivery Plan
+## 12. Phased Delivery Plan
 
 ## Phase 0 — Repository and Product Alignment
 **Target:** Week 1
@@ -704,6 +894,8 @@ The portal must not expose lender deliberations, protected borrower information,
 
 - approve naming: RIOS / ClearClose / MIX
 - reconcile architecture terminology across repository documents
+- approve interpretable context methodology
+- approve graph ontology and privacy model
 - create architecture decision records
 - define environment strategy
 - establish issue labels and milestones
@@ -713,38 +905,63 @@ The portal must not expose lender deliberations, protected borrower information,
 
 - one canonical glossary
 - one canonical system diagram
+- one canonical graph and context methodology
 - no conflicting definition of RIOS
 - development, staging, and production environments documented
 
 ---
 
-## Phase 1 — Core RIOS Mortgage Foundation
+## Phase 1 — Context and Graph Foundation
 **Target:** Weeks 2–5
 
 ### Deliverables
 
 - workspace and role model
+- context assertion schema
+- graph node and edge schema
+- edge-evidence records
+- entity-resolution workflow
+- relationship verification queue
+- graph row-level security
+- one-hop and two-hop graph visualization
+
+### Acceptance criteria
+
+- every active edge has evidence or explicit human confirmation
+- ambiguous entities are not automatically merged
+- users can inspect the source, confidence, validity, and verification state of a relationship
+- graph traversal respects workspace, role, consent, and sensitivity boundaries
+
+---
+
+## Phase 2 — Core RIOS Mortgage Workflow
+**Target:** Weeks 6–8
+
+### Deliverables
+
 - Relationship Asset Registry
 - Signal Registry
 - Opportunity Registry
-- conversation/voice evidence records
+- conversation and voice evidence records
 - task and audit system
 - initial operations dashboard
 
 ### Acceptance criteria
 
-- a referral can become a relationship, signal, and opportunity
+- a referral becomes an interpretable relationship path, signal, and opportunity
 - every material change creates an audit record
 - role-based data access is enforced
 - a user can identify the source and owner of each opportunity
+- every opportunity displays its origin graph path
 
 ---
 
-## Phase 2 — Strata and Estate Vertical Packs
-**Target:** Weeks 6–9
+## Phase 3 — Strata and Estate Vertical Packs
+**Target:** Weeks 9–12
 
 ### Deliverables
 
+- vertical ontology extensions
 - pack manifests
 - specialized intake flows
 - document checklists
@@ -755,14 +972,15 @@ The portal must not expose lender deliberations, protected borrower information,
 
 ### Acceptance criteria
 
-- synthetic strata and estate cases can complete the full workflow
-- pack-specific fields do not contaminate the core schema
+- synthetic strata and estate cases complete the full workflow
+- pack-specific ontology does not contaminate the core ontology
 - human approval gates block unauthorized agent actions
+- sensitive legal and client relationships remain access-controlled
 
 ---
 
-## Phase 3 — ClearClose Residential Engine
-**Target:** Weeks 10–13
+## Phase 4 — ClearClose Residential Engine
+**Target:** Weeks 13–16
 
 ### Deliverables
 
@@ -776,37 +994,40 @@ The portal must not expose lender deliberations, protected borrower information,
 ### Acceptance criteria
 
 - calculations pass unit tests against known scenarios
-- every result displays input data and assumptions
-- no lender recommendation is presented as approved until human review
+- every result displays input data, graph relationships, evidence, and assumptions
+- no lender recommendation is approved until human review
 - memo versions are immutable after approval
 
 ---
 
-## Phase 4 — Lender Intelligence and Matching
-**Target:** Weeks 14–17
+## Phase 5 — Lender Intelligence and Matching
+**Target:** Weeks 17–20
 
 ### Deliverables
 
 - Capital Source Registry
-- lender program and policy model
+- lender program and policy graph
 - policy effective dates and sources
 - explainable match scoring
+- graph-path explanations
 - exception workflow
 - BDM contact routing
 
 ### Acceptance criteria
 
 - expired policy versions cannot produce a final match
-- every match explains eligibility, risks, and missing conditions
-- outcomes can be attributed to lender program and policy version
+- every match explains eligibility, risks, missing conditions, and relationship path
+- outcomes are attributed to lender program and policy version
 
 ---
 
-## Phase 5 — Hermes Agent Execution Layer
-**Target:** Weeks 18–21
+## Phase 6 — Hermes Agent Execution Layer
+**Target:** Weeks 21–24
 
 ### Deliverables
 
+- bounded agent context packages
+- graph traversal permissions
 - agent task contract
 - orchestrator routing
 - retry and escalation policies
@@ -816,15 +1037,16 @@ The portal must not expose lender deliberations, protected borrower information,
 
 ### Acceptance criteria
 
+- agents receive only permitted context and graph depth
 - agent actions are idempotent where required
 - failures create visible exceptions
 - agents cannot bypass authorization or approval gates
-- each recommendation includes provenance and confidence
+- each recommendation includes provenance, confidence, and cited graph path
 
 ---
 
-## Phase 6 — Referral Partner Pilot
-**Target:** Weeks 22–25
+## Phase 7 — Referral Partner Pilot
+**Target:** Weeks 25–28
 
 ### Pilot cohort
 
@@ -846,16 +1068,17 @@ The portal must not expose lender deliberations, protected borrower information,
 - at least 20 synthetic or consented pilot opportunities processed
 - median intake-to-triage time measured
 - partner status visibility validated
+- graph attribution completeness measured
 - user feedback converted into prioritized issues
 
 ---
 
-## Phase 7 — Portfolio Investor Pack
-**Target:** Weeks 26–31
+## Phase 8 — Portfolio Investor Pack
+**Target:** Weeks 29–34
 
 ### Deliverables
 
-- multi-property model
+- multi-property ownership graph
 - renewal calendar
 - portfolio calculations
 - portfolio health report
@@ -863,17 +1086,19 @@ The portal must not expose lender deliberations, protected borrower information,
 
 ### Acceptance criteria
 
-- a borrower can own multiple entities and properties
+- a borrower owns multiple entities and properties through explicit graph relationships
 - property-level and global calculations reconcile
-- renewal opportunities can be generated automatically
+- renewal opportunities are generated automatically
+- beneficial ownership and guarantee relationships remain explainable
 
 ---
 
-## Phase 8 — Construction and Development Pack
-**Target:** Weeks 32–39
+## Phase 9 — Construction and Development Pack
+**Target:** Weeks 35–42
 
 ### Deliverables
 
+- project relationship graph
 - project budget and draws
 - sources and uses
 - construction underwriting module
@@ -884,18 +1109,20 @@ The portal must not expose lender deliberations, protected borrower information,
 ### Acceptance criteria
 
 - cost-to-complete and capital-gap analysis are reproducible
+- project participants, obligations, liens, permits, and capital sources are graph-connected
 - disclosure permissions are enforced
 - debt, mezzanine, preferred equity, and JV paths can be compared
 
 ---
 
-## Phase 9 — MIX Exchange Network
-**Target:** Weeks 40–52
+## Phase 10 — MIX Exchange Network
+**Target:** Weeks 43–52
 
 ### Deliverables
 
 - controlled deal rooms
-- opportunity/capital mandate matching
+- opportunity/capital mandate graph matching
+- trusted-introduction paths
 - network participation model
 - exchange analytics
 - subscription and access controls
@@ -907,10 +1134,11 @@ The portal must not expose lender deliberations, protected borrower information,
 - all disclosures are explicit and auditable
 - marketplace matching cannot circumvent licensing or referral rules
 - platform revenue and transaction attribution are measurable
+- every network recommendation has an inspectable relationship path
 
 ---
 
-## 12. First 90-Day Build Backlog
+## 13. First 90-Day Build Backlog
 
 ### Epic A — Canonical Architecture
 
@@ -918,8 +1146,20 @@ The portal must not expose lender deliberations, protected borrower information,
 - create architecture decision records
 - reconcile Relationship Intelligence vs Real-Time Intelligence terminology
 - document ClearClose service boundary
+- approve `INTERPRETABLE-CONTEXT-GRAPH.md`
 
-### Epic B — Core Schema
+### Epic B — Context and Graph Schema
+
+- add `context_assertions`
+- add context version and source tables
+- add `graph_nodes`
+- add `graph_edges`
+- add `graph_edge_evidence`
+- add entity-resolution candidates
+- add merge history
+- add graph RLS tests
+
+### Epic C — Core Workflow Schema
 
 - add organization/workspace tables
 - add relationship tables
@@ -928,7 +1168,15 @@ The portal must not expose lender deliberations, protected borrower information,
 - add consent and source-evidence tables
 - add audit events
 
-### Epic C — Opportunity Workflow
+### Epic D — Relationship Graph Experience
+
+- build relationship explorer
+- build relationship assertion review queue
+- show graph origin path on opportunities
+- show evidence and confidence on edges
+- implement reversible entity merge
+
+### Epic E — Opportunity Workflow
 
 - create signal triage
 - create opportunity stages
@@ -936,29 +1184,32 @@ The portal must not expose lender deliberations, protected borrower information,
 - create approval gates
 - create outcome states
 
-### Epic D — Vertical Pack Runtime
+### Epic F — Vertical Pack Runtime
 
 - define manifest schema
+- define ontology extension schema
 - load pack configuration
 - validate pack versions
 - render pack-specific intake
 - execute pack-specific workflows
 
-### Epic E — Strata Pack
+### Epic G — Strata Pack
 
+- implement strata ontology
 - implement special-assessment intake
 - implement equity/funding-gap analysis
 - generate client options report
 - create partner referral form
 
-### Epic F — Estate Pack
+### Epic H — Estate Pack
 
+- implement estate ontology
 - implement authority/capacity fields
 - implement estate-liquidity intake
 - implement beneficiary-buyout analysis
 - generate estate liquidity report
 
-### Epic G — ClearClose MVP
+### Epic I — ClearClose MVP
 
 - create calculation library
 - implement residential ratios
@@ -966,40 +1217,47 @@ The portal must not expose lender deliberations, protected borrower information,
 - implement scenario comparison
 - implement memo generation
 - implement approval/version controls
+- connect inputs and conclusions to graph evidence
 
-### Epic H — Quality and Security
+### Epic J — Quality and Security
 
 - RLS tests
+- graph traversal authorization tests
 - calculation unit tests
 - synthetic fixtures
 - audit-log tests
 - prompt-injection tests for uploaded documents
+- entity-resolution collision tests
 - backup and recovery documentation
 
 ---
 
-## 13. Definition of Done
+## 14. Definition of Done
 
 A feature is complete only when:
 
 - requirements and acceptance criteria are documented
-- data permissions are defined
+- data and graph permissions are defined
+- context assertions are readable and source-linked
 - happy path and exception path are implemented
 - audit events are captured
 - automated tests pass
 - synthetic examples are included
 - user-facing documentation is updated
 - agent actions and human approvals are distinguishable
+- graph paths used in recommendations are inspectable
+- disputed and superseded context remains preserved
 - production monitoring is defined
 
 ---
 
-## 14. Governance and Compliance Gates
+## 15. Governance and Compliance Gates
 
 Before handling live borrower information, complete:
 
 - privacy impact assessment
 - consent and disclosure templates
+- graph visibility and relationship-discovery policy
 - data retention schedule
 - access-control review
 - vendor/subprocessor register
@@ -1017,10 +1275,11 @@ No AI agent should independently:
 - release personal information to a referral partner
 - make a legal-capacity determination
 - promise funding
+- activate a sensitive inferred relationship without required review
 
 ---
 
-## 15. Success Metrics
+## 16. Success Metrics
 
 ### Adoption
 
@@ -1028,6 +1287,15 @@ No AI agent should independently:
 - active referral partners
 - voice/conversation capture rate
 - intake completion rate
+
+### Context and graph quality
+
+- context assertions with evidence
+- human verification rate
+- unresolved entity-resolution candidates
+- graph attribution completeness
+- disputed assertion rate
+- recommendations with inspectable graph paths
 
 ### Operational efficiency
 
@@ -1044,6 +1312,7 @@ No AI agent should independently:
 - partner retention
 - relationship coverage
 - referral attribution completeness
+- trusted-path conversion rate
 
 ### Revenue
 
@@ -1064,42 +1333,48 @@ No AI agent should independently:
 
 ---
 
-## 16. Recommended Release Sequence
+## 17. Recommended Release Sequence
 
 ```text
-Release 0.1 — Canonical architecture and schema
-Release 0.2 — Relationship, signal, and opportunity workflow
-Release 0.3 — Strata vertical pack
-Release 0.4 — Estate & elder law vertical pack
-Release 0.5 — ClearClose residential engine
-Release 0.6 — Lender registry and explainable matching
-Release 0.7 — Hermes agent execution and review queues
-Release 0.8 — Referral partner pilot
-Release 0.9 — Portfolio investor pack
+Release 0.1 — Canonical context methodology and graph ontology
+Release 0.2 — Context assertions, graph schema, and entity resolution
+Release 0.3 — Relationship, signal, and opportunity workflow
+Release 0.4 — Strata vertical pack
+Release 0.5 — Estate and elder law vertical pack
+Release 0.6 — ClearClose residential engine
+Release 0.7 — Lender graph and explainable matching
+Release 0.8 — Hermes agent execution and review queues
+Release 0.9 — Referral partner pilot
 Release 1.0 — Production-ready Mortgage Intelligence Exchange
-Release 1.1 — Construction and development capital
-Release 2.0 — Controlled capital exchange network
+Release 1.1 — Portfolio investor pack
+Release 1.2 — Construction and development capital
+Release 2.0 — Controlled relationship and capital exchange network
 ```
 
 ---
 
-## 17. Immediate Next Actions
+## 18. Immediate Next Actions
 
-1. Adopt this document as the implementation baseline.
+1. Adopt the Interpretable Context and Relationship Graph document as a binding architecture standard.
 2. Create the canonical glossary and architecture decision records.
-3. audit the current Supabase schema against the core domain model.
-4. create the vertical-pack manifest specification.
-5. implement the Relationship, Signal, and Opportunity registries.
-6. build the Strata Financial Resolution pack first.
-7. connect ClearClose calculations only after deterministic tests are defined.
-8. run the first pilot with a small, measurable professional referral cohort.
+3. Audit the current Supabase schema against the context, graph, and core domain model.
+4. Implement context assertions, graph nodes, graph edges, and evidence tables.
+5. Define the vertical-pack ontology extension specification.
+6. Build the Relationship Agent verification workflow.
+7. Implement the Relationship, Signal, and Opportunity registries.
+8. Build the Strata Financial Resolution pack first.
+9. Connect ClearClose calculations only after deterministic tests are defined.
+10. Run the first pilot with a small, measurable professional referral cohort.
 
 ---
 
 ## Strategic Position
 
-**RIOS** is the operating system.  
+**RIOS** is the interpretable relationship operating system.  
+**The Relationship Graph** shows who and what are connected.  
+**Interpretable Context** explains what those connections mean and why the system believes them.  
 **ClearClose** is the underwriting brain.  
+**Hermes** is the governed execution workforce.  
 **MIX** is the relationship, mortgage, and capital intelligence exchange.
 
 Together, they create a system that does more than store mortgage contacts: it detects real financing problems, structures solutions, routes opportunities, preserves institutional knowledge, and compounds the value of every professional relationship and funded outcome.
