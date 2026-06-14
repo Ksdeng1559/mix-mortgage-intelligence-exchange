@@ -34,6 +34,218 @@ MIX outreach uses:
 
 The email is the final artifact. The intelligence model comes first.
 
+## Method of Use
+
+Agents must use this engine as an interpretation-first outreach workflow, not as a template generator.
+
+### Step 1: Intake the Lead
+
+Required minimum input:
+
+- person name, if available
+- company name
+- website URL or public profile URL
+- vertical category
+- city or market
+- outreach objective
+
+Outreach objectives may include:
+
+- build referral partner relationship
+- introduce mortgage broker
+- invite to conversation
+- reconnect with warm contact
+- educate professional partner
+- invite to MIX ecosystem
+- propose client webinar or workshop
+
+### Step 2: Collect Public Context
+
+Use approved tools to gather public business context.
+
+Recommended source order:
+
+1. Exa for entity discovery and external mentions
+2. Scrapling or Firecrawl for website collection
+3. Tavily for recent market, regulatory, or local context
+4. TinyFish for ongoing change detection if the entity should be monitored
+5. CRM history for prior relationship context
+
+Do not use private, gated, confidential, or access-controlled information.
+
+### Step 3: Build the Context Packet
+
+Every outreach opportunity should have a context packet before any message is drafted.
+
+Required context packet fields:
+
+```json
+{
+  "entity_summary": "What the business does",
+  "observed_facts": ["Specific public facts found"],
+  "vertical": "Realtor | Accountant | Lawyer | Financial Planner | Benefits Advisor | Developer | Local Business",
+  "likely_clients": ["Client types they appear to serve"],
+  "interpreted_objectives": ["What they may be trying to grow or improve"],
+  "visible_constraints": ["Likely constraints or business friction points"],
+  "mortgage_relevance": ["Where mortgage or lending may intersect"],
+  "relationship_angle": "Why a relationship may create value",
+  "source_notes": ["Where the facts came from"]
+}
+```
+
+### Step 4: Match to the Vertical Pack
+
+The agent must compare the entity context against the relevant vertical pack.
+
+Example:
+
+- accountant context maps to business-owner financing, partner buyouts, commercial property, succession, and self-employed qualification
+- realtor context maps to buyer financing, pre-approval quality, deal fallout, investor financing, and move-up strategies
+- financial planner context maps to retirement income, home equity, reverse mortgage, HELOC, and estate liquidity
+- lawyer context maps to property transfer, estate, probate, family separation, refinance, and buyout needs
+- benefits advisor context maps to employee financial wellness, homebuyer education, and executive mortgage planning
+- developer context maps to construction capital, takeout financing, investor financing, and buyer qualification
+
+### Step 5: Detect the Problem
+
+The agent should identify one primary problem or opportunity.
+
+Do not combine too many problems in one message.
+
+Preferred problem statement format:
+
+```text
+Because this prospect serves [client type], they may encounter [specific mortgage/lending/client problem], which creates an opportunity for [relationship or solution].
+```
+
+Example:
+
+```text
+Because this accounting firm serves incorporated business owners, they may encounter clients who need financing for commercial property purchases, partner buyouts, refinancing, or acquisitions, which creates an opportunity for a trusted lending referral relationship.
+```
+
+### Step 6: Map the Solution
+
+The agent must map the problem to one practical relationship solution.
+
+Examples:
+
+- mortgage referral partner
+- client education session
+- pre-approval support
+- commercial lending support
+- self-employed borrower strategy
+- reverse mortgage education
+- home-equity planning support
+- refinance review
+- construction financing conversation
+
+### Step 7: Score the Opportunity
+
+Before drafting, calculate:
+
+- Entity Fit Score
+- Vertical Problem Fit Score
+- Mortgage Relevance Score
+- Solution Fit Score
+- Referral Potential Score
+- Relationship Potential Score
+- Timing Signal Score
+- Trust Signal Score
+- Outreach Readiness Score
+
+Rule:
+
+- 85-100: strong opportunity, draft for review
+- 70-84: acceptable opportunity, draft cautiously
+- 50-69: research further or use softer educational outreach
+- below 50: do not draft unless manually requested
+
+### Step 8: Choose Outreach Type
+
+Select one:
+
+- cold outreach
+- warm outreach
+- referral partner outreach
+- reactivation outreach
+- ecosystem invitation
+- educational outreach
+
+The outreach type controls tone, call to action, and send approval requirements.
+
+### Step 9: Draft the Message
+
+Use this structure:
+
+```text
+Observation
+Interpretation
+Relevant problem or opportunity
+Simple question
+```
+
+Rules:
+
+- use one specific observed fact
+- avoid fake compliments
+- avoid overclaiming
+- avoid unsupported claims
+- avoid mortgage advice or rate promises
+- keep the message short
+- ask one clear question
+
+### Step 10: Human Review Gate
+
+No outbound message should be sent automatically unless the workflow has explicit approval rules.
+
+Human review should confirm:
+
+- factual accuracy
+- relevance
+- compliance
+- tone
+- correct sender identity
+- unsubscribe or opt-out handling where required
+- no misleading mortgage, legal, tax, or financial claims
+
+### Step 11: Send Through Approved Channel
+
+Use the correct delivery tool based on outreach type:
+
+- Resend for approved transactional or one-to-one operational emails
+- Instantly or Smartlead for compliant cold email sequencing
+- Gmail or connected inbox for personal warm outreach
+- Twilio for compliant SMS/MMS/voice follow-up only when appropriate
+
+### Step 12: Capture Outcome
+
+Store:
+
+- sent message
+- delivery status
+- reply status
+- booked meeting
+- referral created
+- opportunity created
+- no response
+- unsubscribe or opt-out
+- negative reply
+- conversion outcome
+
+### Step 13: Learn and Improve
+
+The agent should update scoring and future recommendations based on outcomes.
+
+Learning questions:
+
+- Which vertical responded?
+- Which problem angle worked?
+- Which call to action worked?
+- Which outreach type performed best?
+- Which source signals predicted replies?
+- Which messages created referral conversations?
+
 ## Operating Model
 
 ```text
