@@ -1,337 +1,709 @@
 # MIX — Mortgage Intelligence Exchange
 
-> A voice-first Relationship Intelligence Operating System for mortgage professionals that converts conversations, market signals, underwriting context, and relationship history into actionable mortgage intelligence.
+## Relationship Asset Management & Opportunity Intelligence for Mortgage Professionals
 
-![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)
-![Stage](https://img.shields.io/badge/Stage-Alpha-orange)
-![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen)
+MIX is a standalone Relationship Asset Management (RAM) and Opportunity Intelligence (OI) platform built for mortgage brokers who have 18+ years of relationship capital sitting dormant inside their heads, their inboxes, and their CRM fields — and want to convert it into a living, compounding intelligence engine.
 
----
+The objective is not another contact-centric CRM. MIX exists to help mortgage professionals collect the right relationship data, systematize operating context, identify automatable workflows, and convert existing business activity into repeatable human-and-agent execution systems — so that the next $5M in funded volume comes from intelligence, not manual follow-up.
 
-## 🎯 What Is MIX?
+MIX is designed so that critical knowledge, decisions, and workflows do not remain trapped inside one broker. The platform captures how deals move, why lenders say yes, who the real referral sources are, and when the renewal window is closing. This reduces owner dependency and allows practice intelligence to compound over time.
 
-**MIX** is the mortgage-focused vertical of the broader **RIOS — Relationship Intelligence Operating System** architecture.
+MIX helps mortgage professionals answer:
 
-It is designed for mortgage professionals — loan officers, brokers, underwriters, risk analysts, compliance teams, referral partners, and investors — who need to capture relationship context, market signals, borrower intent, underwriting insight, and follow-up opportunities without forcing every user to type perfect CRM notes.
-
-Traditional CRMs are built around manual data entry.
-
-MIX is built around relationship intelligence.
-
-The core belief is simple:
-
-> The most valuable mortgage intelligence lives inside conversations, not fields.
-
-Mortgage professionals think, sell, advise, and assess risk through conversations. MIX captures those conversations, structures the information, updates the intelligence layer, and activates specialized AI agents to recommend the next best action.
-
-No paywalls. No data hoarding. Just honest, actionable mortgage intelligence from people doing the work every day.
+- Who in my database has a mortgage maturing in the next 90 days?
+- Which referral partners are warm, dormant, or at risk?
+- Which contacts fit the strata or estate financing niche?
+- What rate changes just created an opportunity in my existing book?
+- Which introductions should happen next?
+- Which workflows can be systematized or handed to an agent?
+- What does the practice look like as a transferable asset?
+- Where am I still the bottleneck?
 
 ---
 
-## 🎙️ Voice-First Relationship Intelligence
+## Core Mission
 
-MIX treats voice as a primary input layer, not an add-on feature.
+MIX converts mortgage relationships, opportunities, underwriting knowledge, and market signals into reusable practice assets.
 
-Most mortgage professionals speak more naturally than they type. A broker may finish a client call, lender discussion, referral partner conversation, or underwriting review with important context in their head, but that context often never makes it into the CRM.
+It captures business activity, structures operational knowledge, measures outcomes, and enables the broker and AI agents to work together toward defined revenue objectives. Every conversation, rate sheet, renewal window, referral introduction, and lender update should improve the system's ability to find and close the next deal.
 
-This creates **Relationship Intelligence Leakage™**:
+The mission of MIX is to:
 
-> The loss of valuable business intelligence because conversations, context, intent, concerns, and follow-up signals are not captured, structured, or activated.
+1. Surface renewal, refinance, and new-opportunity windows before the client knows they exist
+2. Convert unstructured mortgage conversations and notes into confirmed, reusable context
+3. Score and rank every relationship by revenue, recency, referral quality, and strategic fit
+4. Map the practice's referral network as a relationship graph with measurable edge strength
+5. Identify recurring mortgage workflows and define them as executable, agent-ready specifications
+6. Enable AI agents and the broker to execute from the same trusted underwriting and market context
+7. Measure which relationships, verticals, and workflows drive funded volume
+8. Reduce owner dependency without removing the broker from regulated decisions
+9. Continuously improve accuracy through evidence, lender feedback, and outcome capture
 
-MIX is designed to reduce that leakage.
+A useful product test for every MIX capability is:
 
-### Why Voice Matters
+> Does this help find the next deal, close the next deal, or deepen a relationship that will produce the next deal?
 
-Voice capture allows mortgage professionals to document insight at the speed of thought:
+---
 
-- Borrower concerns
-- Renewal windows
-- Refinance signals
-- HELOC opportunities
-- Debt consolidation needs
-- Family or life-event changes
-- Referral partner updates
-- Lender guideline observations
-- Underwriting exceptions
-- Compliance-sensitive notes
-- Next-step instructions
+## Stack
 
-Typing requires users to organize thoughts before entering them. Speaking allows users to express context naturally. MIX then converts that raw voice input into structured intelligence.
+**Next.js 15** · React 19 · TypeScript · Supabase (PostgreSQL + RLS) · Claude Sonnet 4.6 · OpenAI (Whisper) · Resend · Unipile · React Flow · @dnd-kit · Tailwind CSS v4 · Vitest · Docker
 
-### Voice-to-Intelligence Workflow
+**Supabase project:** `RIOS-Financial` (shared with RIOS-CRM, MIX tables use `mix_` prefix)
+
+---
+
+## Interpretable Context Methodology
+
+MIX uses **Interpretable Context Methodology (ICM)** as the technical instruction architecture for all LLM and agent execution.
+
+ICM means that mortgage business logic must not exist only inside opaque prompts, model memory, source-code conditionals, or undocumented broker knowledge. The context governing an AI action must be readable by humans, addressable by software, versionable, testable, and traceable to the resulting execution.
+
+The vertical packs, underwriting rules, lender criteria, and renewal scoring logic are part of the software. They are not supplementary documentation.
+
+### Core Requirement
+
+Every material LLM or agent action must be explainable through an inspectable execution contract containing:
+
+1. **Objective** — the mortgage business outcome the action is intended to produce
+2. **Role** — the responsibility and operating perspective assigned to the model or agent
+3. **Scope** — the records, tools, workflows, and lender systems the agent may access
+4. **Trusted context** — the approved workspace, ICP, GTM, market, and vertical information available to the action
+5. **Inputs** — the source records and event that triggered execution
+6. **Decision rules** — explicit criteria, thresholds, classifications, exclusions, and lending rule precedence
+7. **Procedure** — the numbered workflow steps the executor must follow
+8. **Output contract** — the required schema, format, evidence, confidence, and destination
+9. **Human controls** — approval gates, escalation conditions, permissions, and prohibited autonomous actions
+10. **Success measures** — the operational and business metrics used to evaluate the result
+11. **Write-back rules** — what may be saved as a record, signal, task, relationship, opportunity, context update, or learning candidate
+12. **Traceability** — the context versions, source records, model, workflow, decisions, and reviewer actions associated with the execution
+
+An instruction is not considered production-ready when any of these elements are materially undefined.
+
+### Instruction Precedence
+
+When assembling context for an LLM or agent run, apply instructions in this order:
 
 ```text
-Conversation
-↓
-Voice Capture
-↓
-Transcription
-↓
-AI Summarization
-↓
-Entity Extraction
-↓
-Borrower / Property / Loan Record Update
-↓
-Signal Detection
-↓
-Agent Activation
-↓
-Task Creation
-↓
-Next Best Action
+1. Platform safety, security, privacy, and tenant-isolation rules
+2. MIX operating principles and system-level policies
+3. Workspace-approved context documents (BUSINESS / ICP / GTM / MARKET)
+4. Active vertical-pack instructions and BC lending decision criteria
+5. Workflow-specific execution contract
+6. Record-level facts and retrieved evidence
+7. Current user request or triggering event
 ```
 
-The user speaks.
+A lower-precedence instruction must not silently override a higher-precedence instruction. Conflicts must be rejected, resolved by an explicit rule, or escalated for human review.
 
-MIX organizes.
+### Canonical Context Layers
 
-Hermes activates the right agent.
-
----
-
-## 🔐 VoiceLock™ Secure Access Layer
-
-MIX also supports the future **VoiceLock™** security concept from RIOS.
-
-VoiceLock™ is a secure voice access and confirmation layer for sensitive workflows. It is not intended to replace standard authentication. Instead, it acts as an additional verification signal for high-trust actions.
-
-Potential use cases:
-
-- Accessing sensitive borrower records
-- Confirming client-data retrieval
-- Approving outbound communications
-- Confirming underwriting or compliance review steps
-- Authorizing agent actions that affect client records
-- Creating an audit trail for licensed-user activity
-
-VoiceLock™ principle:
-
-> Voice is a step-up security factor, not the only security factor.
-
----
-
-## 🏗️ Architecture Overview
-
-MIX is built on the **RIOS Architecture** — a modular, AI-augmented pipeline that transforms conversations, borrower data, market data, and mortgage signals into scored, actionable intelligence.
+MIX context is assembled from modular layers rather than one large prompt:
 
 ```text
-┌─────────────────────────────────────────────────────────────┐
-│                     VOICE & SIGNAL CAPTURE                  │
-│  Voice Notes │ Calls │ Meetings │ Forms │ Market Signals    │
-└──────────────┬──────────────────┬───────────────────────────┘
-               ▼                  ▼
-┌─────────────────────────────────────────────────────────────┐
-│                 TRANSCRIPTION & CONTEXT EXTRACTION          │
-│  Speech-to-Text │ AI Summary │ Entity Extraction │ Intent    │
-└──────────────┬──────────────────┬───────────────────────────┘
-               ▼                  ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    INTAKE & DISCOVERY                       │
-│  Lead Discovery Agent  │  WhyNow Engine  │  Market Signals │
-└──────────────┬──────────────────┬───────────────────────────┘
-               ▼                  ▼
-┌─────────────────────────────────────────────────────────────┐
-│                  PROCESSING & ENRICHMENT                    │
-│  Qualification Agent  │  Database Enrichment Agent          │
-└──────────────┬──────────────────┬───────────────────────────┘
-               ▼                  ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    SCORING & MATCHING                       │
-│  Scoring Agent  │  Matching Agent  │  Cross-Sell Agent      │
-└──────────────┬──────────────────┬───────────────────────────┘
-               ▼                  ▼
-┌─────────────────────────────────────────────────────────────┐
-│                   UNDERWRITING & REVIEW                     │
-│  Underwriting Agent  │  Referral Intelligence Agent         │
-└──────────────┬──────────────────┬───────────────────────────┘
-               ▼                  ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    REACTIVATION & REVENUE                   │
-│  Database Reactivation Agent  │  Revenue Agent              │
-└─────────────────────────────────────────────────────────────┘
+context/
+  mortgage/
+    SIP.json                      # Subscriber Intelligence Profile — mortgage vertical
+  insurance/
+    SIP.json                      # Insurance vertical SIP
+
+vertical-packs/
+  rios_general/
+    onboarding_interview.md       # Interview block structure
+  strata-financing/
+    manifest.yaml
+    qualification-rules.yaml
+    signal-types.yaml
+  estate-elder-law/
+    manifest.yaml
+    qualification-rules.yaml
+  portfolio-investor/
+    manifest.yaml
+  construction-capital/
+    manifest.yaml
+
+workspace-context/
+  BUSINESS.md                     # Generated by GTM onboarding
+  ICP.md
+  GTM.md
+  MARKET.md
+```
+
+### Canonical Workflow Specification
+
+Every agent-executable workflow uses a consistent numbered specification:
+
+```markdown
+# Workflow 002 — Renewal Intelligence Agent
+
+## Objective
+Surface all contacts with mortgages maturing in the next 90/180/365 days,
+rank by revenue potential, and draft outreach for the top 5.
+
+## Trigger
+Hermes cron: daily at 6 AM PT
+
+## Required Context
+Workspace BUSINESS.md, ICP.md, mix_opportunities renewal_date, contacts.last_contacted_at
+
+## Preconditions
+- workspace onboarding_status = 'complete'
+- opportunity.renewal_date IS NOT NULL
+- opportunity.status != 'funded' AND status != 'declined'
+
+## Procedure
+1. Query mix_opportunities WHERE renewal_date BETWEEN now() AND now() + 180 days
+2. Load workspace GTM context for outreach tone
+3. Rank by days_remaining ASC, estimated_value DESC
+4. Draft renewal outreach messages for top 5 (CASL-compliant, compliance_mode=moderate)
+5. Write draft messages to mix_outreach_drafts (status='draft')
+6. Write agent_run record to mix_agent_runs
+7. Surface deadline alerts to dashboard
+
+## Decision Rules
+- renewal_date < 14 days: urgency=HIGH (red)
+- renewal_date 14-30 days: urgency=MED (amber)
+- renewal_date 31-90 days: urgency=NORMAL (muted)
+- Do not auto-send — human approval required for all outreach
+
+## Output Contract
+{ opportunities: [...], drafts: [...], agent_run_id: uuid }
+
+## Human Approval
+All outreach messages require broker review before sending.
+
+## Success Metrics
+- 100% of renewals within 90-day window surfaced
+- 30% conversion to active pipeline
 ```
 
 ---
 
-## 📦 What's Included
+## Strategic Product Direction
 
-### 🎙️ Voice-First CRM Layer
+MIX is the mortgage-vertical implementation of the broader RIOS RAM/OI architecture.
 
-The voice-first CRM layer defines how conversations become structured mortgage intelligence.
+The current implementation targets four vertical packs:
 
-Core capabilities:
+1. **Strata Financial Resolution** — highest-ROI for referral-driven revenue
+2. **Estate & Elder Law Financing** — executor relationships, reverse mortgage, estate settlement
+3. **Portfolio Investor Lending** — multi-property, DSCR, portfolio refinance
+4. **Construction & Development Capital** — progress draws, builder relationships, municipal intelligence
 
-- Voice note capture
-- Call and meeting transcription
-- AI-generated summaries
-- Borrower, property, lender, and partner entity extraction
-- Intent and opportunity detection
-- CRM note generation
-- Task and follow-up creation
-- Audit-friendly activity history
-- Future VoiceLock™ verification hooks
+Priority order for initial build: Strata → Estate (shortest route to referral-driven revenue, least lender network expansion required).
 
-### 🧠 11 Agent Packs
-
-| Agent | Purpose |
-|---|---|
-| **Lead Discovery Agent** | Identify high-intent prospects via behavioral signals and market data |
-| **WhyNow Engine** | Surface time-sensitive triggers that create immediate lending opportunities |
-| **Qualification Agent** | Pre-screen leads against lending product criteria and borrower profiles |
-| **Database Enrichment Agent** | Augment existing records with credit, equity, and market data |
-| **Scoring Agent** | Rate and rank leads by conversion probability and loan potential |
-| **Matching Agent** | Pair borrowers with optimal loan products, lenders, and programs |
-| **Cross-Sell Agent** | Identify insurance, title, and ancillary product opportunities |
-| **Referral Intelligence Agent** | Map center-of-influence networks and referral pathways |
-| **Underwriting Agent** | Execute layered underwriting review using guideline knowledge bases |
-| **Database Reactivation Agent** | Re-engage dormant leads and stale pipeline records |
-| **Revenue Agent** | Forecast revenue, model pipeline value, and optimize loan officer commission |
-
-### 🗄️ Supabase Schema
-
-Production-ready PostgreSQL schema with:
-- Normalized borrower, property, and loan records
-- Agent state and task tracking tables
-- Signal event log for market trigger capture
-- Conversation, transcript, summary, and voice-note records
-- Row-Level Security (RLS) policies for data isolation
-- pgvector integration for semantic lead scoring and relationship memory
-
-### 🐳 Docker Stack
-
-One-command local development environment:
-- **Supabase** (PostgreSQL + Auth + Edge Functions + Studio)
-- **Next.js** application stack
-- **11 Agent Services** running as isolated workers
-- Optional voice/transcription services for future implementation
-
-### 📐 RIOS Architecture Docs
-
-Detailed architectural documentation covering:
-- Voice-first relationship intelligence flows
-- Agent-to-agent communication protocols
-- Data flow diagrams
-- Stage-by-stage processing logic
-- Extensibility patterns for new agents
-- Security and privacy expectations for mortgage workflows
-
----
-
-## 🧭 Core System Principle
+The practice asset model maps:
 
 ```text
-Conversation → Context → Intelligence → Action → Revenue
-```
-
-MIX is designed around one operating principle:
-
-> A mortgage CRM should not merely store what happened. It should understand what the relationship means and recommend what should happen next.
-
----
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- Docker & Docker Compose
-- Node.js 20+
-- Git
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/Ksdeng1559/mix-mortgage-intelligence-exchange.git
-cd mix-mortgage-intelligence-exchange
-```
-
-### 2. Start the Stack
-
-```bash
-docker compose up -d
-```
-
-Supabase Studio will be available at `http://localhost:3000`
-
-### 3. Initialize the Database
-
-```bash
-# Apply the schema
-docker compose exec supabase-db psql -U postgres -d postgres -f /supabase/schema.sql
-```
-
-### 4. Explore the Agents
-
-```bash
-# Read the agent pack for the workflow stage you're working on
-cat agents/lead-discovery-agent.md
-cat agents/underwriting-agent.md
+Relationship Capital = Σ(trust_score × revenue_attributed) for all contacts
+Opportunity Capital  = Σ(estimated_value) for active pipeline
+Knowledge Capital    = count(published underwriting playbooks) × avg_value_per_playbook
+Practice Asset Score = weighted sum of above
+Owner Dependency Score = 100 - Succession Readiness Score
 ```
 
 ---
 
-## 📁 Project Structure
+## Current Implementation Status
+
+| Feature | Status | Notes |
+|---------|--------|-------|
+| v5.html — dark glass dashboard mockup (6 tabs) | ✅ Built | `dashboard/v5.html` — static, all data hardcoded |
+| Architecture docs + agent specs | ✅ Written | `docs/`, `agents/` — markdown only |
+| Supabase schema DDL | ✅ Deployed | `supabase/migrations/mix_001_core.sql` applied |
+| Context SIP files (mortgage, insurance) | ✅ Written | `context/mortgage/SIP.json` |
+| Next.js 15 app — 6-tab shell | ✅ Live | Running at port 3001, Docker container `mix-app` |
+| Dashboard tab — live KPIs from Supabase | ✅ Live | Pipeline value, active deals, MIX score, funnel, activity feed |
+| Pipeline tab — kanban board + table toggle | ✅ Live | Stage move (HITL override), expand card, PATCH endpoint |
+| Subscribers tab — modal detail + edit form | ✅ Live | Click row → popup, edit → PATCH, new contact slide-in |
+| Agents tab — agent fleet grid | ✅ Live | Live telemetry from `mix_agent_runs` |
+| Relationships tab — expandable tree | ✅ Live | Org → contact → linked deals + colleagues tree |
+| Docs tab | ✅ Live | Knowledge assets scaffold |
+| Mock data seed — contacts (16) + pipeline (12) | ✅ Seeded | Covers platinum/gold/silver tiers, all 7 pipeline stages |
+| Email import pipeline | 📋 Planned | Issue #2 |
+| ClearClose BC lending rules | 📋 Planned | Issue #3 |
+| Qdrant embedding pipeline | 📋 Planned | Issue #3.5 |
+| Renewal Intelligence dashboard card | 📋 Planned | Issue #4 |
+| Lead Discovery Agent (Agent 1) | 📋 Planned | Issue #5 |
+| Relationship Asset Registry scoring | 📋 Planned | Issue #6 |
+| WhyNow Engine (Agent 3) | 📋 Planned | Issue #7 |
+| VoiceClaw Lite (audio → entities) | 📋 Planned | Issue #9 |
+| GitHub Wiki Publisher (Agent 4) | 📋 Planned | Issue #10 |
+| Practice Asset Statement dashboard card | 📋 Planned | Issue #11 |
+| Lender Intelligence Hub | 📋 Planned | Issue #12 |
+
+---
+
+## MIX Dashboard — 6-Tab Shell
+
+The MIX dashboard (`/`) is a GTM Revenue Operations platform for the broker in a dark glassmorphism 6-tab shell. Running live at `http://localhost:3001` (Docker container `mix-app`).
+
+```
+╔══════════════════════════════════════════════════════════════════════════════╗
+║  M MIX   Dashboard  Pipeline  Subscribers  Agents  Relationships  Docs      ║
+║                                                              [+ Opportunity] ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+```
+
+---
+
+### Tab 1 — Dashboard
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  DASHBOARD                                                                  │
+├──────────────────┬──────────────────┬──────────────────┬────────────────────┤
+│  Pipeline Value  │  Active Deals    │  Avg MIX Score   │  Revenue MTD       │
+│  $14.2M          │  12              │  74              │  $48,500           │
+│  ▁▃▅▇▆▇▆█ ↑12%  │  ▂▄▅▄▆▅▇█        │  ████░░░░  74/100│                    │
+├──────────────────┴──────────────────┴──────────────────┴────────────────────┤
+│  PIPELINE FUNNEL                                                             │
+│                                                                              │
+│  lead ████████████████ 3    qualify ███████████ 2    underwrite ████████ 2  │
+│  score ████ 1          match ████ 1              deliver ████ 1  fund ██ 2  │
+│                                                                              │
+│  Conversion: lead → fund  16.7%                                              │
+├──────────────────────────────────┬──────────────────────────────────────────┤
+│  UPCOMING DEADLINES              │  RECENT ACTIVITY                         │
+│                                  │                                           │
+│  🔴  Chen Strata Refi    3 days  │  Lead Discovery Agent                    │
+│  🟡  Patel Refinance    18 days  │  Found 3 new signals · 2 min ago         │
+│  🟢  Walsh Portfolio    45 days  │                                           │
+│                                  │  Renewal Intelligence Agent              │
+│                                  │  2 upcoming renewals · 14 min ago        │
+├──────────────────────────────────┴──────────────────────────────────────────┤
+│  AGENT FLEET                                                                 │
+│                                                                              │
+│  [🟢 Lead Discovery]  [🟡 Renewal Intel]  [⚪ WhyNow Engine]               │
+│  Running · 3 signals  Reviewing · 2 opps  Idle                              │
+│                                                                              │
+│  [⚪ Scoring Agent]   [⚪ Wiki Publisher]  [⚪ VoiceClaw]                   │
+│  Idle                 Idle                Idle                               │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### Tab 2 — Pipeline (Kanban + Table toggle)
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  PIPELINE                                          [⊞ Board]  [☰ Table]    │
+├──────────┬──────────┬──────────┬──────────┬──────────┬──────────┬──────────┤
+│  LEAD    │ QUALIFY  │UNDERWRITE│  SCORE   │  MATCH   │ DELIVER  │  FUND    │
+│  3 deals │ 2 deals  │ 2 deals  │ 1 deal   │ 1 deal   │ 1 deal   │ 2 deals  │
+│  $2.5M   │ $3.1M    │ $2.8M    │ $1.2M    │ $0.8M    │ $1.4M    │ $2.4M    │
+├──────────┼──────────┼──────────┼──────────┼──────────┼──────────┼──────────┤
+│ ┌──────┐ │ ┌──────┐ │ ┌──────┐ │ ┌──────┐ │ ┌──────┐ │ ┌──────┐ │ ┌──────┐│
+│ │ Chen │ │ │Patel │ │ │Walsh │ │ │Torres│ │ │Reed  │ │ │Okafor│ │ │Chen  ││
+│ │Strata│ │ │Refi  │ │ │Port. │ │ │Comm. │ │ │HELOC │ │ │Estate│ │ │Refi  ││
+│ │ $1.2M│ │ │$850K │ │ │$2.2M │ │ │$1.2M │ │ │$800K │ │ │$1.4M │ │ │$950K ││
+│ │  87  │ │ │  72  │ │ │  91  │ │ │  58  │ │ │  65  │ │ │  78  │ │ │  83  ││
+│ └──────┘ │ └──────┘ │ └──────┘ │ └──────┘ │ └──────┘ │ └──────┘ │ └──────┘│
+│          │          │          │          │          │          │          │
+│          │          │          │          │          │          │ ┌──────┐ │
+│          │          │          │          │          │          │ │Torres││
+│          │          │          │          │          │          │ │Rev.  ││
+│          │          │          │          │          │          │ │$1.5M ││
+│          │          │          │          │          │          │ └──────┘│
+└──────────┴──────────┴──────────┴──────────┴──────────┴──────────┴──────────┘
+
+  Expanded card (click to open):
+  ┌──────────────────────────────────────────────────┐
+  │  Chen Strata Refinance          [● lead]         │
+  │  Sarah Chen · Strata            MIX Score: 87    │
+  │  ─────────────────────────────────────────────── │
+  │  Type: Strata    Renewal: Aug 15 2026            │
+  │  Est. Value: $1,200,000    Commission: $6,000    │
+  │  Next Step: Send pre-approval docs               │
+  │  ─────────────────────────────────────────────── │
+  │  [lead] [qualify] [underwrite] [score] [match]   │
+  │                                   [deliver][fund] │
+  └──────────────────────────────────────────────────┘
+  Click any stage pill → PATCH stage (Human-in-the-Loop override)
+```
+
+---
+
+### Tab 3 — Subscribers
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  SUBSCRIBER CONTACTS                [Search...]  [+ New Contact] [↑ CSV]   │
+│  16 contacts · 4 tiers                                                      │
+├────┬──────────────────┬──────────────────┬──────────┬───────────┬───────────┤
+│    │ NAME             │ ORGANIZATION     │ TYPE     │ HEALTH    │ TIER      │
+├────┼──────────────────┼──────────────────┼──────────┼───────────┼───────────┤
+│ RP │ Raj Patel        │ Alpha Properties │ Client   │ ● Strong  │ ◆ Plat.  │
+│ SC │ Sarah Chen       │ Chen Strata Ref. │ Referral │ ● Strong  │ ◆ Plat.  │
+│ MJ │ Michael Jordan   │ Jordan Inv. Grp  │ Client   │ ● Healthy │ ◆ Plat.  │
+│ AL │ Amanda Liu       │ Liu Legal        │ Partner  │ ● Healthy │ ★ Gold   │
+│ TC │ Tom Chen         │ Pacific Devs     │ Client   │ ⚠ At-Risk │ ★ Gold   │
+│ AW │ Amanda Walsh     │ RIOS Ventures    │ Partner  │ ⚠ At-Risk │ ◇ Silver │
+│ NT │ Natalie Torres   │ Star City Props  │ Partner  │ ● Healthy │ ◇ Silver │
+│ .. │ ...              │ ...              │ ...      │ ...       │ ...      │
+└────┴──────────────────┴──────────────────┴──────────┴───────────┴───────────┘
+
+  Click row → Contact Modal:
+  ┌────────────────────────────────────┐
+  │  RP  Raj Patel          [✏️ Edit] ✕│
+  │      Property Developer            │
+  │      Alpha Properties Inc          │
+  │  ──────────────────────────────── │
+  │  EMAIL       raj.patel@...com      │
+  │  ROLE        Property Developer    │
+  │  ORG         Alpha Properties Inc  │
+  │  TYPE        ● Client              │
+  │  HEALTH      ● Strong              │
+  │  TIER        ◆ Platinum            │
+  │  LAST CONTACT  Never               │
+  │  ADDED         Jun 15, 2026        │
+  └────────────────────────────────────┘
+  Click ✏️ Edit → editable form → PATCH /api/mix/subscribers → optimistic update
+```
+
+---
+
+### Tab 4 — Agents
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  AGENT FLEET — 6 agents                                                     │
+├────────────────────────────┬────────────────────────────┬───────────────────┤
+│  Lead Discovery Agent      │  Renewal Intelligence      │  WhyNow Engine    │
+│  [● Running]               │  [○ Reviewing]             │  [○ Idle]         │
+│  Signals: 3                │  Renewals: 2               │  Signals: 0       │
+│  Last run: 2 min ago       │  Last run: 14 min ago      │  Last run: —      │
+├────────────────────────────┼────────────────────────────┼───────────────────┤
+│  Scoring Agent             │  Wiki Publisher            │  VoiceClaw Lite   │
+│  [○ Idle]                  │  [○ Idle]                  │  [○ Idle]         │
+│  Last run: —               │  Assets: 0                 │  Transcripts: 0   │
+└────────────────────────────┴────────────────────────────┴───────────────────┘
+```
+
+---
+
+### Tab 5 — Relationships
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  RELATIONSHIPS                                                               │
+│                                                                              │
+│  PLATINUM · 3 contacts                                                      │
+│  ┌──────────────────────┐  ┌──────────────────────┐  ┌────────────────────┐│
+│  │ RP  Raj Patel        │  │ SC  Sarah Chen       │  │ MJ  Michael Jordan ││
+│  │     Property Dev.    │  │     Managing Partner  │  │     Investor       ││
+│  │ ■ Alpha Properties   │  │ ■ Chen Strata Ref.   │  │ ■ Jordan Inv. Grp  ││
+│  │ ◆ platinum  ▼        │  │ ◆ platinum  ▼        │  │ ◆ platinum  ▼      ││
+│  └──────────────────────┘  └──────────────────────┘  └────────────────────┘│
+│                                                                              │
+│  Expanded card → RELATIONSHIP MAP:                                           │
+│  ┌───────────────────────────────────────────┐                              │
+│  │  ┌──────────────────────┐                 │                              │
+│  │  │ 🏢 Chen Strata Ref.  │  (org)          │                              │
+│  │  └──────────────────────┘                 │                              │
+│  │       │                                   │                              │
+│  │  ┌────┴─────────────────────────┐         │                              │
+│  │  │ 👤 Sarah Chen               │  (self)  │                              │
+│  │  │    Managing Partner          │         │                              │
+│  │  └─────┬────────────────────────┘         │                              │
+│  │        ├── 📋 Chen Strata Refinance  active│                              │
+│  │        └── 👥 Tom Chen  (colleague)        │                              │
+│  └───────────────────────────────────────────┘                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+### Tab 6 — Docs
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  KNOWLEDGE ASSETS                                                           │
+│                                                                              │
+│  [draft]     Strata Financing Playbook          Updated Jun 15 2026         │
+│  [reviewed]  BC Renewal Qualification Rules     Updated Jun 14 2026         │
+│  [published] Lender BDM Contact Guide  → wiki   Published Jun 13 2026       │
+│                                                                              │
+│  Status: draft → reviewed → published (→ GitHub Wiki via Wiki Publisher)    │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## Agent Workforce
+
+MIX deploys 11 agents in priority order:
+
+| # | Agent | Trigger | Model | Priority |
+|---|-------|---------|-------|----------|
+| 1 | Lead Discovery Agent | Cron: every 4h | DeepSeek | P0 — Week 1-2 |
+| 2 | Renewal Intelligence Agent | Cron: daily 6AM | DeepSeek | P0 — Week 2-3 |
+| 3 | WhyNow Engine™ | Cron: every 30min + webhooks | DeepSeek | P1 — Week 3-4 |
+| 4 | Wiki Publisher Agent | On-demand / weekly | Any | P1 — Week 4-5 |
+| 5 | Voice Intake Agent (VoiceClaw Lite) | On-demand (audio upload) | Whisper + DeepSeek | P1 — Week 5-6 |
+| 6 | Relationship Scoring Agent | Cron: daily | DeepSeek | P2 |
+| 7 | Database Enrichment Agent | Cron: weekly | DeepSeek | P2 |
+| 8 | Database Reactivation Agent™ | Cron: weekly | Claude | P2 |
+| 9 | Qualification Agent | On-demand | Claude | P3 |
+| 10 | Matching Agent | On-demand | Claude | P3 |
+| 11 | Revenue Agent | On-demand | Claude | P3 |
+
+**Agent communication architecture:** All agents communicate through the Supabase database, not directly. No message queue, no event bus for MVP. The database is the message broker. Agent A writes → Agent B reads.
+
+Agent specification documents: `agents/` folder.
+
+---
+
+## Database Schema
+
+**Supabase project:** RIOS-Financial (`amgknqnhiscryvcfeoyj`)
+**Strategy:** MIX tables use `mix_` prefix to avoid conflicts with RIOS-CRM tables.
+
+### Tables owned by MIX
+
+| Table | Purpose |
+|-------|---------|
+| `mix_leads` | Raw incoming lead records (scraped, imported, manual) |
+| `mix_opportunities` | Active pipeline — stages, scores, renewal dates, values |
+| `mix_agent_runs` | Agent execution log — status, signals, opportunities created |
+| `mix_lenders` | Lender registry — BDM contacts, type, notes |
+| `mix_lender_programs` | Rate sheets — product, rate, term, LTV, credit min |
+| `mix_knowledge_assets` | Underwriting playbooks, decisions, lessons — draft / reviewed / published |
+| `mix_conversations` | Call notes, meeting summaries, voice transcripts |
+| `mix_relationship_scores` | Trust / referral / influence scores per contact |
+
+### Tables shared with RIOS-CRM
+
+| Table | Used for |
+|-------|---------|
+| `contacts` | Relationship network — past clients, realtors, lawyers, accountants |
+| `organizations` | Lender firms, law firms, real estate agencies |
+| `relationships` | Graph edges (refers, knows, works_at) |
+| `touchpoints` | Interaction log per contact |
+| `workspace_context_docs` | BUSINESS / ICP / GTM / MARKET context loaded into agent runs |
+
+### Key indexes
+
+```sql
+-- Renewal intelligence (most queried)
+CREATE INDEX idx_mix_opps_renewal ON mix_opportunities(renewal_date)
+  WHERE renewal_date IS NOT NULL AND status NOT IN ('funded', 'declined');
+
+-- Pipeline funnel
+CREATE INDEX idx_mix_opps_stage ON mix_opportunities(stage);
+CREATE INDEX idx_mix_opps_status ON mix_opportunities(status);
+
+-- Agent audit
+CREATE INDEX idx_mix_agent_runs_agent ON mix_agent_runs(agent_name);
+CREATE INDEX idx_mix_agent_runs_created ON mix_agent_runs(started_at DESC);
+
+-- Relationship scoring
+CREATE INDEX idx_mix_scores_health ON mix_relationship_scores(relationship_health);
+```
+
+Full DDL: `supabase/schema.sql`
+MIX migration: `supabase/migrations/mix_001_core.sql`
+
+---
+
+## Qdrant Semantic Layer
+
+Qdrant runs in Docker (port 6333). It is the semantic discovery layer — rebuildable from Supabase at any time. Supabase is the system of record.
+
+| Collection | Purpose | Dimension |
+|------------|---------|-----------|
+| `contacts` | Semantic contact search | 1536 (OpenAI text-embedding-3-small) |
+| `mix_opportunities` | Similar opportunity matching | 1536 |
+| `mix_knowledge_assets` | Playbook / underwriting retrieval | 1536 |
+| `mix_conversations` | Conversation memory | 1536 |
+| `mix_lender_programs` | Lender / product matching | 1536 |
+
+Embedding pipeline: `pipelines/qdrant_sync.py` (planned — Issue #3.5)
+
+---
+
+## Project Structure
 
 ```text
 mix-mortgage-intelligence-exchange/
-├── agents/                  # 11 AI agent packs (Markdown specs)
-│   ├── README.md            # Agent orchestration overview
+├── app/                          # Next.js 15 app (in progress)
+│   ├── globals.css               # Dark glass design system (ported from dashboard/v5.html)
+│   ├── layout.tsx
+│   ├── page.tsx                  # Root → redirect to /dashboard
+│   ├── (mix)/
+│   │   ├── layout.tsx            # MixNav top bar
+│   │   ├── dashboard/page.tsx    # Bento grid KPIs
+│   │   ├── pipeline/page.tsx     # Opportunity table / kanban
+│   │   ├── subscribers/page.tsx  # Contact list
+│   │   ├── agents/page.tsx       # Agent fleet grid
+│   │   ├── relationships/page.tsx# React Flow graph
+│   │   └── docs/page.tsx         # Knowledge asset list
+│   └── api/
+│       └── mix/
+│           ├── dashboard/route.ts  # KPIs, funnel, activity
+│           ├── pipeline/route.ts   # Opportunities CRUD
+│           ├── subscribers/route.ts# Contacts query
+│           └── agents/route.ts     # Agent run log
+├── components/
+│   ├── MixNav.tsx
+│   └── mix/
+│       ├── DashboardTab.tsx
+│       ├── PipelineTab.tsx
+│       ├── SubscribersTab.tsx
+│       ├── AgentsTab.tsx
+│       ├── RelationshipsTab.tsx
+│       └── DocsTab.tsx
+├── lib/
+│   └── supabase.ts               # Supabase client (server + browser)
+├── agents/                       # Agent specification docs (markdown)
 │   ├── lead-discovery-agent.md
 │   ├── whynow-engine.md
-│   ├── qualification-agent.md
-│   ├── database-enrichment-agent.md
-│   ├── scoring-agent.md
 │   ├── matching-agent.md
-│   ├── cross-sell-agent.md
-│   ├── referral-intelligence-agent.md
-│   ├── underwriting-agent.md
+│   ├── scoring-agent.md
 │   ├── database-reactivation-agent.md
+│   ├── database-enrichment-agent.md
+│   ├── referral-intelligence-agent.md
+│   ├── cross-sell-agent.md
+│   ├── qualification-agent.md
+│   ├── underwriting-agent.md
 │   └── revenue-agent.md
+├── context/
+│   ├── mortgage/SIP.json         # Mortgage vertical Subscriber Intelligence Profile
+│   └── insurance/SIP.json
+├── dashboard/
+│   ├── v5.html                   # Latest static mockup (design reference)
+│   ├── v4-glass.html
+│   ├── v3-light.html
+│   └── v2.html
+├── design-system/
+│   └── DESIGN.md
 ├── docs/
-│   └── RIOS-ARCHITECTURE.md # Full architecture documentation
+│   ├── RIOS-ARCHITECTURE.md
+│   ├── MIX-IMPLEMENTATION-PLAN.md
+│   ├── INTERPRETABLE-CONTEXT-GRAPH.md
+│   └── SUBSCRIBER-ONBOARDING-OPPORTUNITY-INTELLIGENCE.md
 ├── supabase/
-│   └── schema.sql           # Complete PostgreSQL schema
-├── .github/
-│   └── workflows/
-│       └── ci.yml           # CI/CD pipeline
-├── docker-compose.yml       # Local development stack
-├── LICENSE                  # Apache 2.0
-├── CONTRIBUTING.md          # Contribution guidelines
-└── README.md                # This file
+│   ├── schema.sql                # Full MIX DDL
+│   └── migrations/
+│       └── mix_001_core.sql      # Additive MIX tables (mix_ prefix, no RIOS conflicts)
+├── pipelines/                    # Python data pipelines (planned)
+│   ├── email_import.py           # Gmail → conversations
+│   ├── qdrant_setup.py           # Create Qdrant collections
+│   └── qdrant_sync.py            # Supabase → Qdrant embeddings
+└── docker-compose.yml            # Next.js + Qdrant + Supabase local stack
 ```
 
 ---
 
-## 🤝 Contributing
+## Environment Variables
 
-MIX grows through contribution. Whether you're an underwriter with a framework to share, a developer building an agent, or an analyst with a risk model — your expertise makes the ecosystem smarter.
-
-**Read [CONTRIBUTING.md](CONTRIBUTING.md)** before submitting PRs.
-
----
-
-## 🔐 Security, Privacy & Compliance Notes
-
-- **No real borrower data** should ever be uploaded to this repo
-- All agent specs use synthetic sample data
-- The Supabase schema includes Row-Level Security — enable RLS in production
-- Voice transcripts and summaries may contain sensitive client context and must be protected accordingly
-- Production deployments should include consent, access control, retention, audit logging, and jurisdiction-specific compliance review
-- VoiceLock™ is an additional verification layer, not a replacement for legal, compliance, authentication, or licensing requirements
-- Report security concerns via GitHub Issues (private mode)
+| Variable | Required | Purpose |
+|----------|----------|---------|
+| `NEXT_PUBLIC_SUPABASE_URL` | Yes | Supabase project URL |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Yes | Anon key for browser client (RLS-enforced) |
+| `SUPABASE_SERVICE_ROLE_KEY` | Yes | Service role key for server API routes |
+| `ANTHROPIC_API_KEY` | Yes | Claude — onboarding interview, context generation, entity extraction |
+| `OPENAI_API_KEY` | Optional | Whisper (audio transcription) + OpenAI embeddings |
+| `RESEND_API_KEY` | Optional | Outreach email via Resend |
+| `UNIPILE_API_KEY` | Optional | LinkedIn + WhatsApp outreach via Unipile |
+| `UNIPILE_DSN` | Optional | Unipile host:port (e.g. `api4.unipile.com:13444`) |
+| `BRAVE_API_KEY` | Optional | WhyNow Engine web search + market news |
+| `NEXT_PUBLIC_DEV_BYPASS` | Dev only | `true` enables `/api/dev-login` — never in production |
 
 ---
 
-## 📜 License
+## Getting Started
 
-Apache License 2.0 — see [LICENSE](LICENSE) for the full text.
+```bash
+# 1. Install dependencies
+npm install
+
+# 2. Configure environment
+cp .env.example .env.local
+# Edit .env.local with Supabase credentials
+
+# 3. Deploy MIX schema to Supabase
+# Run supabase/migrations/mix_001_core.sql in Supabase SQL Editor
+
+# 4. Start dev server (port 3001 — avoids conflict with RIOS-CRM on 3000)
+npm run dev
+
+# 5. Open
+open http://localhost:3001
+```
 
 ---
 
-## 🌐 The Intelligence Exchange
+## 90-Day Build Backlog
 
-> *"The best mortgage judgment comes from the most complete relationship context, the clearest market signals, and the most diverse set of experiences shared openly."*
+```text
+Priority 0 (Days 1-14): Data Foundation
+├── Issue #1  — Deploy Supabase schema + seed contacts
+├── Issue #2  — Email import pipeline (Gmail → conversations)
+├── Issue #3  — ClearClose BC lending rules (knowledge assets)
+└── Issue #3.5— Qdrant collections + embedding sync pipeline
 
-MIX is more than software — it is a commitment to collective intelligence in an industry built on trust, advice, risk, timing, and relationships. Join the exchange, share what's working, and let's raise the standard together.
+Priority 1 (Days 15-45): Intelligence Layer
+├── Issue #4  — Renewal Intelligence dashboard card
+├── Issue #5  — Lead Discovery Agent (web scraping)
+├── Issue #6  — Relationship scoring engine
+├── Issue #7  — WhyNow Engine (market triggers)
+└── Issue #8  — Dashboard → live Supabase data
 
-**🌐 [View on GitHub](https://github.com/Ksdeng1559/mix-mortgage-intelligence-exchange)**
+Priority 2 (Days 46-90): Activation & Publishing
+├── Issue #9  — VoiceClaw Lite (audio → entities)
+├── Issue #10 — Wiki Publisher Agent
+├── Issue #11 — Practice Asset Statement
+└── Issue #12 — Lender Intelligence Hub
+```
+
+**Success criteria for 90 days:** 5 agents running, data flowing, ≥15 new opportunities generated, renewal pipeline active, GitHub Wiki published with ≥20 knowledge assets.
+
+---
+
+## Human Governance
+
+Human review is required when MIX or its agents:
+
+- Create, merge, or materially change a canonical relationship or organization record
+- Send external communication (email, LinkedIn, WhatsApp) unless the workflow explicitly authorizes autonomous sending
+- Commit to a lender submission, change legal or financial status, or represent professional advice
+- Use low-confidence, contradictory, stale, or incomplete evidence
+- Encounter an instruction conflict or missing lending rule
+- Exceed configured cost, risk, or impact thresholds
+- Modify an approved context document, vertical criterion, or workflow specification
+
+Review actions must be recorded as approve, reject, edit, defer, or escalate, with reviewer identity and timestamp.
+
+**CASL compliance:** MIX never auto-sends outreach without explicit broker approval. All draft messages require human review. Compliance mode defaults to `moderate` (see `context/mortgage/SIP.json`).
+
+---
+
+## GitHub Wiki
+
+MIX publishes approved knowledge assets to the GitHub Wiki at:
+`https://github.com/Ksdeng1559/mix-mortgage-intelligence-exchange/wiki/`
+
+Wiki structure:
+```
+wiki/
+├── PLAYBOOKS/         # renewal-workflow, referral-request, lender-negotiation, underwriting-bc
+├── RELATIONSHIPS/     # referral-partners, lender-contacts, professional-network
+├── KNOWLEDGE/         # market-insights, product-notes, compliance-updates
+├── DECISIONS/         # 2026-Q2/ → dated decision records
+├── ASSETS/            # practice-asset-statement, revenue-attribution, succession-readiness
+└── VERTICAL-PACKS/    # strata-financing, estate-elder-law, portfolio-investor, construction-capital
+```
+
+Publishing pipeline: `knowledge_assets` WHERE `status='reviewed'` → Wiki Publisher Agent → GitHub API → `status='published'` + `wiki_url`.
+
+---
+
+## Product Principle
+
+MIX should not automate a poorly defined mortgage workflow. It should first capture the context, objective, data, lending rules, lender criteria, relationship evidence, and compliance constraints required for reliable execution.
+
+In practical terms, building MIX is the same discipline as giving excellent context to Claude — systematized, governed, reusable, and measurable across the practice.
+
+> Every agent action in MIX must be driven by visible, modular, versioned instructions and produce an auditable mortgage business result.
