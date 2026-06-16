@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MIX — Mortgage Intelligence Exchange</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ══════════════════════════════════════════
+     MIX Design System — Fintech/Crypto Palette
+     Generated via UI/UX Pro Max v2.5.0
+     ══════════════════════════════════════════ */
+  :root {
+    --primary: #F59E0B;
+    --primary-hover: #D97706;
+    --primary-soft: rgba(245, 158, 11, 0.08);
+    --accent: #8B5CF6;
+    --accent-soft: rgba(139, 92, 246, 0.08);
+
+    --bg-deep: #020617;
+    --bg: #0F172A;
+    --bg-card: #1E293B;
+    --bg-hover: #222735;
+    --bg-muted: #272F42;
+
+    --fg: #F8FAFC;
+    --fg-secondary: #94A3B8;
+    --fg-muted: #64748B;
+
+    --border: #334155;
+    --border-light: #272F42;
+
+    --green: #22C55E;
+    --green-bg: rgba(34, 197, 94, 0.08);
+    --red: #EF4444;
+    --red-bg: rgba(239, 68, 68, 0.08);
+    --amber: #F59E0B;
+    --amber-bg: rgba(245, 158, 11, 0.08);
+
+    --radius-sm: 6px;
+    --radius: 10px;
+    --radius-lg: 14px;
+
+    --font: "IBM Plex Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+    --shadow-md: 0 2px 8px rgba(0,0,0,0.4);
+    --focus-ring: 0 0 0 3px rgba(245, 158, 11, 0.4);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg-deep); color: var(--fg);
+    font-family: var(--font); font-size: 14px; line-height: 1.5;
+    -webkit-font-smoothing: antialiased; }
+
+  /* ── Layout ── */
+  .app { display: flex; min-height: 100vh; }
+
+  /* ── Sidebar ── */
+  .sidebar { width: 240px; background: var(--bg); border-right: 1px solid var(--border-light);
+    display: flex; flex-direction: column; flex-shrink: 0; }
+  .sidebar-brand { padding: 20px 20px 16px; border-bottom: 1px solid var(--border-light); }
+  .sidebar-brand .logo { display: flex; align-items: center; gap: 10px; }
+  .sidebar-brand .logo .mark { width: 32px; height: 32px; border-radius: 8px;
+    background: linear-gradient(135deg, #F59E0B, #D97706); color: #0F172A;
+    display: grid; place-items: center; font-weight: 700; font-size: 16px; }
+  .sidebar-brand .logo .word { font-weight: 700; font-size: 18px; letter-spacing: -0.01em; color: var(--fg); }
+  .sidebar-brand .sub { font-size: 11px; color: var(--fg-muted); margin-top: 4px; padding-left: 42px; }
+
+  .sidebar-nav { flex: 1; padding: 12px; overflow-y: auto; }
+  .nav-section { padding: 12px 8px 4px; font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.06em; color: var(--fg-muted); font-weight: 600; }
+  .nav-item { display: flex; align-items: center; gap: 8px; padding: 7px 10px;
+    border-radius: var(--radius-sm); color: var(--fg-secondary); cursor: pointer;
+    font-size: 13px; font-weight: 400; transition: all 0.12s;
+    margin-bottom: 1px; }
+  .nav-item:hover { background: var(--bg-hover); color: var(--fg); }
+  .nav-item.active { background: var(--primary-soft); color: var(--primary); font-weight: 500; }
+  .nav-item .badge { margin-left: auto; background: var(--primary); color: #0F172A;
+    font-size: 10px; font-weight: 700; border-radius: 999px; padding: 1px 7px;
+    line-height: 16px; min-width: 20px; text-align: center; }
+  .nav-item .dot { margin-left: auto; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--green); }
+
+  .sidebar-footer { padding: 12px 16px; border-top: 1px solid var(--border-light);
+    display: flex; align-items: center; gap: 10px; }
+  .sidebar-footer .av { width: 28px; height: 28px; border-radius: 50%;
+    background: linear-gradient(135deg, #8B5CF6, #6D28D9); color: #fff;
+    display: grid; place-items: center; font-size: 11px; font-weight: 700; }
+  .sidebar-footer .name { font-weight: 500; font-size: 13px; }
+  .sidebar-footer .role { font-size: 11px; color: var(--fg-muted); }
+
+  /* ── Main ── */
+  .main { flex: 1; display: flex; flex-direction: column; min-width: 0; overflow-y: auto; }
+
+  .topbar { height: 52px; padding: 0 24px; border-bottom: 1px solid var(--border-light);
+    display: flex; align-items: center; gap: 12px; flex-shrink: 0;
+    background: var(--bg); }
+  .topbar .search { display: flex; align-items: center; gap: 8px; padding: 6px 12px;
+    background: var(--bg-card); border: 1px solid var(--border-light); border-radius: 8px;
+    color: var(--fg-muted); font-size: 13px; min-width: 240px; cursor: pointer;
+    font-family: inherit; transition: border-color 0.15s; }
+  .topbar .search:hover { border-color: var(--border); }
+  .topbar .search kbd { margin-left: auto; font-family: inherit; font-size: 10px;
+    background: var(--bg-muted); border: 1px solid var(--border); padding: 2px 6px;
+    border-radius: 4px; color: var(--fg-muted); }
+  .topbar-spacer { flex: 1; }
+  .topbar-actions { display: flex; gap: 8px; }
+
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px;
+    font-size: 12px; font-weight: 500; border-radius: 8px; cursor: pointer;
+    border: 1px solid var(--border); background: var(--bg-card); color: var(--fg-secondary);
+    font-family: inherit; transition: all 0.12s; }
+  .btn:hover { background: var(--bg-hover); color: var(--fg); border-color: var(--border); }
+  .btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+  .btn.primary { background: var(--primary); color: #0F172A; border-color: transparent;
+    font-weight: 600; }
+  .btn.primary:hover { background: var(--primary-hover); }
+
+  /* ── Page ── */
+  .page { padding: 28px 32px 64px; max-width: 1200px; width: 100%; }
+
+  /* ── Header ── */
+  .page-hd { margin-bottom: 24px; }
+  .page-hd h1 { font-size: 26px; font-weight: 600; letter-spacing: -0.01em; margin-bottom: 4px; }
+  .page-hd .meta { color: var(--fg-secondary); font-size: 13px; }
+  .page-hd .meta .live { display: inline-flex; align-items: center; gap: 6px; margin-left: 12px;
+    font-size: 11px; color: var(--green); font-weight: 500; }
+  .page-hd .meta .live .pulse { width: 7px; height: 7px; border-radius: 50%;
+    background: var(--green); animation: pulse 2s infinite; }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(34,197,94,0.5); }
+    70% { box-shadow: 0 0 0 8px rgba(34,197,94,0); }
+    100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+  }
+
+  /* ── KPI Grid ── */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+    margin-bottom: 24px; }
+  .kpi-card { background: var(--bg-card); border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg); padding: 16px 18px;
+    transition: border-color 0.15s, box-shadow 0.15s; }
+  .kpi-card:hover { border-color: var(--border); box-shadow: var(--shadow-md); }
+  .kpi-card .label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--fg-muted); font-weight: 600; margin-bottom: 6px; }
+  .kpi-card .value { font-size: 28px; font-weight: 700; letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums; }
+  .kpi-card .value.gold { color: var(--primary); }
+  .kpi-card .delta { font-size: 11px; color: var(--fg-muted); margin-top: 4px; }
+  .kpi-card .delta.up { color: var(--green); }
+
+  /* ── Two Column ── */
+  .two-col { display: grid; grid-template-columns: 1.3fr 1fr; gap: 20px; margin-bottom: 24px; }
+  .card { background: var(--bg-card); border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg); padding: 20px 22px; }
+  .card-hd { display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px; }
+  .card-hd h3 { font-size: 14px; font-weight: 600; }
+  .card-hd .sub { font-size: 11px; color: var(--fg-muted); }
+
+  /* ── Pipeline Table ── */
+  .tbl { width: 100%; border-collapse: collapse; }
+  .tbl th, .tbl td { text-align: left; padding: 10px 12px; font-size: 13px;
+    border-bottom: 1px solid var(--border-light); }
+  .tbl th { color: var(--fg-muted); font-weight: 600; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.05em; padding-top: 0; }
+  .tbl td { vertical-align: middle; }
+  .tbl tr:last-child td { border-bottom: none; }
+  .tbl tr:hover td { background: var(--bg-hover); }
+  .tbl .score { font-weight: 700; font-size: 14px; font-variant-numeric: tabular-nums; }
+  .tbl .score.high { color: var(--green); }
+  .tbl .score.mid { color: var(--amber); }
+  .tbl .score.low { color: var(--fg-muted); }
+
+  /* ── Status Pills ── */
+  .pill { display: inline-flex; align-items: center; gap: 5px; font-size: 11px;
+    padding: 2px 8px; border-radius: 4px; font-weight: 500; }
+  .pill::before { content: ""; width: 5px; height: 5px; border-radius: 50%; }
+  .pill.active { background: var(--green-bg); color: var(--green); }
+  .pill.active::before { background: var(--green); }
+  .pill.review { background: var(--accent-soft); color: var(--accent); }
+  .pill.review::before { background: var(--accent); }
+  .pill.pending { background: var(--amber-bg); color: var(--amber); }
+  .pill.pending::before { background: var(--amber); }
+  .pill.dormant { background: var(--bg-muted); color: var(--fg-muted); }
+  .pill.dormant::before { background: var(--fg-muted); }
+
+  /* ── Activity Feed ── */
+  .feed { display: flex; flex-direction: column; }
+  .feed-item { display: flex; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--border-light);
+    font-size: 12px; }
+  .feed-item:last-child { border-bottom: none; }
+  .feed-item .av { width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0;
+    display: grid; place-items: center; color: #fff; font-size: 10px; font-weight: 700; }
+  .feed-item .body { flex: 1; min-width: 0; }
+  .feed-item .body .agent { font-weight: 600; color: var(--fg); }
+  .feed-item .body .event { color: var(--fg-secondary); }
+  .feed-item .time { color: var(--fg-muted); font-size: 11px; flex-shrink: 0; }
+  .feed-item.new { background: var(--primary-soft); margin: 0 -8px; padding-left: 8px; padding-right: 8px;
+    border-radius: var(--radius-sm); border-bottom: none; }
+  .feed-item.new::after { content: "NEW"; font-size: 9px; font-weight: 700;
+    background: var(--primary); color: #0F172A; padding: 1px 5px; border-radius: 3px;
+    align-self: center; }
+
+  /* ── Agent Cards ── */
+  .agent-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+    margin-bottom: 28px; }
+  .agent-card { background: var(--bg-card); border: 1px solid var(--border-light);
+    border-radius: var(--radius-lg); padding: 14px 16px;
+    display: flex; align-items: center; gap: 10px; transition: border-color 0.15s; }
+  .agent-card:hover { border-color: var(--border); }
+  .agent-card .status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+  .agent-card .status-dot.online { background: var(--green); }
+  .agent-card .status-dot.busy { background: var(--amber); animation: pulse 1.5s infinite; }
+  .agent-card .name { font-weight: 600; font-size: 13px; }
+  .agent-card .action { font-size: 11px; color: var(--fg-muted); }
+  .agent-card .count { margin-left: auto; font-size: 11px; color: var(--fg-muted);
+    font-variant-numeric: tabular-nums; }
+
+  /* ── Section header ── */
+  .sec-hd { display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 12px; }
+  .sec-hd h2 { font-size: 16px; font-weight: 600; }
+  .sec-hd .link { font-size: 12px; color: var(--primary); cursor: pointer;
+    transition: color 0.12s; font-weight: 500; }
+  .sec-hd .link:hover { color: var(--primary-hover); }
+
+  /* ── Responsive ── */
+  @media (max-width: 960px) {
+    .sidebar { display: none; }
+    .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+    .two-col { grid-template-columns: 1fr; }
+    .agent-row { grid-template-columns: repeat(2, 1fr); }
+    .page { padding: 20px 16px 48px; }
+    .tbl th:nth-child(4), .tbl td:nth-child(4),
+    .tbl th:nth-child(5), .tbl td:nth-child(5) { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo">
+        <div class="mark">M</div>
+        <div class="word">MIX</div>
+      </div>
+      <div class="sub">Mortgage Intelligence Exchange</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">Workspace</div>
+      <div class="nav-item active">📊 Dashboard</div>
+      <div class="nav-item">📋 Pipeline <span class="badge">12</span></div>
+      <div class="nav-item">🤝 Subscribers <span class="dot"></span></div>
+      <div class="nav-item">🧠 Agents <span class="dot"></span></div>
+      <div class="nav-item">🔗 Relationships</div>
+      <div class="nav-item">📄 Docs</div>
+
+      <div class="nav-section">Vertical Packs</div>
+      <div class="nav-item">🏢 Strata Financing</div>
+      <div class="nav-item">🏛️ Estate & Elder Law</div>
+      <div class="nav-item">📈 Portfolio Investor</div>
+      <div class="nav-item">🏗️ Construction Capital</div>
+
+      <div class="nav-section">System</div>
+      <div class="nav-item">⚙️ Settings</div>
+      <div class="nav-item">📜 Audit Log</div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="av">DE</div>
+      <div>
+        <div class="name">Dennis E.</div>
+        <div class="role">Platform Admin</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Main ── -->
+  <main class="main">
+    <!-- Topbar -->
+    <div class="topbar">
+      <div class="search">
+        <span>🔍</span> Quick search subscribers, deals, agents… <kbd>⌘K</kbd>
+      </div>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-actions">
+        <button class="btn">⚡ Voice Intake</button>
+        <button class="btn primary">+ New Opportunity</button>
+      </div>
+    </div>
+
+    <div class="page">
+
+      <!-- Header -->
+      <div class="page-hd">
+        <h1>Operations Dashboard</h1>
+        <div class="meta">
+          Pipeline health, agent activity & relationship signals
+          <span class="live"><span class="pulse"></span> All 7 agents operational</span>
+        </div>
+      </div>
+
+      <!-- KPI Cards -->
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="label">Pipeline Value</div>
+          <div class="value gold">$4.8M</div>
+          <div class="delta up">↑ $620K this month</div>
+        </div>
+        <div class="kpi-card">
+          <div class="label">Active Deals</div>
+          <div class="value">12</div>
+          <div class="delta up">↑ 3 vs last week</div>
+        </div>
+        <div class="kpi-card">
+          <div class="label">Signals Detected</div>
+          <div class="value">24</div>
+          <div class="delta up">↑ 8 this week</div>
+        </div>
+        <div class="kpi-card">
+          <div class="label">Review Queue</div>
+          <div class="value" style="color:var(--amber)">3</div>
+          <div class="delta">Needs attention</div>
+        </div>
+      </div>
+
+      <!-- Two Column -->
+      <div class="two-col">
+
+        <!-- Pipeline -->
+        <div class="card">
+          <div class="card-hd">
+            <h3>Active Pipeline</h3>
+            <span class="sub">Sorted by MIX Score</span>
+          </div>
+          <table class="tbl">
+            <thead>
+              <tr>
+                <th></th><th>Opportunity</th><th>Status</th><th>Subscriber</th><th>Score</th><th>Next Step</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>🏢</td>
+                <td style="font-weight:500">Northgate Capital — $2M Strata Facility</td>
+                <td><span class="pill active">Active</span></td>
+                <td style="color:var(--fg-secondary)">Maria Chen</td>
+                <td class="score high">91</td>
+                <td style="font-size:11px;color:var(--fg-muted)">Schedule broker intro</td>
+              </tr>
+              <tr>
+                <td>🏠</td>
+                <td style="font-weight:500">Patel — Refinance 30yr Fixed</td>
+                <td><span class="pill active">Active</span></td>
+                <td style="color:var(--fg-secondary)">Sarah Chen</td>
+                <td class="score high">82</td>
+                <td style="font-size:11px;color:var(--fg-muted)">Submit to lender</td>
+              </tr>
+              <tr>
+                <td>🏗️</td>
+                <td style="font-weight:500">Pinnacle Builders — Construction Renewal</td>
+                <td><span class="pill review">Review</span></td>
+                <td style="color:var(--fg-secondary)">Dennis E.</td>
+                <td class="score mid">78</td>
+                <td style="font-size:11px;color:var(--fg-muted)">Human approval required</td>
+              </tr>
+              <tr>
+                <td>📋</td>
+                <td style="font-weight:500">Cascade Strata — Condo Refi Pipeline</td>
+                <td><span class="pill pending">Pending</span></td>
+                <td style="color:var(--fg-secondary)">David Okafor</td>
+                <td class="score mid">65</td>
+                <td style="font-size:11px;color:var(--fg-muted)">Awaiting documents</td>
+              </tr>
+              <tr>
+                <td>🔄</td>
+                <td style="font-weight:500">Tom Reyes — Reactivation</td>
+                <td><span class="pill dormant">Dormant</span></td>
+                <td style="color:var(--fg-muted)">—</td>
+                <td class="score low">44</td>
+                <td style="font-size:11px;color:var(--fg-muted)">Send re-engagement</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Activity Feed -->
+        <div class="card">
+          <div class="card-hd">
+            <h3>Recent Activity</h3>
+            <span class="sub">Agent & team actions</span>
+          </div>
+          <div class="feed">
+            <div class="feed-item new">
+              <div class="av" style="background:var(--accent)">RN</div>
+              <div class="body">
+                <span class="agent">Referral Agent</span>
+                <span class="event">detected warm intro signal — David Okafor → Maria Chen</span>
+              </div>
+              <span class="time">2m</span>
+            </div>
+            <div class="feed-item">
+              <div class="av" style="background:#3B82F6">SC</div>
+              <div class="body">
+                <span class="agent">Sarah Chen</span>
+                <span class="event">submitted Patel Refinance to Underwriting Agent</span>
+              </div>
+              <span class="time">18m</span>
+            </div>
+            <div class="feed-item">
+              <div class="av" style="background:#22C55E">WY</div>
+              <div class="body">
+                <span class="agent">WhyNow Engine</span>
+                <span class="event">flagged Pinnacle Builders renewal — 14 days to window close</span>
+              </div>
+              <span class="time">32m</span>
+            </div>
+            <div class="feed-item">
+              <div class="av" style="background:#3B82F6">DJ</div>
+              <div class="body">
+                <span class="agent">David Jung</span>
+                <span class="event">moved Riverside Commercial to Conditional Approval</span>
+              </div>
+              <span class="time">1h</span>
+            </div>
+            <div class="feed-item">
+              <div class="av" style="background:var(--accent)">EN</div>
+              <div class="body">
+                <span class="agent">Enrichment Agent</span>
+                <span class="event">completed scan on 3 subscriber profiles — 2 new insights found</span>
+              </div>
+              <span class="time">2h</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Agent Status -->
+      <div class="sec-hd">
+        <h2>Active Agents</h2>
+        <span class="link">View all →</span>
+      </div>
+      <div class="agent-row">
+        <div class="agent-card">
+          <div class="status-dot online"></div>
+          <div>
+            <div class="name">Lead Discovery</div>
+            <div class="action">Scanning market signals</div>
+          </div>
+          <span class="count">8</span>
+        </div>
+        <div class="agent-card">
+          <div class="status-dot online"></div>
+          <div>
+            <div class="name">WhyNow Engine</div>
+            <div class="action">Monitoring 24 triggers</div>
+          </div>
+          <span class="count">2</span>
+        </div>
+        <div class="agent-card">
+          <div class="status-dot busy"></div>
+          <div>
+            <div class="name">Underwriting</div>
+            <div class="action">1 case in review</div>
+          </div>
+          <span class="count" style="color:var(--amber)">!</span>
+        </div>
+        <div class="agent-card">
+          <div class="status-dot online"></div>
+          <div>
+            <div class="name">Enrichment</div>
+            <div class="action">Idle — ready</div>
+          </div>
+          <span class="count">—</span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

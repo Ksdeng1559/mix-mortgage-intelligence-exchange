@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MIX — Variant A: Light Professional</title>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  /* ══════════════════════════════════════════
+     Design System: Light Professional
+     Palette: B2B Service | Style: Minimalism
+     Type: Poppins hd / Open Sans body
+     ══════════════════════════════════════════ */
+  :root {
+    --primary: #0F172A;
+    --primary-hover: #1E293B;
+    --accent: #0369A1;
+    --accent-hover: #075985;
+
+    --bg: #F8FAFC;
+    --bg-card: #FFFFFF;
+    --bg-soft: #F1F5F9;
+    --bg-hover: #E8ECF1;
+
+    --fg: #020617;
+    --fg-secondary: #475569;
+    --fg-muted: #94A3B8;
+
+    --border: #E2E8F0;
+    --border-strong: #CBD5E1;
+
+    --green: #16A34A;
+    --green-bg: #F0FDF4;
+    --amber: #D97706;
+    --amber-bg: #FFFBEB;
+    --red: #DC2626;
+    --red-bg: #FEF2F2;
+    --purple: #7C3AEd;
+    --purple-bg: #F5F3FF;
+
+    --radius: 8px;
+    --radius-lg: 12px;
+    --font-hd: "Poppins", sans-serif;
+    --font-body: "Open Sans", sans-serif;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 1px 3px rgba(0,0,0,0.06);
+    --shadow-lg: 0 4px 12px rgba(0,0,0,0.05);
+    --focus-ring: 0 0 0 3px rgba(3,105,161,0.25);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: var(--bg); color: var(--fg);
+    font-family: var(--font-body); font-size: 14px; line-height: 1.6;
+    -webkit-font-smoothing: antialiased; }
+
+  .app { display: flex; min-height: 100vh; }
+
+  /* ── Sidebar ── */
+  .sidebar { width: 240px; background: var(--bg-card); border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; flex-shrink: 0; }
+  .sidebar-brand { padding: 22px 20px 18px; border-bottom: 1px solid var(--border); }
+  .sidebar-brand .logo { display: flex; align-items: center; gap: 10px; }
+  .sidebar-brand .logo .mark { width: 34px; height: 34px; border-radius: 8px;
+    background: var(--primary); color: #fff; display: grid; place-items: center;
+    font-family: var(--font-hd); font-weight: 700; font-size: 16px; }
+  .sidebar-brand .logo .word { font-family: var(--font-hd); font-weight: 700;
+    font-size: 18px; letter-spacing: -0.01em; }
+  .sidebar-brand .sub { font-size: 11px; color: var(--fg-muted); margin-top: 3px; padding-left: 44px; }
+
+  .sidebar-nav { flex: 1; padding: 14px 12px; overflow-y: auto; }
+  .nav-section { padding: 14px 8px 6px; font-size: 10px; text-transform: uppercase;
+    letter-spacing: 0.07em; color: var(--fg-muted); font-weight: 700;
+    font-family: var(--font-hd); }
+  .nav-item { display: flex; align-items: center; gap: 8px; padding: 7px 10px;
+    border-radius: var(--radius); color: var(--fg-secondary); cursor: pointer;
+    font-size: 13px; font-weight: 400; transition: all 0.15s; margin-bottom: 1px; }
+  .nav-item:hover { background: var(--bg-soft); color: var(--fg); }
+  .nav-item.active { background: #EFF6FF; color: var(--accent); font-weight: 600; }
+  .nav-item .badge { margin-left: auto; background: var(--accent); color: #fff;
+    font-size: 10px; font-weight: 700; border-radius: 999px; padding: 1px 7px;
+    line-height: 16px; min-width: 20px; text-align: center;
+    font-family: var(--font-hd); }
+
+  .sidebar-footer { padding: 14px 18px; border-top: 1px solid var(--border);
+    display: flex; align-items: center; gap: 10px; }
+  .sidebar-footer .av { width: 30px; height: 30px; border-radius: 50%;
+    background: var(--primary); color: #fff; display: grid; place-items: center;
+    font-family: var(--font-hd); font-size: 11px; font-weight: 700; }
+  .sidebar-footer .name { font-weight: 600; font-size: 13px; }
+  .sidebar-footer .role { font-size: 11px; color: var(--fg-muted); }
+
+  /* ── Main ── */
+  .main { flex: 1; display: flex; flex-direction: column; min-width: 0; overflow-y: auto; }
+
+  .topbar { height: 54px; padding: 0 28px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 14px; flex-shrink: 0;
+    background: var(--bg-card); }
+  .topbar .search { display: flex; align-items: center; gap: 8px; padding: 7px 14px;
+    background: var(--bg-soft); border: 1px solid var(--border); border-radius: 8px;
+    color: var(--fg-muted); font-size: 13px; min-width: 260px; cursor: pointer;
+    font-family: inherit; transition: border-color 0.15s; }
+  .topbar .search:hover { border-color: var(--border-strong); }
+  .topbar .search kbd { margin-left: auto; font-family: inherit; font-size: 10px;
+    background: var(--bg-card); border: 1px solid var(--border); padding: 2px 6px;
+    border-radius: 4px; color: var(--fg-muted); }
+  .topbar-spacer { flex: 1; }
+  .topbar-actions { display: flex; gap: 8px; }
+
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 15px;
+    font-size: 13px; font-weight: 500; border-radius: 8px; cursor: pointer;
+    border: 1px solid var(--border-strong); background: var(--bg-card);
+    color: var(--fg-secondary); font-family: inherit; transition: all 0.15s; }
+  .btn:hover { background: var(--bg-soft); color: var(--fg); }
+  .btn:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+  .btn.primary { background: var(--accent); color: #fff; border-color: transparent;
+    font-weight: 600; }
+  .btn.primary:hover { background: var(--accent-hover); }
+
+  .page { padding: 30px 36px 72px; max-width: 1180px; width: 100%; }
+
+  /* ── Header ── */
+  .page-hd { margin-bottom: 26px; }
+  .page-hd h1 { font-family: var(--font-hd); font-size: 28px; font-weight: 700;
+    letter-spacing: -0.01em; margin-bottom: 4px; }
+  .page-hd .meta { color: var(--fg-secondary); font-size: 13px; display: flex;
+    align-items: center; gap: 10px; }
+  .page-hd .meta .live { display: inline-flex; align-items: center; gap: 6px;
+    font-size: 12px; color: var(--green); font-weight: 600; }
+  .page-hd .meta .live .pulse { width: 7px; height: 7px; border-radius: 50%;
+    background: var(--green); animation: pulse 2s infinite; }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(22,163,74,0.4); }
+    70% { box-shadow: 0 0 0 8px rgba(22,163,74,0); }
+    100% { box-shadow: 0 0 0 0 rgba(22,163,74,0); }
+  }
+
+  /* ── KPI Row ── */
+  .kpi-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+    margin-bottom: 26px; }
+  .kpi-card { background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 18px 20px;
+    box-shadow: var(--shadow-sm); transition: box-shadow 0.2s, border-color 0.2s; }
+  .kpi-card:hover { box-shadow: var(--shadow-lg); border-color: var(--border-strong); }
+  .kpi-card .label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--fg-muted); font-weight: 700; font-family: var(--font-hd);
+    margin-bottom: 6px; }
+  .kpi-card .value { font-family: var(--font-hd); font-size: 30px; font-weight: 700;
+    letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+  .kpi-card .value.primary { color: var(--accent); }
+  .kpi-card .delta { font-size: 11px; color: var(--fg-muted); margin-top: 4px; }
+  .kpi-card .delta.up { color: var(--green); }
+
+  /* ── Two Column ── */
+  .two-col { display: grid; grid-template-columns: 1.3fr 1fr; gap: 22px; margin-bottom: 26px; }
+  .card { background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 22px 24px;
+    box-shadow: var(--shadow-sm); }
+  .card-hd { display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 16px; }
+  .card-hd h3 { font-family: var(--font-hd); font-size: 15px; font-weight: 600; }
+  .card-hd .sub { font-size: 12px; color: var(--fg-muted); }
+
+  /* ── Pipeline Table ── */
+  .tbl { width: 100%; border-collapse: collapse; }
+  .tbl th, .tbl td { text-align: left; padding: 10px 14px; font-size: 13px;
+    border-bottom: 1px solid var(--border); }
+  .tbl th { color: var(--fg-muted); font-family: var(--font-hd); font-weight: 700;
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em;
+    padding-top: 0; }
+  .tbl td { vertical-align: middle; }
+  .tbl tr:last-child td { border-bottom: none; }
+  .tbl tr:hover td { background: var(--bg-soft); }
+  .tbl .score { font-family: var(--font-hd); font-weight: 700; font-size: 14px;
+    font-variant-numeric: tabular-nums; }
+  .tbl .score.high { color: var(--green); }
+  .tbl .score.mid { color: var(--amber); }
+  .tbl .score.low { color: var(--fg-muted); }
+
+  .pill { display: inline-flex; align-items: center; gap: 5px; font-size: 11px;
+    padding: 3px 10px; border-radius: 5px; font-weight: 600;
+    font-family: var(--font-hd); }
+  .pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; }
+  .pill.active { background: var(--green-bg); color: var(--green); }
+  .pill.active::before { background: var(--green); }
+  .pill.review { background: var(--purple-bg); color: var(--purple); }
+  .pill.review::before { background: var(--purple); }
+  .pill.pending { background: var(--amber-bg); color: var(--amber); }
+  .pill.pending::before { background: var(--amber); }
+  .pill.dormant { background: var(--bg-soft); color: var(--fg-muted); }
+  .pill.dormant::before { background: var(--fg-muted); }
+
+  /* ── Activity Feed ── */
+  .feed { display: flex; flex-direction: column; }
+  .feed-item { display: flex; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--border);
+    font-size: 12px; }
+  .feed-item:last-child { border-bottom: none; }
+  .feed-item .time { color: var(--fg-muted); font-size: 11px; flex-shrink: 0;
+    width: 28px; font-variant-numeric: tabular-nums; }
+  .feed-item .body { flex: 1; }
+  .feed-item .body .agent { font-weight: 600; color: var(--fg); }
+  .feed-item .body .event { color: var(--fg-secondary); }
+  .feed-item.new { background: #EFF6FF; margin: 0 -12px; padding-left: 12px; padding-right: 12px;
+    border-radius: var(--radius); border-bottom: none; }
+  .feed-item.new::after { content: "NEW"; font-size: 9px; font-weight: 700;
+    font-family: var(--font-hd); background: var(--accent); color: #fff;
+    padding: 1px 6px; border-radius: 4px; align-self: center; }
+
+  /* ── Agent cards ── */
+  .agent-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px;
+    margin-bottom: 30px; }
+  .agent-card { background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 15px 18px;
+    display: flex; align-items: center; gap: 12px;
+    box-shadow: var(--shadow-sm); transition: box-shadow 0.2s; }
+  .agent-card:hover { box-shadow: var(--shadow-lg); }
+  .agent-card .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+  .agent-card .dot.online { background: var(--green); }
+  .agent-card .dot.busy { background: var(--amber); animation: pulse 1.5s infinite; }
+  .agent-card .name { font-weight: 600; font-size: 13px; font-family: var(--font-hd); }
+  .agent-card .action { font-size: 11px; color: var(--fg-muted); }
+  .agent-card .count { margin-left: auto; font-size: 11px; color: var(--fg-muted);
+    font-variant-numeric: tabular-nums; font-family: var(--font-hd); }
+
+  .sec-hd { display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px; }
+  .sec-hd h2 { font-family: var(--font-hd); font-size: 17px; font-weight: 600; }
+  .sec-hd .link { font-size: 13px; color: var(--accent); cursor: pointer;
+    font-weight: 600; transition: color 0.15s; }
+  .sec-hd .link:hover { color: var(--accent-hover); }
+
+  @media (max-width: 960px) {
+    .sidebar { display: none; }
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .two-col { grid-template-columns: 1fr; }
+    .agent-row { grid-template-columns: repeat(2, 1fr); }
+    .page { padding: 20px 16px 48px; }
+    .tbl th:nth-child(4), .tbl td:nth-child(4),
+    .tbl th:nth-child(6), .tbl td:nth-child(6) { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <div class="logo">
+        <div class="mark">M</div>
+        <div class="word">MIX</div>
+      </div>
+      <div class="sub">Mortgage Intelligence Exchange</div>
+    </div>
+    <nav class="sidebar-nav">
+      <div class="nav-section">Workspace</div>
+      <div class="nav-item active">📊 Dashboard</div>
+      <div class="nav-item">📋 Pipeline <span class="badge">12</span></div>
+      <div class="nav-item">🤝 Subscribers</div>
+      <div class="nav-item">🧠 Agents</div>
+      <div class="nav-item">🔗 Relationships</div>
+      <div class="nav-item">📄 Docs</div>
+      <div class="nav-section">Vertical Packs</div>
+      <div class="nav-item">🏢 Strata Financing</div>
+      <div class="nav-item">🏛 Estate & Elder Law</div>
+      <div class="nav-item">📈 Portfolio Investor</div>
+      <div class="nav-item">🏗 Construction Capital</div>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="av">DE</div>
+      <div><div class="name">Dennis E.</div><div class="role">Platform Admin</div></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="topbar">
+      <div class="search">🔍 Search deals, subscribers, agents…<kbd>⌘K</kbd></div>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-actions">
+        <button class="btn">⚡ Voice Intake</button>
+        <button class="btn primary">+ New Opportunity</button>
+      </div>
+    </div>
+
+    <div class="page">
+      <div class="page-hd">
+        <h1>Operations Dashboard</h1>
+        <div class="meta">
+          Pipeline health, agent activity & relationship signals
+          <span class="live"><span class="pulse"></span> All 7 agents operational</span>
+        </div>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <div class="label">Pipeline Value</div>
+          <div class="value primary">$4.8M</div>
+          <div class="delta up">↑ $620K this month</div>
+        </div>
+        <div class="kpi-card">
+          <div class="label">Active Deals</div>
+          <div class="value">12</div>
+          <div class="delta up">↑ 3 vs last week</div>
+        </div>
+        <div class="kpi-card">
+          <div class="label">Signals Detected</div>
+          <div class="value">24</div>
+          <div class="delta up">↑ 8 this week</div>
+        </div>
+        <div class="kpi-card">
+          <div class="label">Review Queue</div>
+          <div class="value" style="color:var(--amber)">3</div>
+          <div class="delta">Needs attention</div>
+        </div>
+      </div>
+
+      <div class="two-col">
+        <div class="card">
+          <div class="card-hd"><h3>Active Pipeline</h3><span class="sub">Sorted by MIX Score</span></div>
+          <table class="tbl">
+            <thead><tr><th></th><th>Opportunity</th><th>Status</th><th>Subscriber</th><th>Score</th><th>Next Step</th></tr></thead>
+            <tbody>
+              <tr><td>🏢</td><td style="font-weight:600">Northgate — $2M Strata Facility</td><td><span class="pill active">Active</span></td><td style="color:var(--fg-secondary)">Maria Chen</td><td class="score high">91</td><td style="font-size:11px;color:var(--fg-muted)">Schedule broker intro</td></tr>
+              <tr><td>🏠</td><td style="font-weight:600">Patel — Refinance 30yr Fixed</td><td><span class="pill active">Active</span></td><td style="color:var(--fg-secondary)">Sarah Chen</td><td class="score high">82</td><td style="font-size:11px;color:var(--fg-muted)">Submit to lender</td></tr>
+              <tr><td>🏗️</td><td style="font-weight:600">Pinnacle Builders — Renewal</td><td><span class="pill review">Review</span></td><td style="color:var(--fg-secondary)">Dennis E.</td><td class="score mid">78</td><td style="font-size:11px;color:var(--fg-muted)">Human approval</td></tr>
+              <tr><td>📋</td><td style="font-weight:600">Cascade Strata — Condo Refi</td><td><span class="pill pending">Pending</span></td><td style="color:var(--fg-secondary)">David Okafor</td><td class="score mid">65</td><td style="font-size:11px;color:var(--fg-muted)">Awaiting documents</td></tr>
+              <tr><td>🔄</td><td style="font-weight:600">Tom Reyes — Reactivation</td><td><span class="pill dormant">Dormant</span></td><td style="color:var(--fg-muted)">—</td><td class="score low">44</td><td style="font-size:11px;color:var(--fg-muted)">Re-engagement</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="card">
+          <div class="card-hd"><h3>Recent Activity</h3><span class="sub">Agent & team</span></div>
+          <div class="feed">
+            <div class="feed-item new">
+              <span class="time">2m</span><div class="body"><span class="agent">Referral Agent</span> <span class="event">detected warm intro: David Okafor → Maria Chen</span></div>
+            </div>
+            <div class="feed-item">
+              <span class="time">18m</span><div class="body"><span class="agent">Sarah Chen</span> <span class="event">submitted Patel Refinance to Underwriting</span></div>
+            </div>
+            <div class="feed-item">
+              <span class="time">32m</span><div class="body"><span class="agent">WhyNow Engine</span> <span class="event">flagged Pinnacle renewal — 14 day window</span></div>
+            </div>
+            <div class="feed-item">
+              <span class="time">1h</span><div class="body"><span class="agent">David Jung</span> <span class="event">moved Riverside Commercial to Conditional Approval</span></div>
+            </div>
+            <div class="feed-item">
+              <span class="time">2h</span><div class="body"><span class="agent">Enrichment Agent</span> <span class="event">completed scan — 2 new insights</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="sec-hd"><h2>Active Agents</h2><span class="link">View all →</span></div>
+      <div class="agent-row">
+        <div class="agent-card"><div class="dot online"></div><div><div class="name">Lead Discovery</div><div class="action">Scanning market</div></div><span class="count">8</span></div>
+        <div class="agent-card"><div class="dot online"></div><div><div class="name">WhyNow Engine</div><div class="action">24 triggers</div></div><span class="count">2</span></div>
+        <div class="agent-card"><div class="dot busy"></div><div><div class="name">Underwriting</div><div class="action">1 case in review</div></div><span class="count" style="color:var(--amber)">!</span></div>
+        <div class="agent-card"><div class="dot online"></div><div><div class="name">Enrichment</div><div class="action">Idle — ready</div></div><span class="count">—</span></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+</body>
+</html>

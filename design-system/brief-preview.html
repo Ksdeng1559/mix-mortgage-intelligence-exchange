@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MIX Design System — Brief Preview</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-deep: #070A13; --bg: #0D1117; --bg-card: #131820;
+    --bg-card-hover: #161C26; --bg-elevated: #1A2030;
+    --fg: #EDEDEF; --fg-secondary: #8A8F98; --fg-muted: #5C6168;
+    --accent: #4338CA; --accent-hover: #4F46E5;
+    --accent-glow: rgba(67,56,202,0.2); --accent-soft: rgba(67,56,202,0.12);
+    --border: rgba(255,255,255,0.06); --border-strong: rgba(255,255,255,0.10);
+    --green: #34D399; --green-bg: rgba(52,211,153,0.07);
+    --amber: #FBBF24; --amber-bg: rgba(251,191,36,0.07);
+    --red: #F87171; --red-bg: rgba(248,113,113,0.07);
+    --purple: #A78BFA; --purple-bg: rgba(167,139,250,0.07);
+    --font: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg-deep); color: var(--fg); font-family: var(--font);
+    font-size: 14px; line-height: 1.6; -webkit-font-smoothing: antialiased;
+    padding: 40px; }
+  .wrap { max-width: 900px; margin: 0 auto; }
+  h1 { font-size: 26px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 4px; }
+  h2 { font-size: 16px; font-weight: 600; margin: 32px 0 12px; letter-spacing: -0.01em; }
+  .sub { color: var(--fg-muted); font-size: 12px; margin-bottom: 24px; }
+
+  /* 1. Swatches */
+  .swatches { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 8px; }
+  .swatch { width: 100px; border-radius: 10px; overflow: hidden;
+    border: 1px solid var(--border); }
+  .swatch .color { height: 60px; }
+  .swatch .info { padding: 8px 10px; background: var(--bg-card); font-size: 10px; }
+  .swatch .info .name { font-weight: 600; color: var(--fg); display: block; }
+  .swatch .info .hex { color: var(--fg-muted); font-family: monospace; font-size: 10px; }
+
+  /* 2. Type specimens */
+  .specimen { margin-bottom: 20px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+  .specimen .label { font-size: 10px; text-transform: uppercase; color: var(--fg-muted);
+    letter-spacing: 0.06em; margin-bottom: 4px; }
+  .specimen.display { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700;
+    letter-spacing: -0.02em; line-height: 1.1; }
+  .specimen.body { font-size: 1rem; font-weight: 400; line-height: 1.6; }
+  .specimen.body .small { font-size: 12px; color: var(--fg-secondary); }
+  .specimen.body .micro { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em;
+    color: var(--fg-muted); font-weight: 600; }
+
+  /* 3. Spacing ruler */
+  .ruler { display: flex; flex-direction: column; gap: 4px; margin-bottom: 8px; }
+  .ruler-item { display: flex; align-items: center; gap: 12px; }
+  .ruler-item .bar { height: 20px; border-radius: 4px;
+    background: var(--accent-soft); border: 1px solid var(--accent-glow); }
+  .ruler-item .px { font-size: 11px; color: var(--fg-muted);
+    font-variant-numeric: tabular-nums; white-space: nowrap; width: 50px; }
+  .ruler-item .desc { font-size: 11px; color: var(--fg-secondary); }
+
+  /* 4. Components */
+  .comp-row { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap;
+    margin-bottom: 16px; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 7px 15px;
+    font-size: 12px; font-weight: 500; border-radius: 10px; cursor: pointer;
+    border: 1px solid var(--border-strong); background: transparent; color: var(--fg-secondary);
+    font-family: inherit; transition: all 0.15s; }
+  .btn:hover { background: var(--bg-card); color: var(--fg); }
+  .btn:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(67,56,202,0.35); }
+  .btn.primary { background: var(--accent); color: #fff; border-color: transparent;
+    box-shadow: 0 0 0 4px var(--accent-glow); }
+  .btn.primary:hover { background: var(--accent-hover); }
+
+  .card { background: var(--bg-card); border: 1px solid var(--border);
+    border-radius: 14px; padding: 20px 22px;
+    box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset; width: 280px; }
+  .card .title { font-weight: 600; margin-bottom: 6px; }
+  .card .body { font-size: 12px; color: var(--fg-secondary); margin-bottom: 10px; }
+  .card .meta { font-size: 10px; color: var(--fg-muted); text-transform: uppercase;
+    letter-spacing: 0.06em; }
+
+  .input { padding: 8px 12px; background: transparent; border: 1px solid var(--border);
+    border-bottom: 2px solid var(--border-strong); border-radius: 6px;
+    color: var(--fg); font-family: inherit; font-size: 13px; width: 240px; }
+  .input:focus { outline: none; border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(67,56,202,0.15); }
+
+  .pill { display: inline-flex; align-items: center; gap: 5px; font-size: 11px;
+    padding: 3px 10px; border-radius: 6px; font-weight: 500; margin-right: 6px; }
+  .pill::before { content: ""; width: 5px; height: 5px; border-radius: 50%; }
+  .pill.green { background: var(--green-bg); color: var(--green); }
+  .pill.green::before { background: var(--green); }
+  .pill.amber { background: var(--amber-bg); color: var(--amber); }
+  .pill.amber::before { background: var(--amber); }
+  .pill.red { background: var(--red-bg); color: var(--red); }
+  .pill.red::before { background: var(--red); }
+  .pill.purple { background: var(--purple-bg); color: var(--purple); }
+  .pill.purple::before { background: var(--purple); }
+
+  .footer-note { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--border);
+    font-size: 11px; color: var(--fg-muted); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<h1>MIX Design System</h1>
+<p class="sub">Brief preview — resolved tokens and live components</p>
+
+<!-- 1. Color Swatches -->
+<h2>1. Color Palette</h2>
+<div class="swatches">
+  <div class="swatch"><div class="color" style="background:#070A13"></div><div class="info"><span class="name">Deep bg</span><span class="hex">#070A13</span></div></div>
+  <div class="swatch"><div class="color" style="background:#0D1117"></div><div class="info"><span class="name">Base bg</span><span class="hex">#0D1117</span></div></div>
+  <div class="swatch"><div class="color" style="background:#131820"></div><div class="info"><span class="name">Surface</span><span class="hex">#131820</span></div></div>
+  <div class="swatch"><div class="color" style="background:#EDEDEF"></div><div class="info"><span class="name">Text</span><span class="hex">#EDEDEF</span></div></div>
+  <div class="swatch"><div class="color" style="background:#4338CA"></div><div class="info"><span class="name">Accent</span><span class="hex">#4338CA</span></div></div>
+  <div class="swatch"><div class="color" style="background:#34D399"></div><div class="info"><span class="name">Green</span><span class="hex">#34D399</span></div></div>
+  <div class="swatch"><div class="color" style="background:#FBBF24"></div><div class="info"><span class="name">Amber</span><span class="hex">#FBBF24</span></div></div>
+  <div class="swatch"><div class="color" style="background:#F87171"></div><div class="info"><span class="name">Red</span><span class="hex">#F87171</span></div></div>
+  <div class="swatch"><div class="color" style="background:#A78BFA"></div><div class="info"><span class="name">Purple</span><span class="hex">#A78BFA</span></div></div>
+</div>
+
+<!-- 2. Typography Specimens -->
+<h2>2. Typography</h2>
+<div class="specimen display">
+  <div class="label">Display / H1 — Inter 700 · 26px · -0.02em</div>
+  The quick brown fox jumped over the lazy dog.
+</div>
+<div class="specimen body">
+  <div class="label">Body — Inter 400 · 14px/1.6</div>
+  MIX is a voice-first Relationship Intelligence Operating System for mortgage professionals that converts conversations, market signals, and relationship history into actionable mortgage intelligence.
+  <br><br>
+  <span class="small">Secondary text — Inter 400 · 12px · Pipeline health, agent activity & relationship signals</span>
+  <br><br>
+  <span class="micro">Micro label — Inter 600 · 10px · uppercase · 0.06em tracking</span>
+</div>
+<div class="specimen" style="font-family:monospace;font-size:13px">
+  <div class="label">Mono (utility) — tabular-nums for scores</div>
+  Score: <span style="font-variant-numeric:tabular-nums">91 82 78 65 44</span> &nbsp;|&nbsp;
+  Value: <span style="font-variant-numeric:tabular-nums">$4,828,500 $480,000 $1,200,000</span>
+</div>
+
+<!-- 3. Spacing Ruler -->
+<h2>3. Spacing System</h2>
+<div class="ruler">
+  <div class="ruler-item"><span class="px">96px</span><div class="bar" style="width:288px"></div><span class="desc">Spacious section gap</span></div>
+  <div class="ruler-item"><span class="px">72px</span><div class="bar" style="width:216px"></div><span class="desc">Balanced section gap (default)</span></div>
+  <div class="ruler-item"><span class="px">48px</span><div class="bar" style="width:144px"></div><span class="desc">Compact section gap</span></div>
+  <div class="ruler-item"><span class="px">32px</span><div class="bar" style="width:96px"></div><span class="desc">Page padding (horizontal)</span></div>
+  <div class="ruler-item"><span class="px">24px</span><div class="bar" style="width:72px"></div><span class="desc">Content padding</span></div>
+  <div class="ruler-item"><span class="px">20px</span><div class="bar" style="width:60px"></div><span class="desc">Card padding</span></div>
+  <div class="ruler-item"><span class="px">14px</span><div class="bar" style="width:42px"></div><span class="desc">Bento grid gap</span></div>
+</div>
+
+<!-- 4. Component Preview -->
+<h2>4. Components</h2>
+
+<div class="comp-row">
+  <button class="btn primary">+ New Opportunity</button>
+  <button class="btn">⚡ Voice Intake</button>
+  <button class="btn">Cancel</button>
+</div>
+
+<div class="comp-row" style="margin-top:8px">
+  <span class="pill green">Active</span>
+  <span class="pill amber">Pending</span>
+  <span class="pill purple">Review</span>
+  <span class="pill red">Overdue</span>
+</div>
+
+<div class="comp-row" style="margin-top:12px">
+  <div class="card">
+    <div class="title">Northgate Capital — $2M Strata Facility</div>
+    <div class="body">Northgate is closing a strata-financing facility next quarter and is actively looking for broker relationships.</div>
+    <div class="meta">Maria Chen · MIX Score 91</div>
+  </div>
+  <div class="card">
+    <div class="title">KPI: Pipeline Value</div>
+    <div style="font-size:30px;font-weight:800;letter-spacing:-0.03em;background:linear-gradient(135deg,#A78BFA,#6366F1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:8px 0">$4,828,500</div>
+    <div class="meta" style="color:var(--green)">↑ $620K (14.7%) vs last month</div>
+  </div>
+</div>
+
+<div class="comp-row" style="margin-top:8px">
+  <input class="input" placeholder="Search deals, subscribers, agents…" value="">
+</div>
+
+<div class="footer-note">
+  Generated via design-brief (I-Lang protocol) — <code>palette=monochrome_dark | accent=indigo | typography=inter | mood=professional_minimal | density=balanced | exclude=animations,gradients</code><br>
+  Open Design / nexu-io · MIX Mortgage Intelligence Exchange · June 2026
+</div>
+
+</div>
+</body>
+</html>
