@@ -234,6 +234,116 @@ Owner Dependency Score = 100 - Succession Readiness Score
 
 ---
 
+## Planned Feature Roadmap — Under Review
+
+Features below are scoped and prioritized for review. Ordered by business impact and build dependency.
+
+---
+
+### Priority 1 — BCFSA Compliance Module (🛡 Tab 8)
+
+> **Regulatory driver:** BC Mortgage Brokers Act requires 7-year record retention. BCFSA audits are file-based — incomplete client files = formal review. FINTRAC (federal) adds CIP, STR, and LCT obligations.
+
+| Feature | Description | Dependency |
+|---------|-------------|------------|
+| **Client File Manager** | Mandatory document checklist per deal. File marked complete only when all required items present. Auto-calculates retention date (funded\_date + 7 years). | Supabase schema |
+| **FINTRAC CIP Tracker** | Client Identification Program records: photo ID, secondary ID, DOB, address, occupation, third-party determination. Flag overdue verifications. | Client File Manager |
+| **Disclosure Register** | Track Form 10 (Borrower Disclosure), compensation disclosure, conflict-of-interest declarations per file. Signed-date required. | Client File Manager |
+| **STR / LCT Log** | Suspicious Transaction Report and Large Cash Transaction ($10K+) log. Flag unsubmitted reports. | FINTRAC CIP |
+| **CE Credits Tracker** | Continuing education credits per licensee. 12 credits/year requirement. Deadline alerts. | None |
+| **Brokerage License Manager** | BCFSA license renewal date, E&O insurance expiry, annual report due date. Alert 90/30 days prior. | None |
+| **Conflict of Interest Register** | Log all COI disclosures per file with disclosure text and date. | Disclosure Register |
+| **Audit-Ready Export** | One-click BCFSA audit package: all client files, disclosure register, FINTRAC records, CE credits, commission records. PDF + ZIP. | All above |
+| **Append-Only Audit Log** | Every action on every file timestamped with user identity. Immutable. | All above |
+
+**New DB tables:** `mix_compliance_files`, `mix_compliance_documents`, `mix_fintrac_records`, `mix_fintrac_reports`, `mix_disclosures`, `mix_ce_records`, `mix_audit_log`
+
+---
+
+### Priority 2 — Command Center Intelligence Integrations
+
+> **Driver:** Command Center stubs are built. These activate them with live data.
+
+| Integration | What it enables | API / Source |
+|-------------|-----------------|--------------|
+| **Gmail inbox intelligence** | Classify lender emails: rate change, policy update, action required, referral opportunity | Gmail API (already in stack via `lib/gmail.ts`) |
+| **Google Calendar briefs** | Pre-meeting brief: who, revenue opportunity, relationship notes, talking points | Google Calendar API |
+| **Twilio SMS** | Renewal reminders + rate-hold expiry alerts to clients | Twilio (env: `TWILIO_*`) |
+| **Bank of Canada API** | BoC rate announcement calendar, overnight rate history. Trigger: "rate decision in 3 days" | bankofcanada.ca/valet/api (free, no key) |
+| **Brave Search** | Mortgage industry news: OSFI, CMHC, BCFSA rule changes — actionable signals only | `BRAVE_API_KEY` (already in env) |
+
+---
+
+### Priority 3 — BC-Specific Data Integrations
+
+> **Driver:** BC mortgage market has unique data sources not available nationally.
+
+| Integration | What it enables | Source |
+|-------------|-----------------|--------|
+| **BC Assessment API** | Property value at application vs. now → HELOC / equity take-out trigger | BC Online / BC Assessment Authority |
+| **BC Land Title Online** | Pre-funding title check: encumbrances, registered charges, strata plan number | BC Online API |
+| **Strata Intelligence Module** | Parse Form B, depreciation reports, contingency reserve ratios. Flag qualification issues before lender submission. | Document upload + AI extraction |
+| **Rate Hold Manager** | Track rate hold expiry per deal (90/120/180 days). Alert broker before expiry. | Pipeline field extension |
+| **Pre-Approval Tracker** | Separate pipeline track for pre-approvals. Expiry alerts. Detect when clients go active. | New pipeline status |
+| **BCFSA CE course feed** | Scrape / sync upcoming MBABC / BCFSA courses to populate CE tracker | MBABC, BCFSA website |
+
+---
+
+### Priority 4 — Submission Platform Sync
+
+> **Driver:** Highest ROI integration — eliminates manual stage updates. Filogix is used by majority of BC brokers.
+
+| Integration | What it enables | Notes |
+|-------------|-----------------|-------|
+| **Filogix Expert** | Bi-directional deal sync: application → commitment → funded. Pull commission statements. | Filogix API (broker account required) |
+| **Lendesk** | Same as Filogix — modern alternative growing in BC | Lendesk API |
+| **Velocity (Newton)** | Deal sync for brokers on Velocity platform | Velocity API |
+| **Lender turnaround tracker** | Track days from submission to CTC per lender. Surface fastest lender for urgent deals. | Derived from Filogix timestamps |
+
+---
+
+### Priority 5 — Commission & Accounting
+
+> **Driver:** Revenue forecast in Command Center is currently estimated. This makes it actual.
+
+| Integration | What it enables | Source |
+|-------------|-----------------|--------|
+| **QuickBooks Online** | Actual funded commissions vs. pipeline forecast. Monthly P&L. | QBO API (env: `QUICKBOOKS_*`) |
+| **Commission statement parser** | Extract funded amounts from Filogix / lender PDF statements | AI extraction + Supabase Storage |
+| **Referral fee register** | Track referral fees paid/received per file. BCFSA requires disclosure. | New DB table |
+
+---
+
+### Priority 6 — Agent Upgrades
+
+> **Driver:** Agents are live but running with minimal signals. These upgrades add real intelligence.
+
+| Agent | Current state | Upgrade |
+|-------|---------------|---------|
+| **Lead Discovery** | Stub | Realtor.ca listing feed → detect contacts buying/selling → trigger outreach |
+| **Renewal Intelligence** | renewal\_date field only | Pull actual maturity dates from Filogix / lender portal sync |
+| **WhyNow Engine** | Stub | BoC rate decisions + BC Assessment updates + listing activity as triggers |
+| **Inbox Intelligence** | Stub | Gmail → parse lender emails → classify → surface in Command Center |
+| **FINTRAC Agent** | Not built | Flag overdue CIP, generate compliance checklist, alert broker |
+| **Strata Agent** | Not built | Parse uploaded Form B / depreciation reports → flag lender qualification issues |
+| **Rate Sheet Agent** | Not built | Monitor lender rate sheet emails → extract rates → update `mix_lender_programs` |
+
+---
+
+### Priority 7 — Client-Facing Portal (future)
+
+> **Driver:** Client retention and referral generation. Lower priority — requires auth layer.
+
+| Feature | Description |
+|---------|-------------|
+| Client deal status view | Client sees their deal stage, conditions outstanding, renewal date |
+| Rate hold expiry notification | Automated client alert before rate hold expires |
+| Document upload portal | Client uploads income verification, ID directly to compliance file |
+| Renewal self-service | Client initiates renewal discussion from portal |
+| Referral invite | Client refers a contact directly from portal |
+
+---
+
 ## MIX Dashboard — 6-Tab Shell
 
 The MIX dashboard (`/`) is a GTM Revenue Operations platform for the broker in a dark glassmorphism 6-tab shell. Running live at `http://localhost:3001` (Docker container `mix-app`).
