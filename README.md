@@ -707,3 +707,14 @@ MIX should not automate a poorly defined mortgage workflow. It should first capt
 In practical terms, building MIX is the same discipline as giving excellent context to Claude — systematized, governed, reusable, and measurable across the practice.
 
 > Every agent action in MIX must be driven by visible, modular, versioned instructions and produce an auditable mortgage business result.
+
+---
+
+## License & Copyright
+
+© 2026 **KlickSmartAI** — All rights reserved.
+
+- [klicksmartai.com](https://www.klicksmartai.com)
+- [klick2client.com](https://www.klick2client.com)
+
+MIX — Mortgage Intelligence Exchange™ is licensed under the MIT License. See [LICENSE](./LICENSE) for details.
