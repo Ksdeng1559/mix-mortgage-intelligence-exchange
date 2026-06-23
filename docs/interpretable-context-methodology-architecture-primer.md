@@ -3,11 +3,11 @@
 ## Filesystem-as-Framework for AI Workflows
 
 ### Version
-1.0
+1.1
 
 ### Purpose
 
-This document defines the Interpretable Context Methodology (ICM) architecture pattern for building AI-assisted workflows using folders, Markdown files, and staged context contracts instead of heavy orchestration frameworks.
+This document defines the Interpretable Context Methodology (ICM) architecture pattern for building AI-assisted workflows using folders, Markdown files, staged context contracts, and a learning loop instead of relying only on heavy orchestration frameworks.
 
 ICM is designed for workflows that require:
 
@@ -17,6 +17,7 @@ ICM is designed for workflows that require:
 - Clear state management
 - Multi-stage AI production
 - Git-friendly context control
+- Continuous improvement through outcome feedback
 
 For RIOS, MIX, LeadSniperAI, and Mortgage Intelligence Exchange, ICM should be treated as the **context architecture layer** that sits above AI models, MCP tools, n8n automations, Supabase, GitHub, and CRM systems.
 
@@ -32,7 +33,7 @@ Instead of hiding workflow state inside code, memory objects, agent classes, or 
 
 The result is a glass-box architecture.
 
-Every instruction, input, output, and review point can be inspected directly by opening a file.
+Every instruction, input, output, review point, and learning artifact can be inspected directly by opening a file.
 
 ---
 
@@ -55,7 +56,7 @@ ICM solves this by making workflow state visible.
 
 The system state is simply the filesystem state.
 
-If a stage fails, the user opens the relevant folder and reads the inputs, outputs, and stage contract.
+If a stage fails, the user opens the relevant folder and reads the inputs, outputs, stage contract, and learning notes.
 
 ---
 
@@ -100,7 +101,7 @@ The filesystem becomes a physical pipe-and-filter system.
 
 Markdown is the default interface.
 
-Prompts, rules, reference files, briefs, drafts, and audits are stored as `.md` files.
+Prompts, rules, reference files, briefs, drafts, audits, outcomes, and learning records are stored as `.md` files.
 
 This makes the system:
 
@@ -120,6 +121,7 @@ This makes the system:
 | Control surface | Code, classes, chains, agents | Folders and Markdown |
 | State inspection | Logs, traces, dashboards | Open the folder and read the files |
 | Workflow change | Edit code and redeploy | Rename, add, or edit folders/files |
+| Learning updates | Hidden prompt/version changes or model memory | Human-approved reference updates and learning logs |
 | Skill required | Developer | Operator with structured thinking |
 | Best use case | Real-time loops, concurrency, automated retries | Sequential, high-quality, human-reviewed workflows |
 | Debugging | Post-hoc trace analysis | Direct inspection of inputs and outputs |
@@ -127,7 +129,7 @@ This makes the system:
 
 ICM does not eliminate frameworks.
 
-It reduces unnecessary framework usage where the workflow is primarily sequential, interpretive, or human-reviewed.
+It reduces unnecessary framework usage where the workflow is primarily sequential, interpretive, learning-driven, or human-reviewed.
 
 ---
 
@@ -192,6 +194,7 @@ Which resources are shared across the workspace?
 If the task involves identifying mortgage opportunity signals, route to 03_signal_detection.
 If the task involves creating outreach, route to 06_outreach_generation.
 If the task involves compliance review, route to 08_compliance_review.
+If the task involves reviewing outcomes or improving the system, route to 09_learning_loop.
 ```
 
 ---
@@ -215,6 +218,7 @@ What do I read?
 What do I do?
 What do I produce?
 How do I verify quality?
+What learning signal should I capture?
 ```
 
 Each stage contract should include:
@@ -223,6 +227,7 @@ Each stage contract should include:
 2. Process
 3. Outputs
 4. Audit checklist
+5. Learning capture notes where applicable
 
 #### Example
 
@@ -246,6 +251,11 @@ Classify each signal by urgency, revenue potential, and product fit.
 ## Outputs
 Write:
 - output/signal-report.md
+
+## Learning Capture
+Flag any new signal pattern that does not fit the current signal taxonomy.
+Write it to:
+- ../09_learning_loop/input/signal-pattern-candidate.md
 
 ## Audit
 Before finalizing, confirm:
@@ -318,11 +328,13 @@ research-notes.md
 signal-report.md
 outreach-draft.md
 compliance-review.md
+outcome-review.md
+learning-candidate.md
 ```
 
 Working artifacts change from run to run.
 
-They should not become permanent rules unless promoted into Layer 3 reference material.
+They should not become permanent rules unless promoted into Layer 3 reference material through the learning loop.
 
 ---
 
@@ -333,11 +345,14 @@ A critical ICM rule is to separate stable instructions from temporary outputs.
 | Type | Layer | Purpose | Example |
 |---|---|---|---|
 | Factory | Layer 3 | Stable rules and constraints | Brand voice, lender rules, compliance guides |
-| Product | Layer 4 | Per-run artifacts | Research notes, drafts, signal reports |
+| Product | Layer 4 | Per-run artifacts | Research notes, drafts, signal reports, outcome notes |
+| Learning Candidate | Layer 4 to Layer 3 bridge | Proposed improvement requiring review | New signal pattern, better outreach rule, failed assumption |
 
 Agents should learn from the factory, not from low-quality intermediate outputs.
 
-This prevents quality decay across stages.
+The learning loop exists to decide which product-level observations are strong enough to become factory-level rules.
+
+This prevents quality decay while still allowing the system to improve.
 
 ---
 
@@ -389,10 +404,16 @@ workspace/
 │   ├── input/
 │   └── output/
 │
-└── 06_review/
+├── 06_review/
+│   ├── CONTEXT.md
+│   ├── input/
+│   └── output/
+│
+└── 09_learning_loop/
     ├── CONTEXT.md
     ├── input/
-    └── output/
+    ├── output/
+    └── approved-updates/
 ```
 
 ---
@@ -411,6 +432,7 @@ A good ICM stage should follow these rules:
 - The stage should avoid circular dependencies
 - The stage should not invent missing source material
 - Human review points should be clearly marked
+- Learning candidates should be separated from approved reference rules
 
 ---
 
@@ -449,6 +471,8 @@ A human can open a file, edit a sentence, correct an assumption, add missing con
 
 The next stage treats that edited file as ground truth.
 
+For learning-loop updates, human approval is mandatory before an observation is promoted into the reference layer.
+
 ---
 
 ## 11. Intervention Pattern
@@ -484,6 +508,12 @@ Humans verify:
 - Compliance
 - Business logic
 - Final quality
+
+### Learning Stage: Human-Governed Improvement
+
+Humans decide which observed patterns become permanent rules.
+
+AI can propose improvements, but it should not silently rewrite the factory.
 
 ---
 
@@ -530,9 +560,199 @@ Source: strata-research-summary.md
 Reference: mortgage-products.md#heloc-refinance-second-mortgage
 ```
 
+### 12.5 Learning Promotion Rule
+
+No working artifact becomes a permanent rule automatically.
+
+A learning candidate must pass through review before it is promoted to Layer 3 reference material.
+
+Promotion requires:
+
+- Clear evidence
+- Business relevance
+- Compliance review where applicable
+- Human approval
+- Git commit with a meaningful message
+
 ---
 
-## 13. ICM for RIOS / MIX / LeadSniperAI
+## 13. Learning Loop Architecture
+
+ICM should include a structured learning loop so the workspace improves over time without contaminating the reference layer.
+
+The learning loop converts outcomes into better context.
+
+It answers:
+
+```text
+What worked?
+What failed?
+What pattern did we discover?
+Should this become a rule, signal, template, or constraint?
+```
+
+### 13.1 Learning Loop Flow
+
+```text
+Execution
+   ↓
+Outcome Capture
+   ↓
+Pattern Review
+   ↓
+Learning Candidate
+   ↓
+Human Approval
+   ↓
+Reference Update
+   ↓
+Next Run Improves
+```
+
+### 13.2 Learning Loop Folder
+
+```text
+09_learning_loop/
+├── CONTEXT.md
+├── input/
+│   ├── outcome-notes.md
+│   ├── campaign-results.md
+│   ├── reply-analysis.md
+│   ├── conversion-notes.md
+│   └── error-log.md
+│
+├── output/
+│   ├── learning-summary.md
+│   ├── pattern-candidates.md
+│   ├── proposed-reference-updates.md
+│   └── rejected-patterns.md
+│
+└── approved-updates/
+    ├── signal-taxonomy-update.md
+    ├── outreach-rule-update.md
+    ├── vertical-pack-update.md
+    └── compliance-note-update.md
+```
+
+### 13.3 Stage Contract for Learning Loop
+
+```markdown
+# Stage: Learning Loop
+
+## Inputs
+Read:
+- ../06_review/output/final-review.md
+- ../07_reporting/output/performance-report.md
+- input/outcome-notes.md
+- input/campaign-results.md
+- input/reply-analysis.md
+- ../reference/signal-taxonomy.md
+- ../reference/outreach-style-guide.md
+
+## Process
+Identify patterns from completed workflow outcomes.
+Separate one-off observations from reusable rules.
+Classify each candidate as:
+- New signal
+- Improved scoring rule
+- Outreach improvement
+- Compliance risk
+- Vertical-pack update
+- Rejected or insufficient evidence
+
+## Outputs
+Write:
+- output/learning-summary.md
+- output/pattern-candidates.md
+- output/proposed-reference-updates.md
+- output/rejected-patterns.md
+
+## Human Review Gate
+Do not modify Layer 3 reference files directly.
+Place proposed updates in output/proposed-reference-updates.md.
+A human must approve before promotion to reference/.
+
+## Audit
+Before finalizing, confirm:
+- Every proposed update is tied to an outcome or observed error
+- No temporary artifact is treated as a permanent rule
+- Compliance-sensitive updates are flagged
+- Rejected patterns include a reason
+```
+
+### 13.4 Learning Types
+
+| Learning Type | Description | Example |
+|---|---|---|
+| Signal Learning | New trigger or business signal discovered | Strata special levy article creates refinance opportunity |
+| Scoring Learning | Better way to rank urgency or value | Replies from accountants outperform generic realtors |
+| Outreach Learning | Improved message angle or CTA | Shorter compliance-safe CTA improves replies |
+| Product Learning | New mortgage/product fit discovered | Reverse mortgage useful for older owners facing special levies |
+| Compliance Learning | Claim, wording, or process risk discovered | Avoid saying guaranteed approval |
+| Vertical Learning | New niche or partner pattern | Strata lawyers produce special levy financing referrals |
+| Failure Learning | Pattern that should not be repeated | Generic AI automation pitch underperforms |
+
+### 13.5 Promotion Path
+
+Learning candidates move through four states:
+
+```text
+Observed
+   ↓
+Candidate
+   ↓
+Approved
+   ↓
+Promoted to Reference
+```
+
+Rejected patterns should remain visible in `rejected-patterns.md` so the same bad assumption is not rediscovered repeatedly.
+
+### 13.6 Learning Loop for MIX
+
+For Mortgage Intelligence Exchange, the learning loop should improve:
+
+- Mortgage signal taxonomy
+- Referral partner vertical packs
+- Lender/product mapping
+- Compliance review rules
+- Outreach scripts
+- Lead scoring
+- Partner reporting
+- Client intake questions
+
+Example:
+
+```text
+Outcome: Strata lawyer outreach generated positive replies when framed around special levy financing.
+Learning Candidate: Add special levy financing as a priority signal under strata-lawyer vertical pack.
+Approved Update: reference/vertical-pack-strata-lawyers.md
+```
+
+### 13.7 Learning Loop for LeadSniperAI / RIOS
+
+For LeadSniperAI and RIOS, the learning loop should improve:
+
+- Google Business Profile signal detection
+- CRM enrichment rules
+- Campaign reply classification
+- Offer mapping
+- Industry-specific pain points
+- Follow-up logic
+- Sales qualification criteria
+- Client reporting templates
+
+Example:
+
+```text
+Outcome: Businesses with hiring signals and poor website conversion responded well to GTM audit offers.
+Learning Candidate: Add hiring-growth plus weak web presence as a high-intent GTM signal.
+Approved Update: reference/gtm-signal-taxonomy.md
+```
+
+---
+
+## 14. ICM for RIOS / MIX / LeadSniperAI
 
 For the ecosystem, ICM should be used as the context operating layer.
 
@@ -554,16 +774,17 @@ RIOS / MIX Platform
     ├── LeadSniperAI GTM Workspace
     ├── RIOS RevOps Workspace
     ├── Professional Alliance Network Workspace
-    └── Compliance Evidence Workspace
+    ├── Compliance Evidence Workspace
+    └── Learning Loop Workspace
 ```
 
 ICM should not replace n8n, Supabase, MCP, or APIs.
 
-Instead, ICM organizes the context, rules, stage logic, and human review process.
+Instead, ICM organizes the context, rules, stage logic, learning updates, and human review process.
 
 ---
 
-## 14. Example: MIX ICM Workspace
+## 15. Example: MIX ICM Workspace
 
 ```text
 mix-icm-workspace/
@@ -575,6 +796,7 @@ mix-icm-workspace/
 │   ├── bcfsa-compliance.md
 │   ├── partner-network.md
 │   ├── vertical-packs.md
+│   ├── signal-taxonomy.md
 │   └── outreach-style-guide.md
 │
 ├── 01_lead_intake/
@@ -612,15 +834,21 @@ mix-icm-workspace/
 │   ├── input/
 │   └── output/
 │
-└── 08_partner_reporting/
+├── 08_partner_reporting/
+│   ├── CONTEXT.md
+│   ├── input/
+│   └── output/
+│
+└── 09_learning_loop/
     ├── CONTEXT.md
     ├── input/
-    └── output/
+    ├── output/
+    └── approved-updates/
 ```
 
 ---
 
-## 15. Example: LeadSniperAI GTM Workspace
+## 16. Example: LeadSniperAI GTM Workspace
 
 ```text
 leadsniper-icm-workspace/
@@ -641,12 +869,12 @@ leadsniper-icm-workspace/
 ├── 06_outreach_generation/
 ├── 07_reply_interpretation/
 ├── 08_crm_update/
-└── 09_client_report/
+└── 09_learning_loop/
 ```
 
 ---
 
-## 16. When to Use ICM
+## 17. When to Use ICM
 
 Use ICM when the workflow is:
 
@@ -659,6 +887,7 @@ Use ICM when the workflow is:
 - Compliance-sensitive
 - Git-friendly
 - Agent-assisted
+- Learning-driven
 
 Good examples:
 
@@ -671,10 +900,12 @@ Good examples:
 - Sales enablement systems
 - Client reporting
 - Knowledge product production
+- Campaign outcome analysis
+- Vertical-pack improvement
 
 ---
 
-## 17. When Not to Use ICM Alone
+## 18. When Not to Use ICM Alone
 
 ICM should not be the only system when you need:
 
@@ -699,12 +930,13 @@ In those cases, pair ICM with:
 
 ---
 
-## 18. Recommended Hybrid Stack
+## 19. Recommended Hybrid Stack
 
 For RIOS and MIX:
 
 ```text
 ICM = context architecture
+Learning Loop = improvement engine
 n8n = workflow automation
 Supabase = system of record
 MCP = tool access layer
@@ -718,10 +950,11 @@ This gives the platform both:
 
 - Human-readable intelligence architecture
 - Production-grade automation infrastructure
+- A controlled feedback mechanism for continuous improvement
 
 ---
 
-## 19. Implementation Checklist
+## 20. Implementation Checklist
 
 Before using an ICM workspace, confirm:
 
@@ -737,10 +970,14 @@ Before using an ICM workspace, confirm:
 - Output folders are excluded from Git where appropriate
 - Stage audits are included
 - Compliance-sensitive stages have review gates
+- Learning loop exists as a separate stage
+- Learning candidates are not automatically promoted to reference material
+- Rejected patterns are recorded
+- Approved learning updates are committed with clear messages
 
 ---
 
-## 20. Final Summary
+## 21. Final Summary
 
 ICM is a practical architecture for managing AI context.
 
@@ -754,6 +991,7 @@ Markdown defines instructions.
 Files define state.
 Humans edit outputs.
 Agents execute transformations.
+Learning loops improve the factory.
 Git tracks the system.
 ```
 
@@ -768,7 +1006,10 @@ It gives the platform a durable advantage:
 - Better compliance posture
 - Easier vertical replication
 - Cleaner agent collaboration
+- Continuous improvement from real outcomes
 
 ICM is not the whole technology stack.
 
 It is the operating architecture for context.
+
+The learning loop is the operating architecture for improvement.
