@@ -285,3 +285,24 @@ html, body {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .bento > *:hover { transform: none; }
 }
+
+/* ── Landing buttons (shared: LandingNav + landing pages) ── */
+.lbtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1px solid var(--border-strong);
+  background: transparent;
+  color: var(--fg-secondary);
+  font-family: var(--font);
+  transition: all .15s;
+  text-decoration: none;
+}
+.lbtn:hover { background: var(--bg-card); color: var(--fg); border-color: rgba(255,255,255,.14); }
+.lbtn.primary { background: var(--accent); color: #fff; border-color: transparent; box-shadow: 0 0 0 4px var(--accent-glow); }
+.lbtn.primary:hover { background: var(--accent-hover); }
