@@ -1,4 +1,4 @@
-# MIX Copilot OS — 180-Day Implementation Plan
+# MIX Copilot OS — 180-Day Technical Implementation Plan
 
 ## Purpose
 
@@ -10,41 +10,37 @@ ICM  = Data -> Context -> Signal -> Interpretation -> Score -> Action
 MWP  = Numbered filesystem workspaces with markdown context and review gates
 ```
 
-This plan turns the current MIX dashboard, agents, smart placement module, AML module, and document intelligence concept into an operating product over 180 days.
+This document is written so **Claude Code, Codex, or a human developer** can plan and execute the technical implementation inside this repository.
+
+It provides:
+
+- repo-aware build sequence
+- target files and folders
+- schema/migration plan
+- API route plan
+- component plan
+- implementation prompts for Claude Code/Codex
+- test and acceptance criteria
+- PR and review-gate workflow
+- 180-day phased roadmap
 
 ---
 
-## Strategic Outcome by Day 180
+## North Star
 
-By the end of 180 days, MIX should operate as a working mortgage practice Copilot that can:
+By Day 180, MIX should be a working mortgage Copilot OS where every meaningful borrower file, renewal, lender review, compliance workflow, or relationship opportunity can be managed as a numbered workspace.
 
-1. Create a numbered workspace for every meaningful mortgage file, relationship opportunity, lender review, or compliance workflow.
-2. Assemble trusted context from markdown, Supabase records, documents, conversations, and lender criteria.
-3. Run Copilot actions through the RIOS + ICM method.
-4. Produce broker-reviewable recommendations for smart placement, AML readiness, document readiness, lender matching, relationship reactivation, and renewal opportunity strategy.
+The system should:
+
+1. Create and manage MWP workspaces.
+2. Assemble trusted context from markdown, Supabase, documents, conversations, and lender criteria.
+3. Run Copilot actions through RIOS + ICM.
+4. Produce broker-reviewable recommendations for smart placement, AML readiness, document readiness, lender matching, renewal strategy, and relationship activation.
 5. Route regulated and external actions through human review gates.
-6. Capture approved learnings into reusable knowledge assets and future lender/playbook intelligence.
-7. Track measurable business outcomes: funded volume, time saved, missing-document reduction, renewal conversion, and relationship activation.
+6. Capture approved learnings into reusable knowledge assets.
+7. Track measurable value: funded volume, time saved, missing-document reduction, AML completeness, renewal conversion, and relationship activation.
 
----
-
-## Implementation Philosophy
-
-MIX should not try to become a fully autonomous mortgage bot.
-
-The correct build path is:
-
-```text
-First: context discipline
-Second: workspace structure
-Third: broker review gates
-Fourth: agent recommendations
-Fifth: document and compliance automation
-Sixth: learning loop
-Seventh: scalable multi-tenant operating model
-```
-
-Core rule:
+Core operating principle:
 
 ```text
 AI prepares. Broker approves. System records. Practice intelligence compounds.
@@ -52,16 +48,139 @@ AI prepares. Broker approves. System records. Practice intelligence compounds.
 
 ---
 
+## Existing Repo Context
+
+Current stack from README:
+
+```text
+Next.js 15
+React 19
+TypeScript
+Supabase PostgreSQL + RLS
+Claude / OpenAI compatible model layer
+Tailwind CSS v4
+Vitest
+Docker
+Qdrant planned
+```
+
+Existing relevant folders:
+
+```text
+app/
+app/(mix)/dashboard
+app/(mix)/pipeline
+app/(mix)/subscribers
+app/(mix)/agents
+app/(mix)/relationships
+app/(mix)/docs
+app/api/mix/
+components/mix/
+lib/
+agents/
+context/
+docs/
+supabase/migrations/
+workspaces/
+```
+
+Existing product documents:
+
+```text
+docs/RIOS-ICM-MWP-OPERATING-SYSTEM.md
+docs/MIX-COPILOT-IMPLEMENTATION-BACKLOG.md
+docs/SMART-PLACEMENT-AML-PURELEND-MODULE.md
+agents/mix-copilot-os.md
+agents/smart-placement-compliance-agent.md
+workspaces/TEMPLATE/README.md
+workspaces/TEMPLATE/01-DATA.md
+```
+
+---
+
+## Implementation Strategy for Claude Code / Codex
+
+### Use AI coding tools in small, reviewable units
+
+Do not ask Claude Code or Codex to build the entire OS in one instruction.
+
+Use this pattern:
+
+```text
+1. Give the agent one phase or one task.
+2. Provide target files.
+3. Provide constraints.
+4. Ask for tests.
+5. Ask for no unrelated refactors.
+6. Review the diff.
+7. Run tests.
+8. Commit.
+```
+
+### Recommended branch naming
+
+```text
+feature/mwp-workspace-templates
+feature/workspace-schema
+feature/workspace-api
+feature/workspaces-ui
+feature/copilot-context-assembler
+feature/copilot-run-endpoint
+feature/smart-placement-module
+feature/aml-intake-module
+feature/document-readiness-module
+feature/learning-loop
+feature/pilot-hardening
+```
+
+### Recommended PR format
+
+Each PR should include:
+
+```markdown
+## What changed
+
+## Why it matters
+
+## Files changed
+
+## How to test
+
+## Screenshots / demo notes
+
+## Review gates affected
+
+## Risks / follow-up
+```
+
+### Guardrails for Claude Code / Codex
+
+Every coding prompt should include:
+
+```text
+Do not remove existing behavior.
+Do not rename existing routes unless required.
+Do not introduce autonomous lender submission.
+Do not mark AML complete automatically.
+Do not send external communications.
+Keep all AI-generated actions draft-only unless a human approval field exists.
+Use TypeScript types.
+Add tests or test notes.
+Keep changes scoped to the requested task.
+```
+
+---
+
 ## 180-Day Roadmap Summary
 
-| Period | Theme | Main Outcome |
+| Period | Theme | Main Technical Outcome |
 |---|---|---|
-| Days 1-30 | OS Foundation | Workspace templates, schema, Copilot contracts, manual flow |
-| Days 31-60 | Workspace Runtime | Workspaces tab, workspace APIs, review gates, opportunity linking |
-| Days 61-90 | Copilot MVP | Context assembler, Copilot run endpoint, strategy memo generation |
-| Days 91-120 | Mortgage Intelligence Modules | Smart placement, AML intake, document readiness, lender fit |
-| Days 121-150 | Automation + Learning Loop | Agent-triggered tasks, knowledge candidates, wiki-ready outputs |
-| Days 151-180 | Production Hardening + Pilot | Broker pilot, QA, analytics, security, deployment, packaging |
+| Days 1-30 | OS Foundation | Workspace templates, schema design, governance docs, seed examples |
+| Days 31-60 | Workspace Runtime | Supabase workspace tables, API routes, Workspaces UI |
+| Days 61-90 | Copilot MVP | Context assembler, Copilot run endpoint, output parser, strategy memo |
+| Days 91-120 | Mortgage Intelligence Modules | Smart Placement, AML, Document Readiness, Lender Fit panels |
+| Days 121-150 | Automation + Learning Loop | Agent tasks, learning candidates, knowledge asset conversion |
+| Days 151-180 | Production Hardening + Pilot | QA, audit trail, analytics, pilot readiness, deployment hardening |
 
 ---
 
@@ -69,17 +188,19 @@ AI prepares. Broker approves. System records. Practice intelligence compounds.
 
 ## Goal
 
-Convert the repo from documentation plus dashboard into a governed operating-system foundation.
+Create the repo-level operating system foundation so future AI coding runs have stable instructions, workspace templates, and governance rules.
 
-## Day 30 outcome
+## Deliverable by Day 30
 
-A broker can manually create a workspace, fill in structured markdown context, see the RIOS/ICM state, and understand which review gates apply before execution.
+A developer or AI coding agent can create a complete MWP workspace and understand how RIOS, ICM, review gates, and Copilot outputs should work before touching runtime code.
 
-## Workstream 1 — Complete MWP filesystem standard
+---
 
-### Deliverables
+## Epic 1.1 — Complete MWP workspace templates
 
-Create complete workspace templates:
+### Target files
+
+Create or complete:
 
 ```text
 workspaces/TEMPLATE/README.md
@@ -95,18 +216,29 @@ workspaces/TEMPLATE/09-OUTPUTS.md
 workspaces/TEMPLATE/10-LEARNINGS.md
 ```
 
+### Claude Code / Codex prompt
+
+```text
+Read docs/RIOS-ICM-MWP-OPERATING-SYSTEM.md and agents/mix-copilot-os.md.
+Complete the workspaces/TEMPLATE markdown files for the MWP standard.
+Each file should have a clear purpose, fill-in sections, and review-friendly structure.
+Do not add application code.
+Do not remove existing template files.
+Keep the template usable by a broker and by an AI coding agent.
+```
+
 ### Acceptance criteria
 
-- Every file has a clear purpose.
-- Every workspace follows RIOS + ICM.
-- Every workspace has review gates.
-- Workspace structure is understandable to a human and usable by Claude Code/Codex.
+- All 11 workspace files exist.
+- Each file maps clearly to RIOS or ICM.
+- Review gates are explicit.
+- The template can be copied to create a real workspace.
 
-## Workstream 2 — Create example workspaces
+---
 
-### Deliverables
+## Epic 1.2 — Add example workspaces
 
-Create example workspaces:
+### Target folders
 
 ```text
 workspaces/MWP-2026-001-smart-placement-aml-module/
@@ -114,18 +246,125 @@ workspaces/MWP-2026-002-sample-renewal-file/
 workspaces/MWP-2026-003-sample-bfs-placement/
 ```
 
+### Claude Code / Codex prompt
+
+```text
+Using workspaces/TEMPLATE as the base, create three example MWP workspaces:
+1. Smart Placement + AML module workspace
+2. Sample renewal file workspace
+3. Sample business-for-self placement workspace
+Use realistic but fictional data.
+Do not include real borrower personal information.
+Show how RIOS and ICM flow through each workspace.
+```
+
 ### Acceptance criteria
 
-- At least one product/module workspace exists.
-- At least one borrower-file workspace exists.
-- At least one relationship/renewal workspace exists.
-- Each example shows the end-to-end operating method.
+- Example workspaces use fictional data only.
+- Each example has visible data, context, signals, scores, strategy, actions, review gates, outputs, and learnings.
+- Smart Placement and AML examples align with docs/SMART-PLACEMENT-AML-PURELEND-MODULE.md.
 
-## Workstream 3 — Supabase schema planning
+---
 
-### Deliverables
+## Epic 1.3 — Add governance document
 
-Draft migration for:
+### Target file
+
+```text
+docs/MIX-COPILOT-GOVERNANCE.md
+```
+
+### Required sections
+
+- AI permission boundaries
+- broker approval requirements
+- AML restrictions
+- lender submission restrictions
+- outbound communication rules
+- data privacy rules
+- audit and traceability rules
+- context update rules
+- human override rules
+
+### Claude Code / Codex prompt
+
+```text
+Create docs/MIX-COPILOT-GOVERNANCE.md.
+Use the existing Copilot OS and Smart Placement/AML docs as source context.
+Write clear product and engineering rules for what the Copilot may and may not do.
+Focus on human approval, auditability, privacy, and regulated mortgage workflow boundaries.
+```
+
+### Acceptance criteria
+
+- Governance doc is understandable by product, compliance, and engineering.
+- Prohibited actions are explicit.
+- Human approval requirements are explicit.
+
+---
+
+## Epic 1.4 — Draft database schema spec
+
+### Target file
+
+```text
+docs/MIX-COPILOT-DATABASE-SPEC.md
+```
+
+### Include tables
+
+```text
+mix_workspaces
+mix_workspace_files
+mix_review_gates
+mix_workspace_actions
+mix_learning_candidates
+mix_copilot_runs
+mix_smart_placement_profiles
+mix_aml_intakes
+mix_document_reviews
+mix_placement_recommendations
+```
+
+### Claude Code / Codex prompt
+
+```text
+Create docs/MIX-COPILOT-DATABASE-SPEC.md.
+Design the Supabase/Postgres tables needed for MWP workspaces, review gates, Copilot runs, learning candidates, Smart Placement, AML intake, document readiness, and placement recommendations.
+Use mix_ table prefixes.
+Include columns, purpose, relationships, suggested indexes, and RLS notes.
+Do not create migrations yet.
+```
+
+### Acceptance criteria
+
+- Schema spec is complete enough to implement migrations.
+- Tables link to existing MIX opportunities, contacts, organizations, and agent runs where appropriate.
+- RLS and audit notes are included.
+
+---
+
+# Phase 2 — Days 31-60: Workspace Runtime
+
+## Goal
+
+Turn MWP from markdown templates into runtime objects in Supabase and the MIX UI.
+
+## Deliverable by Day 60
+
+A broker can create, view, update, and link workspaces to opportunities, with visible review gates and actions.
+
+---
+
+## Epic 2.1 — Workspace migration
+
+### Target file
+
+```text
+supabase/migrations/mix_002_workspaces.sql
+```
+
+### Required tables
 
 ```text
 mix_workspaces
@@ -136,163 +375,174 @@ mix_learning_candidates
 mix_copilot_runs
 ```
 
-### Acceptance criteria
-
-- Tables use `mix_` prefix.
-- Records can link to opportunities, contacts, organizations, and agent runs.
-- Review gate decisions are auditable.
-- Copilot outputs can be stored as draft, candidate, approved, or rejected.
-
-## Workstream 4 — Governance rules
-
-### Deliverables
-
-Add governance doc:
+### Claude Code / Codex prompt
 
 ```text
-docs/MIX-COPILOT-GOVERNANCE.md
+Read docs/MIX-COPILOT-DATABASE-SPEC.md and existing supabase/migrations/mix_001_core.sql.
+Create supabase/migrations/mix_002_workspaces.sql.
+Add tables for workspaces, workspace files, review gates, workspace actions, learning candidates, and Copilot runs.
+Use mix_ prefixes, UUID primary keys, timestamptz timestamps, useful indexes, and comments.
+Do not modify existing migrations.
+Do not break existing schema.
 ```
 
-Required rules:
+### Acceptance criteria
 
-- no autonomous lender submission
-- no autonomous AML clearance
-- no hidden risk suppression
-- no outbound communication without approval unless explicitly authorized
-- all regulated decisions require broker review
-- all context updates must be versioned
+- Migration is additive.
+- Uses `mix_` prefix.
+- Includes foreign keys where safe.
+- Includes indexes for common queries.
+- Includes status fields and timestamps.
 
-## Days 1-30 Milestones
+### Test command
 
-| Day | Milestone |
-|---|---|
-| Day 7 | Workspace templates complete |
-| Day 14 | Example workspaces complete |
-| Day 21 | Schema migration drafted |
-| Day 30 | Foundation review gate passed |
+```bash
+# run in local Supabase or SQL editor
+# verify migration applies without errors
+```
 
 ---
 
-# Phase 2 — Days 31-60: Workspace Runtime
+## Epic 2.2 — Workspace TypeScript types
 
-## Goal
-
-Move MWP from static markdown into the application runtime.
-
-## Day 60 outcome
-
-A broker can open MIX, create/view workspaces, link them to opportunities, and see current stage, open actions, review gates, and last Copilot run.
-
-## Workstream 1 — Workspace database tables
-
-### Deliverables
-
-Implement migration:
+### Target files
 
 ```text
-supabase/migrations/mix_002_workspaces.sql
+types/mix-workspaces.ts
+# or lib/mix/types.ts if repo prefers lib-local types
 ```
 
-Core tables:
+### Claude Code / Codex prompt
 
-- `mix_workspaces`
-- `mix_workspace_files`
-- `mix_review_gates`
-- `mix_workspace_actions`
-- `mix_learning_candidates`
-- `mix_copilot_runs`
+```text
+Create TypeScript types for MIX workspaces, workspace files, review gates, actions, learning candidates, and Copilot runs.
+Base the types on supabase/migrations/mix_002_workspaces.sql.
+Keep enums as string union types where practical.
+Do not introduce a new runtime dependency.
+```
 
 ### Acceptance criteria
 
-- Migration applies cleanly.
-- RLS design is documented.
-- Workspaces can be queried by opportunity, contact, organization, type, status, and current gate.
+- Types compile.
+- Types are imported by services and components.
+- Status fields are constrained with union types.
 
-## Workstream 2 — Workspace service layer
+---
 
-### Deliverables
+## Epic 2.3 — Workspace service layer
 
-Suggested files:
+### Target files
 
 ```text
 lib/mix/workspaces.ts
 lib/mix/review-gates.ts
 lib/mix/workspace-actions.ts
+lib/mix/learning-candidates.ts
 ```
 
-Functions:
+### Functions
 
-- create workspace
-- list workspaces
-- load workspace
-- link workspace to opportunity
-- create review gate
-- update review gate
-- create action
-- mark action complete
-- create learning candidate
+```text
+createWorkspace
+listWorkspaces
+getWorkspace
+updateWorkspace
+linkWorkspaceToOpportunity
+createReviewGate
+updateReviewGate
+listReviewGates
+createWorkspaceAction
+updateWorkspaceAction
+listWorkspaceActions
+createLearningCandidate
+listLearningCandidates
+```
+
+### Claude Code / Codex prompt
+
+```text
+Implement a typed workspace service layer using the existing Supabase client pattern in lib/supabase.ts.
+Create functions for workspace CRUD, review gates, actions, and learning candidates.
+Do not add UI.
+Do not change existing Supabase client behavior.
+Return typed results and useful errors.
+```
 
 ### Acceptance criteria
 
-- Service functions are typed.
-- All writes create traceable records.
-- Review-gate updates require explicit status.
+- Service functions compile.
+- No unrelated refactors.
+- Errors are handled consistently.
+- Services can be used by API routes.
 
-## Workstream 3 — API routes
+---
 
-### Deliverables
+## Epic 2.4 — Workspace API routes
 
-Suggested routes:
+### Target files
 
 ```text
 app/api/mix/workspaces/route.ts
 app/api/mix/workspaces/[id]/route.ts
 app/api/mix/workspaces/[id]/actions/route.ts
 app/api/mix/workspaces/[id]/review-gates/route.ts
+app/api/mix/workspaces/[id]/learning-candidates/route.ts
+```
+
+### Claude Code / Codex prompt
+
+```text
+Create Next.js API routes for MIX workspaces.
+Use the workspace service layer.
+Support listing, creating, reading, updating, adding actions, updating actions, adding review gates, updating review gates, and listing learning candidates.
+Validate request bodies lightly without adding heavy dependencies unless already present.
+Do not implement authentication beyond existing project patterns.
+Do not execute external actions.
 ```
 
 ### Acceptance criteria
 
-- Create, list, read, update workspace.
-- Add/list actions.
-- Add/update review gates.
-- Return current RIOS and ICM state.
+- Routes compile.
+- POST creates workspace records.
+- GET lists or reads workspaces.
+- Review gates can be created and updated.
+- Actions can be created and updated.
 
-## Workstream 4 — UI: Workspaces tab
+---
 
-### Deliverables
+## Epic 2.5 — Workspaces UI
 
-Suggested pages/components:
+### Target files
 
 ```text
 app/(mix)/workspaces/page.tsx
 app/(mix)/workspaces/[id]/page.tsx
 components/mix/WorkspaceList.tsx
 components/mix/WorkspaceDetail.tsx
+components/mix/RIOSStateBadge.tsx
+components/mix/ICMStateBadge.tsx
 components/mix/ReviewGatePanel.tsx
 components/mix/WorkspaceActionsPanel.tsx
+components/mix/LearningCandidatesPanel.tsx
+```
+
+### Claude Code / Codex prompt
+
+```text
+Add a Workspaces section to the MIX app.
+Create a list page and detail page using existing dashboard styling patterns.
+Show workspace title, key, type, related opportunity, current RIOS stage, current ICM stage, current review gate, open actions, and status.
+Add panels for review gates, actions, and learning candidates.
+Do not implement Copilot runs yet.
+Keep UI read-friendly and broker-friendly.
 ```
 
 ### Acceptance criteria
 
-- Workspaces appear as a new top-level MIX section or Docs subtab.
-- Workspace detail shows:
-  - RIOS state
-  - ICM state
-  - open gates
-  - open actions
-  - related opportunity
-  - related contacts
-  - last Copilot run
-
-## Days 31-60 Milestones
-
-| Day | Milestone |
-|---|---|
-| Day 37 | Workspace migration implemented |
-| Day 45 | Workspace service and API working |
-| Day 53 | Workspaces UI list/detail working |
-| Day 60 | Workspace runtime demo complete |
+- Workspaces page renders.
+- Detail page renders.
+- Existing dashboard routes still work.
+- UI follows existing MIX design style.
 
 ---
 
@@ -300,128 +550,168 @@ components/mix/WorkspaceActionsPanel.tsx
 
 ## Goal
 
-Build the first usable Copilot loop: summarize current state, detect missing context, identify signals, score priority, and generate a strategy memo for broker review.
+Create the first functional Copilot loop: load workspace context, detect gaps, generate structured recommendations, and create draft actions/review gates.
 
-## Day 90 outcome
+## Deliverable by Day 90
 
-A broker can click “Run Copilot” on a workspace and receive a structured recommendation with known facts, missing context, signals, scores, next actions, review gates, and confidence.
+A broker can click “Run Copilot” and receive a structured strategy memo plus draft actions, without any autonomous external action.
 
-## Workstream 1 — Context assembler
+---
 
-### Deliverables
+## Epic 3.1 — Context assembler
 
-Suggested file:
+### Target file
 
 ```text
 lib/mix/context-assembler.ts
 ```
 
-Assembly order:
+### Context order
 
-1. platform and tenant rules
+```text
+1. platform / governance rules
 2. MIX operating principles
-3. workspace README
+3. workspace README or DB workspace record
 4. workspace data
 5. workspace context
 6. workspace signals
 7. vertical pack
 8. lender criteria
-9. agent execution contract
+9. agent contract
 10. source records
-11. current instruction
+11. current user instruction
+```
+
+### Claude Code / Codex prompt
+
+```text
+Build lib/mix/context-assembler.ts.
+It should assemble deterministic context for a Copilot run from workspace records, workspace markdown files when available, relevant docs, agent contracts, and source records.
+Return structured sections with title, content, source, and warnings.
+Missing files should create warnings, not fabricated content.
+Do not call an LLM from this file.
+```
 
 ### Acceptance criteria
 
-- Context assembly is deterministic.
-- Missing files produce warnings, not hallucinated content.
-- Assembler returns context sections with source references.
+- Returns ordered context sections.
+- Captures missing context warnings.
+- Does not hallucinate missing files.
+- Can be unit-tested without an LLM.
 
-## Workstream 2 — Copilot run endpoint
+---
 
-### Deliverables
+## Epic 3.2 — Copilot output schema
 
-Suggested route:
+### Target file
+
+```text
+lib/mix/copilot-schema.ts
+```
+
+### Claude Code / Codex prompt
+
+```text
+Create a TypeScript schema/type contract for Copilot output based on agents/mix-copilot-os.md.
+Include known_facts, missing_context, signals, interpretations, scores, recommended_strategy, fallback_strategy, actions, review_gate_updates, workspace_updates, learning_candidates, confidence_label, and traceability.
+Use TypeScript types. Add runtime validation with existing project dependencies only; if no validation library exists, implement a lightweight validator.
+```
+
+### Acceptance criteria
+
+- Output type exists.
+- Validator catches missing required fields.
+- Invalid output can be rejected gracefully.
+
+---
+
+## Epic 3.3 — Copilot run endpoint
+
+### Target file
 
 ```text
 app/api/mix/copilot/run/route.ts
 ```
 
-Inputs:
+### Claude Code / Codex prompt
 
-- workspace id
-- run type
-- user instruction
-- selected mode
-
-Modes:
-
-- `research`
-- `intelligence`
-- `opportunity`
-- `strategy`
-- `execution`
-- `full_loop`
+```text
+Create app/api/mix/copilot/run/route.ts.
+The route should accept workspace_id, run_type, mode, and user_instruction.
+It should call the context assembler, build a model prompt using agents/mix-copilot-os.md, call the configured LLM provider using existing project patterns, validate the output, store a mix_copilot_runs record, and create draft actions/review-gate updates only.
+Do not send emails, submit files, mark AML complete, or approve review gates.
+Return the Copilot output plus created draft records.
+```
 
 ### Acceptance criteria
 
-- Endpoint loads workspace context.
-- Endpoint applies `agents/mix-copilot-os.md` contract.
-- Endpoint writes a `mix_copilot_runs` record.
-- Endpoint does not automatically execute external actions.
+- Route compiles.
+- Missing workspace returns a clear error.
+- LLM output is validated.
+- Copilot run is recorded.
+- Draft actions can be created.
+- No external actions occur.
 
-## Workstream 3 — Output parser
+---
 
-### Deliverables
+## Epic 3.4 — Copilot output parser
 
-Suggested file:
+### Target file
 
 ```text
 lib/mix/copilot-output.ts
 ```
 
-Responsibilities:
+### Claude Code / Codex prompt
 
-- validate Copilot JSON output
-- extract actions
-- extract review gate updates
-- extract workspace update candidates
-- extract learning candidates
-- store traceability
-
-### Acceptance criteria
-
-- Invalid output is rejected or marked failed.
-- Draft actions are created from output.
-- Review gates are not auto-approved.
-- Learning candidates remain draft until reviewed.
-
-## Workstream 4 — Strategy memo generator
-
-### Deliverables
-
-Copilot can generate:
-
-- borrower file strategy memo
-- renewal strategy memo
-- smart placement memo
-- compliance readiness memo
-- missing context memo
+```text
+Build lib/mix/copilot-output.ts.
+It should take validated Copilot output and create draft workspace actions, draft review gate updates, workspace update candidates, and learning candidates.
+It must never auto-approve a review gate.
+It must preserve traceability back to workspace_id and copilot_run_id.
+```
 
 ### Acceptance criteria
 
-- Memo separates facts, assumptions, interpretations, and recommendations.
-- Memo has confidence score.
-- Memo includes next best action.
-- Memo identifies review gates before execution.
+- Converts recommendations into draft records.
+- Review gates remain open unless explicitly updated by human route.
+- Learning candidates are draft.
+- Traceability is stored.
 
-## Days 61-90 Milestones
+---
 
-| Day | Milestone |
-|---|---|
-| Day 67 | Context assembler complete |
-| Day 75 | Copilot run endpoint working |
-| Day 82 | Output parser and action creation working |
-| Day 90 | Copilot MVP demo complete |
+## Epic 3.5 — Copilot UI panel
+
+### Target files
+
+```text
+components/mix/CopilotPanel.tsx
+components/mix/CopilotRunResult.tsx
+```
+
+Add to:
+
+```text
+app/(mix)/workspaces/[id]/page.tsx
+```
+
+### Claude Code / Codex prompt
+
+```text
+Add a Copilot panel to the workspace detail page.
+Allow the broker to choose run type: research, intelligence, opportunity, strategy, execution, full_loop.
+Allow optional instruction text.
+Call /api/mix/copilot/run.
+Show summary, missing context, signals, scores, recommended strategy, actions, review gates, and confidence.
+Do not add autonomous execution buttons.
+```
+
+### Acceptance criteria
+
+- Broker can trigger Copilot run.
+- Result is readable.
+- Draft actions and review gates are shown.
+- Loading and error states exist.
 
 ---
 
@@ -429,157 +719,152 @@ Copilot can generate:
 
 ## Goal
 
-Connect the Copilot OS to the mortgage-specific modules: Smart Placement, AML Compliance, Document Intelligence, and lender matching.
+Connect Copilot OS to real mortgage workflows: Smart Placement, AML intake, Document Readiness, and lender recommendations.
 
-## Day 120 outcome
+## Deliverable by Day 120
 
-MIX can produce a broker-reviewable smart placement and compliance-readiness packet for a borrower file.
+A borrower workspace can produce a broker-reviewable placement/compliance/document readiness packet.
 
-## Workstream 1 — Smart Placement module
+---
 
-### Deliverables
+## Epic 4.1 — Smart Placement schema and service
 
-Implement data and UI support for:
-
-- borrower profile
-- property profile
-- income profile
-- credit profile
-- down-payment profile
-- requested product
-- recommended channel
-- fallback channel
-- placement score
-- confidence
-
-Suggested table:
+### Target files
 
 ```text
-mix_smart_placement_profiles
-```
-
-Suggested UI:
-
-```text
+supabase/migrations/mix_003_smart_placement.sql
+lib/mix/smart-placement.ts
 components/mix/SmartPlacementPanel.tsx
 ```
 
-### Acceptance criteria
-
-- Broker can enter or review normalized borrower scenario.
-- System can produce A / Alt-A / B / Private / Reverse / Specialty channel recommendation.
-- Recommendation explains why.
-- Recommendation creates broker review gate before lender action.
-
-## Workstream 2 — AML / FINTRAC intake module
-
-### Deliverables
-
-Implement support for:
-
-- application consent
-- identity intake
-- occupation/income intake
-- source-of-funds intake
-- third-party determination
-- PEP/HIO/family/associate questions
-- international exposure
-- purpose/use-of-funds confirmation
-- risk tier
-- manual review flag
-
-Suggested table:
+### Claude Code / Codex prompt
 
 ```text
-mix_aml_intakes
+Implement the Smart Placement module based on docs/SMART-PLACEMENT-AML-PURELEND-MODULE.md.
+Create migration, service functions, and a broker-facing panel.
+Track borrower profile, property profile, income profile, credit profile, down-payment profile, requested product, recommended channel, fallback channel, placement score, and confidence.
+All recommendations must be draft and require broker review before lender action.
 ```
 
-Suggested UI:
+### Acceptance criteria
+
+- Smart Placement data can be created and updated.
+- Panel displays placement state.
+- Recommendation has reasons and confidence.
+- Broker review gate is required before lender submission.
+
+---
+
+## Epic 4.2 — AML intake schema and panel
+
+### Target files
 
 ```text
+supabase/migrations/mix_004_aml_intakes.sql
+lib/mix/aml-intakes.ts
 components/mix/AMLIntakePanel.tsx
 ```
 
-### Acceptance criteria
-
-- AML starts only after consent.
-- Missing AML answers cannot be treated as low risk.
-- Medium/high risk creates review gate.
-- Final compliance status requires human review.
-
-## Workstream 3 — Document Intelligence module
-
-### Deliverables
-
-Implement support for:
-
-- document checklist
-- document type classification
-- extracted facts
-- completeness status
-- anomaly flags
-- income findings
-- down-payment findings
-- review status
-
-Suggested table:
+### Claude Code / Codex prompt
 
 ```text
-mix_document_reviews
+Implement AML intake support based on docs/SMART-PLACEMENT-AML-PURELEND-MODULE.md and agents/smart-placement-compliance-agent.md.
+AML intake must require application consent before AML fields are processed.
+Track identity, occupation, source of income, source of funds, third-party involvement, PEP/HIO/family/associate answers, international exposure, purpose/use of funds, risk tier, review_required, and reviewer notes.
+Do not mark AML complete automatically.
+Medium or high risk must create or require a review gate.
 ```
 
-Suggested UI:
+### Acceptance criteria
+
+- Consent state exists.
+- AML questions can be captured.
+- Missing AML fields cannot be treated as low risk.
+- Risk tier is visible.
+- Review gate is required for medium/high risk.
+
+---
+
+## Epic 4.3 — Document readiness schema and panel
+
+### Target files
 
 ```text
+supabase/migrations/mix_005_document_reviews.sql
+lib/mix/document-reviews.ts
 components/mix/DocumentReadinessPanel.tsx
 ```
 
-### Acceptance criteria
-
-- Broker can see missing documents.
-- Broker can see document anomalies.
-- System can produce document-readiness score.
-- Extracted facts remain reviewable, not automatically final.
-
-## Workstream 4 — Lender fit scoring
-
-### Deliverables
-
-Implement support for:
-
-- hard filters
-- soft scoring
-- ranked lender/program recommendations
-- conditions to resolve
-- fallback path
-
-Suggested table:
+### Claude Code / Codex prompt
 
 ```text
-mix_placement_recommendations
+Implement Document Readiness support inspired by the Purelend-style module spec.
+Track document type, storage path, extracted facts, completeness status, anomaly flags, income findings, down-payment findings, review status, and reviewer notes.
+Do not treat extracted facts as final unless reviewed.
+Add a panel showing missing documents, review-required documents, and readiness score.
 ```
 
-Suggested UI:
+### Acceptance criteria
+
+- Document review records can be created and updated.
+- Panel shows missing and review-required documents.
+- Anomaly flags are visible.
+- Human review is required for extracted facts.
+
+---
+
+## Epic 4.4 — Lender fit recommendations
+
+### Target files
 
 ```text
+supabase/migrations/mix_006_placement_recommendations.sql
+lib/mix/lender-fit.ts
 components/mix/LenderFitPanel.tsx
 ```
 
+### Claude Code / Codex prompt
+
+```text
+Implement lender fit recommendation support.
+Use existing mix_lenders and mix_lender_programs where available.
+Create placement recommendation records with rank, lender_id, program_id, fit_score, confidence, reasons, conditions_to_resolve, and human_decision.
+Do not invent lender criteria. If criteria are missing, mark confidence low and create a missing-context action.
+```
+
 ### Acceptance criteria
 
-- Recommendation includes facts used.
-- Recommendation includes lender/program rule used.
-- Recommendation includes unresolved conditions.
-- Broker must approve before lender submission.
+- Recommendations can be stored and displayed.
+- Reasons and conditions are visible.
+- Missing lender criteria lowers confidence.
+- Broker decision is tracked.
 
-## Days 91-120 Milestones
+---
 
-| Day | Milestone |
-|---|---|
-| Day 97 | Smart Placement schema/UI complete |
-| Day 105 | AML intake schema/UI complete |
-| Day 113 | Document readiness schema/UI complete |
-| Day 120 | Broker-ready placement/compliance packet demo complete |
+## Epic 4.5 — Smart Placement Compliance Agent runtime
+
+### Target files
+
+```text
+app/api/mix/agents/smart-placement-compliance/run/route.ts
+lib/mix/agents/smart-placement-compliance.ts
+```
+
+### Claude Code / Codex prompt
+
+```text
+Implement a draft-only runtime for agents/smart-placement-compliance-agent.md.
+It should load opportunity, Smart Placement profile, AML intake, document reviews, and lender criteria.
+It should output application readiness, AML risk flags, document gaps, placement recommendation, broker tasks, and confidence.
+It must not submit to lenders, mark AML complete, or send messages.
+```
+
+### Acceptance criteria
+
+- Agent run produces structured output.
+- Draft actions are created.
+- Review gates are created where required.
+- Run is logged.
 
 ---
 
@@ -587,97 +872,118 @@ components/mix/LenderFitPanel.tsx
 
 ## Goal
 
-Turn repeated broker work into repeatable intelligence assets.
+Convert repeated broker work into approved knowledge assets and reusable playbooks.
 
-## Day 150 outcome
+## Deliverable by Day 150
 
-MIX can convert approved Copilot outputs into learning candidates and knowledge assets that improve future workflows.
+Copilot outputs can become learning candidates; approved learning candidates can become MIX knowledge assets and wiki-ready content.
 
-## Workstream 1 — Agent-triggered tasks
+---
 
-### Deliverables
+## Epic 5.1 — Workspace action automation
 
-Copilot can create draft tasks for:
-
-- missing borrower data
-- missing documents
-- compliance review
-- lender review
-- renewal outreach
-- referral follow-up
-- BDM clarification
-- strategy review
-
-### Acceptance criteria
-
-- All tasks have owner, priority, source, and review status.
-- External tasks require approval when needed.
-- Completed tasks update workspace state.
-
-## Workstream 2 — Learning candidate workflow
-
-### Deliverables
-
-Learning candidates can be created from:
-
-- funded files
-- declined files
-- lender exceptions
-- BDM conversations
-- document gap patterns
-- AML review patterns
-- borrower objections
-- renewal outreach results
-
-### Acceptance criteria
-
-- Learning candidates are draft by default.
-- Broker can approve/reject/edit.
-- Approved candidates become knowledge assets or context updates.
-
-## Workstream 3 — Knowledge asset publishing
-
-### Deliverables
-
-Connect approved learnings to:
+### Target files
 
 ```text
-mix_knowledge_assets
-GitHub Wiki Publisher Agent
-workspace 10-LEARNINGS.md
+lib/mix/workspace-action-executor.ts
+app/api/mix/workspaces/[id]/actions/[actionId]/approve/route.ts
+```
+
+### Claude Code / Codex prompt
+
+```text
+Build approval-based workspace action execution.
+Only implement safe internal actions first: mark task complete, create draft note, create learning candidate, update workspace status.
+Do not implement external email/SMS/lender submission execution yet.
+Every approved action must record reviewer, timestamp, and result.
 ```
 
 ### Acceptance criteria
 
-- Approved learning can become playbook content.
-- Published assets have source workspace reference.
-- Knowledge assets are versioned and traceable.
+- Internal actions can be approved and completed.
+- Reviewer metadata is recorded.
+- External actions remain draft-only.
 
-## Workstream 4 — Renewal and relationship Copilot
+---
 
-### Deliverables
+## Epic 5.2 — Learning candidate review
 
-Add Copilot workflows for:
+### Target files
 
-- renewal opportunity review
-- dormant database reactivation
-- referral partner action plan
-- client retention sequence
+```text
+components/mix/LearningCandidateReviewPanel.tsx
+app/api/mix/learning-candidates/[id]/route.ts
+app/api/mix/learning-candidates/[id]/approve/route.ts
+```
+
+### Claude Code / Codex prompt
+
+```text
+Add a learning candidate review workflow.
+Broker can approve, reject, or edit a learning candidate.
+Approved candidates can be converted into mix_knowledge_assets as draft or reviewed.
+Keep source workspace and Copilot run traceability.
+```
 
 ### Acceptance criteria
 
-- Relationship actions are not purely generic outreach.
-- Every action is tied to relationship context, timing, and reason.
-- CASL/human approval rules apply.
+- Learning candidates can be reviewed.
+- Approved candidates create or update knowledge assets.
+- Traceability is preserved.
 
-## Days 121-150 Milestones
+---
 
-| Day | Milestone |
-|---|---|
-| Day 127 | Agent task creation working |
-| Day 135 | Learning candidate review workflow working |
-| Day 143 | Knowledge asset conversion working |
-| Day 150 | Learning loop demo complete |
+## Epic 5.3 — Knowledge asset conversion
+
+### Target files
+
+```text
+lib/mix/knowledge-assets.ts
+app/api/mix/knowledge-assets/route.ts
+```
+
+### Claude Code / Codex prompt
+
+```text
+Create functions and routes to convert approved learning candidates into knowledge assets.
+Use existing mix_knowledge_assets table if present.
+If fields are missing, add an additive migration only.
+Do not publish to GitHub Wiki automatically unless a separate human-approved action exists.
+```
+
+### Acceptance criteria
+
+- Approved learning can become knowledge asset.
+- Knowledge asset has source reference.
+- Publishing remains separate and approved.
+
+---
+
+## Epic 5.4 — Renewal and relationship Copilot workflows
+
+### Target files
+
+```text
+agents/renewal-workspace-copilot.md
+agents/relationship-reactivation-copilot.md
+lib/mix/agents/renewal-copilot.ts
+lib/mix/agents/relationship-copilot.ts
+```
+
+### Claude Code / Codex prompt
+
+```text
+Add draft-only Copilot workflows for renewal opportunities and relationship reactivation.
+Use MWP workspaces, RIOS, and ICM.
+All outreach must remain draft-only and require broker approval.
+Actions should be tied to relationship context, timing, and reason.
+```
+
+### Acceptance criteria
+
+- Renewal Copilot can create draft strategy/actions.
+- Relationship Copilot can create draft strategy/actions.
+- CASL/human approval rules are preserved.
 
 ---
 
@@ -685,213 +991,303 @@ Add Copilot workflows for:
 
 ## Goal
 
-Prepare MIX Copilot OS for real broker use and future multi-tenant expansion.
+Prepare MIX Copilot OS for controlled real-world pilot use.
 
-## Day 180 outcome
+## Deliverable by Day 180
 
-MIX is ready for a controlled broker pilot with real files, real review gates, and measurable operating outcomes.
+MIX is ready for a controlled broker pilot with real files, real review gates, traceability, QA scenarios, and measurable operating outcomes.
 
-## Workstream 1 — QA and safety hardening
+---
 
-### Deliverables
+## Epic 6.1 — QA scenario suite
 
-Test scenarios:
+### Target files
 
-- missing consent
+```text
+tests/mix/copilot-context-assembler.test.ts
+tests/mix/copilot-output.test.ts
+tests/mix/workspaces.test.ts
+tests/mix/smart-placement.test.ts
+tests/mix/aml-intakes.test.ts
+tests/mix/document-readiness.test.ts
+```
+
+### Required test scenarios
+
+- missing workspace
+- missing context file
+- missing application consent
 - missing AML answers
-- medium/high AML risk
+- medium AML risk
+- high AML risk
 - document anomaly
-- low-confidence lender fit
-- conflicting lender rules
-- outbound message approval
-- workspace context missing
-- Copilot output malformed
+- missing lender criteria
+- malformed Copilot output
+- review gate cannot be auto-approved
+- external action remains draft
+
+### Claude Code / Codex prompt
+
+```text
+Add Vitest tests for the MIX Copilot OS core logic.
+Focus on context assembly, output parsing, workspace services, AML guardrails, document readiness, and review gate rules.
+Mock Supabase and LLM calls where necessary.
+Do not require real external services.
+```
 
 ### Acceptance criteria
 
-- System blocks unsafe progression.
-- System creates review tasks instead of guessing.
-- System logs failures.
-- Broker can override only with recorded reason.
+- Tests run locally.
+- Guardrails are tested.
+- Failed AI output is handled.
 
-## Workstream 2 — Audit and traceability
+---
 
-### Deliverables
+## Epic 6.2 — Audit and traceability hardening
 
-Ensure traceability for:
+### Target files
 
-- source files
-- source records
-- Copilot run
-- model used
-- context files used
-- output generated
-- reviewer decision
-- final action taken
+```text
+lib/mix/audit-log.ts
+supabase/migrations/mix_007_audit_hardening.sql
+components/mix/AuditTrailPanel.tsx
+```
+
+### Claude Code / Codex prompt
+
+```text
+Add audit and traceability hardening for MIX Copilot OS.
+Every Copilot run, review gate decision, approved action, learning conversion, and regulated workflow change should have reviewer/source/timestamp metadata.
+Add an AuditTrailPanel to workspace detail pages.
+Do not allow deletion of audit records through normal UI.
+```
 
 ### Acceptance criteria
 
-- Every recommendation has traceability.
-- Every review gate decision has reviewer and timestamp.
-- Every regulated action has approval record.
+- Audit events are recorded.
+- Workspace detail shows audit trail.
+- Regulated actions have reviewer metadata.
 
-## Workstream 3 — Analytics dashboard
+---
 
-### Deliverables
+## Epic 6.3 — Analytics dashboard
 
-Track:
+### Target files
 
-- number of active workspaces
-- open review gates
-- Copilot runs
-- recommendations accepted/edited/rejected
-- average time to strategy memo
-- missing document rate
-- AML completeness rate
-- placement recommendation acceptance rate
-- funded volume influenced
+```text
+app/(mix)/analytics/page.tsx
+components/mix/CopilotAnalytics.tsx
+app/api/mix/analytics/copilot/route.ts
+```
+
+### Metrics
+
+```text
+active workspaces
+open review gates
+Copilot runs
+recommendations accepted/edited/rejected
+average time to strategy memo
+missing document rate
+AML completeness rate
+placement recommendation acceptance rate
+funded volume influenced
+learning candidates created/approved
+```
+
+### Claude Code / Codex prompt
+
+```text
+Add a Copilot analytics page and API route.
+Show operational metrics for workspaces, review gates, Copilot runs, recommendations, AML completeness, document readiness, and learning candidates.
+Use existing design system patterns.
+Do not require external analytics tools.
+```
 
 ### Acceptance criteria
 
-- Broker sees operational value.
-- Dashboard connects activity to revenue and risk reduction.
+- Analytics page renders.
+- API returns metrics.
+- Metrics help broker see value and risk reduction.
 
-## Workstream 4 — Pilot launch
+---
 
-### Pilot scope
+## Epic 6.4 — Pilot readiness package
 
-Run with:
+### Target files
 
-- 10 borrower files
-- 10 renewal opportunities
-- 5 referral partner opportunities
-- 3 lender rule updates
-- 3 compliance review cases
+```text
+docs/MIX-COPILOT-PILOT-RUNBOOK.md
+docs/MIX-COPILOT-QA-CHECKLIST.md
+docs/MIX-COPILOT-DEPLOYMENT-CHECKLIST.md
+```
+
+### Claude Code / Codex prompt
+
+```text
+Create pilot runbook, QA checklist, and deployment checklist for MIX Copilot OS.
+The pilot should cover 10 borrower files, 10 renewal opportunities, 5 referral opportunities, 3 lender rule updates, and 3 compliance review cases.
+Include setup, test data, review gates, success metrics, and rollback steps.
+```
 
 ### Acceptance criteria
 
-- At least 80 percent of pilot workspaces have complete RIOS/ICM state.
-- At least 80 percent of regulated actions pass through review gate.
-- Broker confirms Copilot saves time or improves clarity.
-- At least 10 reusable learning candidates are captured.
-
-## Workstream 5 — Packaging for future multi-tenant use
-
-### Deliverables
-
-Document:
-
-- tenant model
-- workspace-per-tenant rules
-- role permissions
-- audit log requirements
-- client data isolation
-- white-label module strategy
-
-### Acceptance criteria
-
-- System can evolve from Dennis/MIX internal use to white-label broker or agency deployment.
-- Tenant isolation requirements are known before scaling.
-
-## Days 151-180 Milestones
-
-| Day | Milestone |
-|---|---|
-| Day 157 | QA scenarios complete |
-| Day 165 | Audit and traceability complete |
-| Day 172 | Analytics dashboard complete |
-| Day 180 | Controlled pilot complete |
+- Pilot can be run by a broker/operator.
+- QA checklist covers safety and compliance guardrails.
+- Deployment checklist covers environment variables, migrations, and smoke tests.
 
 ---
 
-# Resource Plan
+# Technical Build Order
 
-## Minimum team
+Use this exact order unless there is a strong reason to change it:
 
-- Product owner / broker expert
-- Full-stack developer
-- AI workflow engineer
-- Supabase/data engineer
-- Compliance reviewer or broker reviewer
-
-## Lean build mode
-
-If only one builder is available, prioritize:
-
-1. workspace runtime
-2. Copilot run endpoint
-3. review gates
-4. Smart Placement + AML intake
-5. document readiness
-6. learning loop
-
-Do not overbuild integrations before workspace discipline and review gates work.
-
----
-
-# Critical Dependencies
-
-## Technical
-
-- Supabase schema and RLS
-- Next.js dashboard stability
-- agent execution contracts
-- document storage strategy
-- model/API selection
-- audit logging
-
-## Business
-
-- broker-approved lender criteria
-- AML question set
-- document checklist standards
-- smart placement logic
-- review gate rules
-- pilot file examples
-
-## Compliance
-
-- borrower consent before AML intake
-- no autonomous AML clearance
-- no autonomous lender submission
-- audit trail for regulated actions
-- secure handling of borrower documents and identity information
+```text
+1. Finish docs and workspace templates
+2. Add database schema spec
+3. Add workspace migration
+4. Add workspace types
+5. Add workspace services
+6. Add workspace API routes
+7. Add Workspaces UI
+8. Add context assembler
+9. Add Copilot output schema
+10. Add Copilot run endpoint
+11. Add Copilot UI panel
+12. Add Smart Placement module
+13. Add AML intake module
+14. Add Document Readiness module
+15. Add Lender Fit module
+16. Add Smart Placement Compliance Agent runtime
+17. Add learning candidate review
+18. Add knowledge asset conversion
+19. Add tests
+20. Add audit panel
+21. Add analytics
+22. Add pilot runbook
+```
 
 ---
 
-# Risk Register
+# Repo-Level File Map
 
-| Risk | Impact | Mitigation |
-|---|---|---|
-| Overbuilding before workflow clarity | High | Complete MWP templates and manual workflow first |
-| AI recommendations treated as final advice | High | Review gates and prohibited actions enforced |
-| Weak lender criteria data | Medium | Use broker-approved criteria and confidence scoring |
-| Document extraction errors | High | Human review for extracted facts |
-| Compliance gaps | High | AML intake cannot proceed without consent and review flags |
-| Too many modules at once | Medium | Build file Copilot first, then relationship/revenue Copilot |
-| Poor traceability | High | Store source records, context versions, run IDs, decisions |
+## New docs
+
+```text
+docs/MIX-COPILOT-GOVERNANCE.md
+docs/MIX-COPILOT-DATABASE-SPEC.md
+docs/MIX-COPILOT-PILOT-RUNBOOK.md
+docs/MIX-COPILOT-QA-CHECKLIST.md
+docs/MIX-COPILOT-DEPLOYMENT-CHECKLIST.md
+```
+
+## New migrations
+
+```text
+supabase/migrations/mix_002_workspaces.sql
+supabase/migrations/mix_003_smart_placement.sql
+supabase/migrations/mix_004_aml_intakes.sql
+supabase/migrations/mix_005_document_reviews.sql
+supabase/migrations/mix_006_placement_recommendations.sql
+supabase/migrations/mix_007_audit_hardening.sql
+```
+
+## New API routes
+
+```text
+app/api/mix/workspaces/route.ts
+app/api/mix/workspaces/[id]/route.ts
+app/api/mix/workspaces/[id]/actions/route.ts
+app/api/mix/workspaces/[id]/review-gates/route.ts
+app/api/mix/workspaces/[id]/learning-candidates/route.ts
+app/api/mix/copilot/run/route.ts
+app/api/mix/agents/smart-placement-compliance/run/route.ts
+app/api/mix/analytics/copilot/route.ts
+```
+
+## New lib modules
+
+```text
+lib/mix/workspaces.ts
+lib/mix/review-gates.ts
+lib/mix/workspace-actions.ts
+lib/mix/learning-candidates.ts
+lib/mix/context-assembler.ts
+lib/mix/copilot-schema.ts
+lib/mix/copilot-output.ts
+lib/mix/smart-placement.ts
+lib/mix/aml-intakes.ts
+lib/mix/document-reviews.ts
+lib/mix/lender-fit.ts
+lib/mix/audit-log.ts
+lib/mix/agents/smart-placement-compliance.ts
+```
+
+## New UI
+
+```text
+app/(mix)/workspaces/page.tsx
+app/(mix)/workspaces/[id]/page.tsx
+app/(mix)/analytics/page.tsx
+components/mix/WorkspaceList.tsx
+components/mix/WorkspaceDetail.tsx
+components/mix/RIOSStateBadge.tsx
+components/mix/ICMStateBadge.tsx
+components/mix/ReviewGatePanel.tsx
+components/mix/WorkspaceActionsPanel.tsx
+components/mix/LearningCandidatesPanel.tsx
+components/mix/CopilotPanel.tsx
+components/mix/CopilotRunResult.tsx
+components/mix/SmartPlacementPanel.tsx
+components/mix/AMLIntakePanel.tsx
+components/mix/DocumentReadinessPanel.tsx
+components/mix/LenderFitPanel.tsx
+components/mix/AuditTrailPanel.tsx
+components/mix/CopilotAnalytics.tsx
+```
 
 ---
 
-# 180-Day Success Scorecard
+# Standard Claude Code / Codex Task Template
 
-| Metric | Target by Day 180 |
-|---|---|
-| Active workspaces created | 25+ |
-| Pilot borrower files processed | 10+ |
-| Renewal opportunities processed | 10+ |
-| Referral opportunities processed | 5+ |
-| Copilot runs completed | 100+ |
-| Recommendations accepted or edited by broker | 60%+ |
-| Regulated actions with review gate | 90%+ |
-| Missing-document rate reduced | 25%+ |
-| AML intake completeness before submission | 90%+ |
-| Learning candidates captured | 25+ |
-| Approved knowledge assets | 10+ |
+Use this for every technical task:
+
+```text
+You are working in the MIX mortgage-intelligence-exchange repo.
+Read these files first:
+- docs/RIOS-ICM-MWP-OPERATING-SYSTEM.md
+- agents/mix-copilot-os.md
+- docs/MIX-COPILOT-OS-180-DAY-IMPLEMENTATION-PLAN.md
+
+Task:
+[describe one focused task]
+
+Target files:
+[list files]
+
+Constraints:
+- Keep changes scoped to this task.
+- Do not remove existing behavior.
+- Do not introduce autonomous lender submission.
+- Do not mark AML complete automatically.
+- Do not send external communications.
+- All AI actions must remain draft-only unless a human approval field exists.
+- Use TypeScript types.
+- Add tests or test notes.
+
+Acceptance criteria:
+[list criteria]
+
+After implementation, summarize:
+- files changed
+- key decisions
+- how to test
+- risks or follow-up
+```
 
 ---
 
-# Final Day 180 Definition of Done
+# Definition of Done by Day 180
 
 MIX Copilot OS is ready for controlled production use when:
 
@@ -899,11 +1295,17 @@ MIX Copilot OS is ready for controlled production use when:
 2. Every Copilot run follows RIOS and ICM.
 3. Every regulated or external action has a review gate.
 4. Smart Placement produces broker-reviewable lender strategy.
-5. AML intake produces risk tier and compliance review tasks.
-6. Document Intelligence produces readiness score and missing-document tasks.
-7. Approved learnings become reusable knowledge assets.
-8. The broker can see measurable value in revenue, speed, risk reduction, and practice intelligence.
+5. AML intake produces risk tier and compliance review tasks after consent.
+6. Document Readiness produces readiness score and missing-document tasks.
+7. Lender Fit produces ranked recommendations with reasons and unresolved conditions.
+8. Approved learnings become reusable knowledge assets.
+9. Tests cover core guardrails.
+10. Audit trail captures Copilot runs, review gates, approvals, and regulated actions.
+11. Analytics show operational value.
+12. Pilot runbook is complete.
 
-The goal is not to replace the broker.
+Final product goal:
 
-The goal is to turn the broker's expertise into a governed, compounding operating system.
+```text
+Turn the broker's expertise into a governed, compounding mortgage operating system.
+```
