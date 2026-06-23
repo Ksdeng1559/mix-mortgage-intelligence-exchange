@@ -3,6 +3,28 @@ import { NextRequest, NextResponse } from 'next/server'
 const NOTIFY_EMAIL = process.env.REFERRAL_NOTIFY_EMAIL ?? 'mortgagesbydennis.eng@gmail.com'
 const RESEND_API_KEY = process.env.RESEND_API_KEY
 
+// In-memory sliding-window rate limiter: 5 submissions per 15 min per IP.
+// Resets on cold start — acceptable for low-traffic single-instance deployment.
+const RATE_WINDOW_MS = 15 * 60 * 1000
+const RATE_LIMIT = 5
+const rateBuckets = new Map<string, number[]>()
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now()
+  const cutoff = now - RATE_WINDOW_MS
+  const hits = (rateBuckets.get(ip) ?? []).filter(t => t > cutoff)
+  if (hits.length >= RATE_LIMIT) return true
+  hits.push(now)
+  rateBuckets.set(ip, hits)
+  // Evict IPs idle for >15 min to prevent unbounded memory growth
+  if (rateBuckets.size > 10_000) {
+    for (const [k, v] of rateBuckets) {
+      if (v.every(t => t <= cutoff)) rateBuckets.delete(k)
+    }
+  }
+  return false
+}
+
 interface ReferralBody {
   partnerType: string
   partnerFirst: string
@@ -80,6 +102,18 @@ async function sendViaResend(data: ReferralBody): Promise<boolean> {
 }
 
 export async function POST(req: NextRequest) {
+  const ip =
+    req.headers.get('x-forwarded-for')?.split(',')[0].trim() ??
+    req.headers.get('x-real-ip') ??
+    'unknown'
+
+  if (isRateLimited(ip)) {
+    return NextResponse.json(
+      { error: 'Too many requests' },
+      { status: 429, headers: { 'Retry-After': '900' } },
+    )
+  }
+
   let body: ReferralBody
   try {
     body = await req.json()
