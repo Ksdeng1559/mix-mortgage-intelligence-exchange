@@ -19,27 +19,38 @@ interface ReferralBody {
   hp?: string
 }
 
+function esc(s: string): string {
+  return s
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;')
+}
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
 function buildEmailHtml(data: ReferralBody): string {
   return `
 <h2>New Partner Referral — MIX</h2>
 <hr/>
 <h3>Partner</h3>
 <table>
-  <tr><td><strong>Name</strong></td><td>${data.partnerFirst} ${data.partnerLast}</td></tr>
-  <tr><td><strong>Company</strong></td><td>${data.partnerCompany}</td></tr>
-  <tr><td><strong>Email</strong></td><td>${data.partnerEmail}</td></tr>
-  <tr><td><strong>Phone</strong></td><td>${data.partnerPhone || '—'}</td></tr>
-  <tr><td><strong>Partner type</strong></td><td>${data.partnerType}</td></tr>
+  <tr><td><strong>Name</strong></td><td>${esc(data.partnerFirst)} ${esc(data.partnerLast)}</td></tr>
+  <tr><td><strong>Company</strong></td><td>${esc(data.partnerCompany)}</td></tr>
+  <tr><td><strong>Email</strong></td><td>${esc(data.partnerEmail)}</td></tr>
+  <tr><td><strong>Phone</strong></td><td>${esc(data.partnerPhone || '—')}</td></tr>
+  <tr><td><strong>Partner type</strong></td><td>${esc(data.partnerType)}</td></tr>
 </table>
 <h3>Client</h3>
 <table>
-  <tr><td><strong>Name</strong></td><td>${data.clientFirst} ${data.clientLast}</td></tr>
-  <tr><td><strong>Phone</strong></td><td>${data.clientPhone}</td></tr>
-  <tr><td><strong>Email</strong></td><td>${data.clientEmail || '—'}</td></tr>
-  <tr><td><strong>Situation</strong></td><td>${data.situation}</td></tr>
+  <tr><td><strong>Name</strong></td><td>${esc(data.clientFirst)} ${esc(data.clientLast)}</td></tr>
+  <tr><td><strong>Phone</strong></td><td>${esc(data.clientPhone)}</td></tr>
+  <tr><td><strong>Email</strong></td><td>${esc(data.clientEmail || '—')}</td></tr>
+  <tr><td><strong>Situation</strong></td><td>${esc(data.situation)}</td></tr>
 </table>
 <h3>Notes</h3>
-<p>${data.notes || 'None provided.'}</p>
+<p>${esc(data.notes || 'None provided.')}</p>
 <hr/>
 <p style="font-size:12px;color:#666">Submitted via MIX partner referral form</p>
   `.trim()
@@ -57,7 +68,7 @@ async function sendViaResend(data: ReferralBody): Promise<boolean> {
       body: JSON.stringify({
         from: 'MIX Referrals <referrals@klicksmartai.com>',
         to: [NOTIFY_EMAIL],
-        reply_to: data.partnerEmail,
+        reply_to: EMAIL_RE.test(data.partnerEmail) ? data.partnerEmail : NOTIFY_EMAIL,
         subject: `New referral from ${data.partnerFirst} ${data.partnerLast} (${data.partnerCompany}) — ${data.clientFirst} ${data.clientLast}`,
         html: buildEmailHtml(data),
       }),
@@ -94,11 +105,10 @@ export async function POST(req: NextRequest) {
 
   const emailSent = await sendViaResend(body)
 
-  // Log regardless — useful if Resend isn't configured yet
+  // Log without PII — email/phone stay out of server logs
   console.log('[MIX referral]', {
     partnerType: body.partnerType,
-    partner: `${body.partnerFirst} ${body.partnerLast} <${body.partnerEmail}>`,
-    client: `${body.clientFirst} ${body.clientLast} ${body.clientPhone}`,
+    partnerCompany: body.partnerCompany,
     situation: body.situation,
     emailSent,
   })
