@@ -21,10 +21,10 @@ const DOMAIN = 'https://mix.mortgagesbydenniseng.ca'
 
 // ─── Content constants ───────────────────────────────────────────────────────
 const HERO_STATS = [
-  { value: '200+', label: 'Clients Helped' },
-  { value: '48hr', label: 'Avg Pre-Approval' },
-  { value: 'A / B / Private', label: 'Lender Tiers' },
-  { value: '15+ Yrs', label: 'Experience' },
+  { value: '$100M+', label: 'Mortgages Originated' },
+  { value: '15+', label: 'Years of Experience' },
+  { value: 'A, B & Private', label: 'Lender Network' },
+  { value: 'Free', label: '30-Min Consultation' },
 ]
 
 const HERO_SPECS = [
@@ -48,48 +48,84 @@ const TRUST_ITEMS = [
 const PROBLEMS = [
   {
     title: 'Low Taxable Income',
-    desc: 'Business owners write off expenses to reduce taxes — but banks qualify you on net, not gross.',
+    desc: 'You write off expenses to minimize tax — but that same strategy gets your mortgage application rejected.',
   },
   {
-    title: 'Irregular Cash Flow',
-    desc: 'Seasonal income, contract revenue, and dividends look unpredictable to automated underwriting.',
+    title: 'Irregular Income',
+    desc: 'Seasonal, project-based, or dividend income doesn\'t fit neatly into the bank\'s two-year income formula.',
   },
   {
-    title: 'Complex Corporate Structure',
-    desc: 'Holding companies, partnerships, and trust income require lenders who understand your setup.',
+    title: 'Complex Business Structure',
+    desc: 'Holding companies, multiple income streams, or recent incorporation — banks see complexity, we see opportunity.',
   },
   {
-    title: 'Short Income History',
-    desc: 'Banks want 2+ years of filed T1 Generals. Newer businesses and recent incorporations get declined.',
+    title: 'Portfolio Financing Limits',
+    desc: 'Own multiple properties? Most lenders cap out fast. We access specialized investor lenders who understand your strategy.',
   },
 ]
 
 const SOLUTION_STEPS = [
-  'Review NOAs and T1 Generals — identify stated-income eligibility',
-  'Structure income documentation to reflect true borrowing capacity',
-  'Select the right lender tier (A / B / Private) for your profile',
-  'Submit to multiple lenders simultaneously for best terms',
-  'Negotiate approval and guide you to closing',
+  'Free 30-min consultation to review your full financial picture',
+  'We identify the best lender category for your file',
+  'We present at least 3 mortgage options with clear pros & cons',
+  'We negotiate on your behalf — rates, terms, and conditions',
+  'We support you through completion and beyond',
 ]
 
 const AUDIENCES = [
   {
     icon: '🧑‍💼',
-    title: 'Self-Employed Proprietors',
-    desc: 'Sole proprietors and freelancers with declared income that understates real earnings.',
+    title: 'Self-Employed Borrowers',
+    desc: 'Consultants, contractors, and sole proprietors. Your income is real — we know how to present it to lenders who understand business finances, not just T4s.',
     href: '/self-employed-financing',
   },
   {
     icon: '🏢',
-    title: 'Incorporated Owners',
-    desc: 'Business owners drawing salary + dividends through a corporation or holding company.',
+    title: 'Incorporated Business Owners',
+    desc: 'Drawing salary and dividends? Have a holding company? We present your full earning picture — not just what you declare to CRA.',
     href: '/self-employed-financing',
   },
   {
     icon: '🏘️',
     title: 'Real Estate Investors',
-    desc: 'Portfolio builders using rental income, BRRRR, or commercial property strategies.',
+    desc: 'From your first rental to a multi-property portfolio. We structure financing that uses rental income, accesses equity, and keeps your strategy moving.',
     href: '/investor-financing',
+  },
+  {
+    icon: '🔄',
+    title: 'Credit Recovery',
+    desc: 'Past bankruptcy, consumer proposal, or bruised credit. We map a clear path to homeownership — often sooner than you think.',
+    href: '/credit-recovery-financing',
+  },
+  {
+    icon: '✈️',
+    title: 'New to Canada',
+    desc: 'Work permit, PR, or recent citizen with foreign income history. Specialized programs that don\'t require years of Canadian credit history.',
+    href: '/new-to-canada-financing',
+  },
+  {
+    icon: '📊',
+    title: 'High Debt Ratio',
+    desc: 'When GDS/TDS ratios exceed A-lender thresholds, B-lenders and private programs offer flexible qualification based on your full financial picture.',
+    href: '/high-debt-ratio-financing',
+  },
+  {
+    icon: '🏗️',
+    title: 'Commercial & Multi-Unit',
+    desc: 'Office, retail, mixed-use, and apartment buildings (5+ units). DSCR and NOI-based qualification — not personal income. From $500K+.',
+    href: '/investor-financing',
+  },
+  {
+    icon: '🏡',
+    title: 'Reverse Mortgage',
+    desc: 'Unlock tax-free equity from your home without monthly payments. For homeowners 55+ looking to supplement income or fund retirement goals.',
+    href: '/reverse-mortgage-solutions',
+  },
+  {
+    icon: '🔐',
+    title: 'Private Mortgage',
+    desc: 'Asset and equity-based approval when timing or credit doesn\'t fit traditional lenders. Bridge loans, gap financing, and short-term solutions.',
+    href: '/private-mortgages',
   },
 ]
 
@@ -235,40 +271,40 @@ const PROCESS_STEPS = [
 
 const TESTIMONIALS = [
   {
-    quote: 'My bank turned me down twice. Dennis got me approved through a B-lender in under 72 hours. The whole process was explained clearly every step of the way.',
-    name: 'M. Chen',
+    quote: 'Our previous broker said it was impossible to get the mortgage we needed as business owners. I called Dennis on a Sunday and he immediately got back to me. Within a week we were approved — for $300k more than our previous broker said we\'d qualify for. On Tuesday we move into our dream home. There is no one else we will trust with our mortgage needs. #clientsforlife',
+    name: 'Mark Lindsay',
     city: 'Vancouver, BC',
-    service: 'Self-Employed · Purchased Oct 2024',
+    service: 'Business Owner · First Home Purchase',
   },
   {
-    quote: 'I\'ve been incorporating for 3 years and every bank said my income didn\'t qualify. Dennis knew exactly how to present my file and we closed in 3 weeks.',
-    name: 'R. Patel',
-    city: 'Burnaby, BC',
-    service: 'Incorporated Owner · Refinanced Sep 2024',
+    quote: 'Dennis is the best mortgage professional we have worked with to date. He took our very complicated self-employment income and quickly turned it into a pre-approval. He also was ready and on call during the offer process. Dennis would be my first recommendation for a business owner or self-employed individual looking to purchase a property.',
+    name: 'Laura Lindsay',
+    city: 'Vancouver, BC',
+    service: 'Self-Employed · Home Purchase',
   },
   {
-    quote: 'Dennis helped me add my second rental property using the existing equity in my first. The BRRRR strategy he outlined made it work on the numbers.',
-    name: 'T. Nguyen',
-    city: 'Richmond, BC',
-    service: 'Investor · Purchase Aug 2024',
+    quote: 'I was looking for a Mortgage Broker that knew how to work with self employed individuals and I found Dennis. He answered all our questions and navigated us through the process. The mortgage for our first home came in at a very good rate.',
+    name: 'Jim',
+    city: 'Vancouver, BC',
+    service: 'Self-Employed · First Home Purchase',
   },
   {
-    quote: 'After a consumer proposal discharge I thought homeownership was years away. Dennis showed me a clear path and we closed 18 months after discharge.',
-    name: 'S. Park',
-    city: 'Surrey, BC',
-    service: 'Credit Recovery · Purchased Jul 2024',
+    quote: 'I\'ve trusted Dennis for over 10 years with two mortgages. He was very responsive and good with communication — he always kept us updated with what we needed to submit. He was also always available to answer our questions every step of the way.',
+    name: 'Kelly McRae',
+    city: 'Vancouver, BC',
+    service: 'Repeat Client · 10+ Year Relationship',
   },
   {
-    quote: 'The commercial financing on my 8-unit apartment was complex — mixed zoning, deferred maintenance reserve. Dennis navigated it without drama.',
-    name: 'A. Williams',
-    city: 'North Vancouver, BC',
-    service: 'Commercial · Apartment Building Jun 2024',
+    quote: 'Dennis went above and beyond to help our family get out of a difficult financial situation after the loss of a loved one. He was able to provide us with options when we thought we had none. We highly recommend Dennis!',
+    name: 'K. Ess',
+    city: 'Vancouver, BC',
+    service: 'Credit Recovery · Refinancing',
   },
   {
-    quote: 'Arrived in Canada on a work permit 14 months ago. Dennis found a New-to-Canada program that accepted my foreign income history. Couldn\'t believe it worked.',
-    name: 'L. Singh',
-    city: 'Coquitlam, BC',
-    service: 'New-to-Canada · Purchased May 2024',
+    quote: 'Dennis is very responsive and professional. I have an incorporated business and he was able to get my mortgage approved in a timely manner. Highly recommended.',
+    name: 'Maysa Tsang',
+    city: 'Vancouver, BC',
+    service: 'Incorporated Business Owner · Home Purchase',
   },
 ]
 
@@ -321,17 +357,32 @@ const jsonLdFinancialService = {
     { '@type': 'State', name: 'Ontario' },
   ],
   serviceType: ['Mortgage Brokerage', 'Alternative Lending', 'Commercial Mortgage', 'Private Mortgage'],
-  // TODO: add telephone, address, logo once confirmed with Dennis
+  telephone: PHONE,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '1200 W 73rd Ave Unit 600',
+    addressLocality: 'Vancouver',
+    addressRegion: 'BC',
+    postalCode: 'V6P 6G5',
+    addressCountry: 'CA',
+  },
 }
 
 const jsonLdPerson = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   '@id': `${DOMAIN}/#dennis`,
-  name: 'Dennis Eng', // TODO: confirm full legal name
+  name: 'Dennis Eng',
   jobTitle: 'Licensed Mortgage Broker',
   email: EMAIL,
-  // TODO: telephone, image (headshot URL), hasCredential (license number), knowsLanguage, sameAs (LinkedIn)
+  telephone: PHONE,
+  hasCredential: {
+    '@type': 'EducationalOccupationalCredential',
+    credentialCategory: 'Mortgage Broker License',
+    identifier: '144231',
+    recognizedBy: { '@type': 'Organization', name: 'BC Financial Services Authority (BCFSA)' },
+  },
+  knowsLanguage: ['en', 'zh-yue', 'zh'],
   worksFor: { '@type': 'Organization', '@id': `${DOMAIN}/#organization` },
   url: DOMAIN,
 }
@@ -438,7 +489,7 @@ export default function HomePage() {
             <div className="hp-problem-grid">
               <div>
                 <h2 id="hp-problem-h2" className="hp-h2">
-                  Why Banks Turn Down Self-Employed Borrowers — And What We Do Instead
+                  Banks Are Built for Employees — Not Entrepreneurs
                 </h2>
                 <ul className="hp-problems" aria-label="Common bank rejection reasons">
                   {PROBLEMS.map((p, i) => (
@@ -450,7 +501,12 @@ export default function HomePage() {
                 </ul>
               </div>
               <div className="hp-solution-box" aria-label="Our file packaging process">
-                <div className="hp-sol-eye">We Package Your File the Right Way</div>
+                <div className="hp-sol-eye">The Dennis Eng Difference</div>
+                <p style={{ fontSize: 13, color: 'var(--fg-secondary)', lineHeight: 1.5, marginBottom: 16 }}>
+                  Getting rejected costs you time and damages your credit score. We review your full
+                  financial picture before approaching any lender — so we submit strong applications
+                  to the right lenders, not hopeful ones.
+                </p>
                 <ol className="hp-sol-steps" aria-label="5-step file process">
                   {SOLUTION_STEPS.map((step, i) => (
                     <li key={i} className="hp-sol-step">
@@ -624,19 +680,24 @@ export default function HomePage() {
                   <div>
                     <div className="hp-bio-name">Dennis Eng</div>
                     <div className="hp-bio-title">Licensed Mortgage Broker · DLC Clear Trust</div>
-                    {/* TODO: Insert license number — MBRXXXXXXXXX */}
-                    <div className="hp-bio-license">License #: <em>Contact us for details</em></div>
+                      <div className="hp-bio-license">License #: 144231</div>
                   </div>
                 </div>
                 <p className="hp-body-text">
-                  With 15+ years in mortgage financing and $100M+ in commercial origination,
-                  Dennis specializes in the files that banks turn down first. Self-employed clients,
-                  incorporated owners, investors, and credit-recovery borrowers — Dennis has seen it
-                  and structured it.
+                  Dennis started his mortgage career in 2008 specifically working with self-employed
+                  borrowers — because he understood firsthand how the system underserves entrepreneurs.
+                  In 2012, he became a partner at a leading financial planning firm where he built deep
+                  commercial underwriting expertise — structuring deals across office, retail, multi-unit
+                  residential, and mixed-use properties.
                 </p>
                 <p className="hp-body-text">
-                  Licensed in BC, Alberta, and Ontario. Fluent in English.
-                  {/* TODO: add additional languages */}
+                  Over 15+ years, he&apos;s originated over $100M+ in residential and commercial mortgages
+                  across BC, Alberta, and Ontario. As part of DLC Clear Trust Mortgages ($2B+ originated
+                  in 2020), he brings lender relationships and a reputation for getting complex files done
+                  right — the first time.
+                </p>
+                <p className="hp-body-text">
+                  Licensed in BC, Alberta, and Ontario. Languages: English, Cantonese, Mandarin.
                 </p>
                 <a
                   href={BOOKING}
@@ -697,8 +758,7 @@ export default function HomePage() {
               <h2 id="hp-test-h2" className="hp-h2">What Our Clients Say</h2>
               {/* TODO: Replace static count with live Google review embed */}
               <div className="hp-review-badge" aria-label="Google rating">
-                ★★★★★ <strong>4.9</strong> on Google
-                {/* TODO: add "(N reviews)" once Google Business verified */}
+                ★★★★★ <strong>5.0</strong> · 19 Google Reviews
               </div>
             </div>
             <div className="hp-testimonial-grid" aria-label="Client testimonials">
