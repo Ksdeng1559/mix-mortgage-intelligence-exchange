@@ -7,19 +7,44 @@ const RESEND_API_KEY = process.env.RESEND_API_KEY
 // Resets on cold start — acceptable for low-traffic single-instance deployment.
 const RATE_WINDOW_MS = 15 * 60 * 1000
 const RATE_LIMIT = 5
+const MAX_TRACKED_IPS = 500
 const rateBuckets = new Map<string, number[]>()
+
+// x-real-ip is set by Vercel/Nginx and cannot be forged by the client.
+// Rightmost x-forwarded-for entry is the last proxy-appended value — also not client-controlled.
+// Never use the leftmost x-forwarded-for value: clients can prepend arbitrary IPs.
+function getClientIp(req: NextRequest): string {
+  const realIp = req.headers.get('x-real-ip')
+  if (realIp) return realIp.trim()
+  const forwarded = req.headers.get('x-forwarded-for')
+  if (forwarded) return forwarded.split(',').at(-1)!.trim()
+  return 'unknown'
+}
 
 function isRateLimited(ip: string): boolean {
   const now = Date.now()
   const cutoff = now - RATE_WINDOW_MS
   const hits = (rateBuckets.get(ip) ?? []).filter(t => t > cutoff)
-  if (hits.length >= RATE_LIMIT) return true
+  if (hits.length >= RATE_LIMIT) {
+    rateBuckets.set(ip, hits)
+    return true
+  }
   hits.push(now)
   rateBuckets.set(ip, hits)
-  // Evict IPs idle for >15 min to prevent unbounded memory growth
-  if (rateBuckets.size > 10_000) {
+  // Evict on overflow: remove expired first, then oldest-active if still over cap.
+  // Cap is low (500) so sweep is O(500) worst-case, not O(10k).
+  if (rateBuckets.size > MAX_TRACKED_IPS) {
     for (const [k, v] of rateBuckets) {
       if (v.every(t => t <= cutoff)) rateBuckets.delete(k)
+      if (rateBuckets.size <= MAX_TRACKED_IPS) break
+    }
+    if (rateBuckets.size > MAX_TRACKED_IPS) {
+      // Still over cap: evict IPs with the oldest most-recent hit
+      const byAge = [...rateBuckets.entries()]
+        .sort((a, b) => Math.max(...a[1]) - Math.max(...b[1]))
+      for (const [k] of byAge.slice(0, rateBuckets.size - MAX_TRACKED_IPS)) {
+        rateBuckets.delete(k)
+      }
     }
   }
   return false
@@ -102,10 +127,7 @@ async function sendViaResend(data: ReferralBody): Promise<boolean> {
 }
 
 export async function POST(req: NextRequest) {
-  const ip =
-    req.headers.get('x-forwarded-for')?.split(',')[0].trim() ??
-    req.headers.get('x-real-ip') ??
-    'unknown'
+  const ip = getClientIp(req)
 
   if (isRateLimited(ip)) {
     return NextResponse.json(
